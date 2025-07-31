@@ -17,10 +17,20 @@ The hierarchy is as follows:
 """
 
 import json
+<<<<<<< HEAD
 
 from ..common import CompilerError, get_file, make_num
 from ..utils.binary_txt import asc2bin, bin2asc
+||||||| parent of a0407205 (implemented some conversion functionality)
+from ..common import CompilerError, make_num, get_file
+from ..utils.binary_txt import bin2asc, asc2bin
+=======
+import io
+from ..common import CompilerError, make_num, get_file
+from ..utils.binary_txt import asc2bin, bin2asc
+>>>>>>> a0407205 (implemented some conversion functionality)
 from . import debuginfo
+from ..format.elf.file import ElfFile
 
 
 def get_object(obj):
@@ -370,7 +380,10 @@ class ObjectFile:
     @staticmethod
     def load(input_file):
         """Load object file from file"""
-        return deserialize(json.load(input_file))
+        if isinstance(input_file, (io.StringIO, io.TextIOWrapper)) and input_file.readable():
+            return deserialize(json.load(input_file))
+        else:
+            return deserialize(ElfFile.load(input_file))
 
 
 def print_object(obj):
