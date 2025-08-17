@@ -17,26 +17,26 @@ to the location where the code was cloned.
 Then, invoke this script with either pytest or run this script with python.
 """
 
-import unittest
-import glob
+import argparse
+import logging
 import math
 import os.path
-import logging
-from functools import reduce
+import unittest
 from fnmatch import fnmatch
+from functools import reduce
 from operator import add
-import argparse
+from pathlib import Path
 
-from ppci.wasm import Module, instantiate, components, WasmTrapException
 from ppci.common import CompilerError, logformat
-from ppci.lang.sexpr import parse_s_expressions
-from ppci.lang.sexpr import SExpression, SList
+from ppci.lang.sexpr import SExpression, SList, parse_s_expressions
 from ppci.utils.reporting import html_reporter
-from ppci.wasm.util import datastring2bytes, unescape
-from ppci.wasm.util import make_int, make_float
+from ppci.wasm import Module, WasmTrapException, components, instantiate
+from ppci.wasm.util import datastring2bytes, make_float, make_int, unescape
 
+this_dir = Path(__file__).resolve().parent
+root_folder = this_dir.parent.parent
+build_folder = root_folder / "build" / "spec"
 
-logging.getLogger().setLevel(logging.DEBUG)
 logger = logging.getLogger()
 
 # ==================== BLACKLISTS ==================== #
@@ -86,13 +86,14 @@ black_list_expr = {
 # ==================== END BLACKLISTS ==================== #
 
 
-def perform_test(filename, target):
+def perform_test(filename: Path, target):
     logger.info(f"Loading {filename}")
-    base_name = os.path.splitext(os.path.split(filename)[1])[0]
-    with open(filename, encoding="utf-8") as f:
+    build_folder.mkdir(parents=True, exist_ok=True)
+    base_name = filename.stem
+    with filename.open(encoding="utf-8") as f:
         source_text = f.read()
 
-    html_report = os.path.splitext(filename)[0] + "_" + target + ".html"
+    html_report = build_folder / f"{base_name}_{target}.html"
     with html_reporter(html_report) as reporter:
         reporter.message(f"Test spec file {filename}")
         try:
@@ -474,17 +475,10 @@ def nan_or_inf(x):
     return math.isnan(x) or math.isinf(x)
 
 
-def create_test_function(cls, filename, target):
+def create_test_function(cls, filename: Path, target):
     """Create a test function for a single snippet"""
-    core_test_directory, snippet_filename = os.path.split(filename)
-    test_function_name = (
-        "test_"
-        + target
-        + "_"
-        + os.path.splitext(snippet_filename)[0]
-        .replace(".", "_")
-        .replace("-", "_")
-    )
+    test_name = filename.stem.replace(".", "_").replace("-", "_")
+    test_function_name = f"test_{target}_{test_name}"
 
     def test_function(self):
         perform_test(filename, target)
@@ -497,7 +491,7 @@ def create_test_function(cls, filename, target):
 def wasm_spec_populate(cls):
     """Decorator function which can populate a unittest.TestCase class"""
     if "WASM_SPEC_DIR" in os.environ:
-        wasm_spec_directory = os.path.normpath(os.environ["WASM_SPEC_DIR"])
+        wasm_spec_directory = Path(os.environ["WASM_SPEC_DIR"])
 
         for target in ["python", "native"]:
             for filename in get_wast_files(wasm_spec_directory):
@@ -515,28 +509,26 @@ def wasm_spec_populate(cls):
     return cls
 
 
-def get_wast_files(wasm_spec_directory, include_pattern="*"):
+def get_wast_files(spec_path: Path, include_pattern="*"):
     """Retrieve wast files if WASM_SPEC_DIR was set"""
     # Do some auto detection:
-    if os.path.isfile(os.path.join(wasm_spec_directory, "f32.wast")):
-        core_test_directory = wasm_spec_directory
+    if (spec_path / "f32.wast").is_file():
+        core_test_directory = spec_path
     else:
-        core_test_directory = os.path.join(wasm_spec_directory, "test", "core")
+        core_test_directory = spec_path / "test" / "core"
 
     # Check if we have a folder:
-    if not os.path.isdir(core_test_directory):
+    if not core_test_directory.is_dir():
         raise ValueError(f"{core_test_directory} is not a directory")
 
     # Check if we have the right folder:
-    validation_file = os.path.join(core_test_directory, "f32.wast")
-    if not os.path.exists(validation_file):
+    validation_file = core_test_directory / "f32.wast"
+    if not validation_file.is_file():
         raise ValueError(f"{validation_file} not found")
 
-    for filename in sorted(
-        glob.iglob(os.path.join(core_test_directory, "*.wast"))
-    ):
+    for filename in sorted(core_test_directory.glob("*.wast")):
         # Ignore certain files:
-        base_name = os.path.splitext(os.path.split(filename)[1])[0]
+        base_name = filename.stem
         if base_name in black_list:
             continue
         if not fnmatch(base_name, include_pattern):
@@ -572,13 +564,12 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     loglevel = logging.DEBUG if args.verbose else logging.INFO
-
     logging.basicConfig(level=loglevel, format=logformat)
 
     if args.target:
         for target in args.target:
             for filename in get_wast_files(
-                args.spec_folder, include_pattern=args.filter
+                Path(args.spec_folder), include_pattern=args.filter
             ):
                 perform_test(filename, target)
     else:

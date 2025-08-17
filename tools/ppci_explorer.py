@@ -24,7 +24,6 @@ from pygments.styles import get_style_by_name
 from pygments.lexers import CLexer
 
 from prompt_toolkit import Application
-import prompt_toolkit as pt
 from prompt_toolkit.buffer import Buffer
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.key_binding.bindings.focus import focus_next
@@ -68,7 +67,7 @@ class DisplayErrorsProcessor(Processor):
         tokens = list(transformation_input.fragments)
         lineno = transformation_input.lineno + 1
         if lineno in self.errors:
-            tokens.append(("", "// {}".format(self.errors[lineno])))
+            tokens.append(("", f"// {self.errors[lineno]}"))
         return Transformation(tokens)
 
 
@@ -100,12 +99,7 @@ class PpciExplorer:
         # Some key bindings:
         kb = KeyBindings()
 
-        @kb.add(Keys.F10, eager=True)
-        def quit_(event):
-            with open(self.cache_filename, "w") as f:
-                f.write(self.source_buffer.text)
-            event.app.exit()
-
+        kb.add(Keys.F10, eager=True)(self.quit)
         kb.add(Keys.F6, eager=True)(self.cycle_stage)
         kb.add(Keys.F7, eager=True)(self.next_architecture)
         kb.add(Keys.F8, eager=True)(self.toggle_optimize)
@@ -163,7 +157,7 @@ class PpciExplorer:
             )
         )
 
-        style = style_from_pygments_cls(get_style_by_name("vim"))
+        style = style_from_pygments_cls(get_style_by_name("monokai"))
         log_handler = MyHandler(log_buffer)
         fmt = logging.Formatter(fmt=logformat)
         log_handler.setFormatter(fmt)
@@ -178,7 +172,7 @@ class PpciExplorer:
         )
 
         if os.path.exists(self.cache_filename):
-            with open(self.cache_filename, "r") as f:
+            with open(self.cache_filename) as f:
                 src = f.read()
         else:
             src = DEMO_SOURCE
@@ -189,11 +183,10 @@ class PpciExplorer:
 
     def get_title_bar_tokens(self):
         return (
-            "Welcome to the ppci explorer {}".format(ppci_version)
-            + "(prompt_toolkit {})".format(pt.__version__)
-            + " [Stage = {} (F6)] ".format(self.stage)
-            + " [Arch = {} (F7)] ".format(self.arch)
-            + " [Optimize = {} (F8)] ".format(self.optimize)
+            f"Welcome to the ppci explorer {ppci_version}"
+            + f" [Stage = {self.stage} (F6)] "
+            + f" [Arch = {self.arch} (F7)] "
+            + f" [Optimize = {self.optimize} (F8)] "
         )
 
     def do_compile(self):
@@ -204,12 +197,12 @@ class PpciExplorer:
         except CompilerError as ex:
             if ex.loc:
                 self.errors_processor.errors[ex.loc.row] = ex.msg
-                self.output_buffer.text = "Compiler error: {}".format(ex)
+                self.output_buffer.text = f"Compiler error: {ex}"
             else:
-                self.output_buffer.text = "Compiler error: {}".format(ex)
+                self.output_buffer.text = f"Compiler error: {ex}"
         except Exception as ex:  # Catch the more hard-core exceptions.
             stderr = io.StringIO()
-            print("Other error: {} -> {}".format(type(ex), ex), file=stderr)
+            print(f"Other error: {type(ex)} -> {ex}", file=stderr)
             traceback.print_exc(file=stderr)
             self.output_buffer.text = stderr.getvalue()
 
@@ -251,6 +244,11 @@ class PpciExplorer:
     def toggle_log(self, _):
         """Toggle logging."""
         self.show_log = not self.show_log
+
+    def quit(self, event):
+        with open(self.cache_filename, "w") as f:
+            f.write(self.source_buffer.text)
+        event.app.exit()
 
 
 def ppci_explorer():

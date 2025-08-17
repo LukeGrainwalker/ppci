@@ -1,8 +1,7 @@
 import unittest
 
+from ..helper_util import do_long_tests, has_qemu, make_filename, qemu, relpath
 from .sample_helpers import add_samples, build
-from ..helper_util import has_qemu, qemu, relpath
-from ..helper_util import do_long_tests, make_filename
 
 
 @unittest.skipUnless(do_long_tests("xtensa"), "skipping slow tests")
@@ -28,7 +27,7 @@ class TestSamplesOnXtensa(unittest.TestCase):
             bin_format="elf",
             code_image="flash",
         )
-        elf_filename = base_filename + ".elf"
+        elf_filename = base_filename.with_suffix(".elf")
         if has_qemu():
             output = qemu(
                 [

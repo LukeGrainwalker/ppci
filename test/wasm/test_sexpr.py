@@ -2,8 +2,8 @@
 
 from pytest import raises
 
-from ppci.wasm.components import parse_sexpr as parse_sexpr2
 from ppci.common import CompilerError
+from ppci.wasm.components import parse_sexpr as parse_sexpr2
 
 TEXT = """
 (module

@@ -5,6 +5,7 @@ from ppci import api, irutils
 from ppci.lang.python import load_py, python_to_ir
 from ppci.utils.reporting import html_reporter
 
+from ..helper_util import make_filename
 
 src1 = """
 def a(x: int, y: int) -> int:
@@ -71,7 +72,8 @@ class PythonJitLoadingTestCase(unittest.TestCase):
         d = {}
         exec(src1, d)
         a = d["a"]
-        with html_reporter("p2p_report.html") as reporter:
+        html_filename = make_filename(self.id()).with_suffix(".html")
+        with html_reporter(html_filename) as reporter:
             m2 = load_py(io.StringIO(src1), reporter=reporter)
 
         for x in range(20):
@@ -88,7 +90,8 @@ class PythonJitLoadingTestCase(unittest.TestCase):
         imports = {
             "myprint": myprint,
         }
-        with html_reporter("p2p_callback_report.html") as reporter:
+        html_filename = make_filename(self.id()).with_suffix(".html")
+        with html_reporter(html_filename) as reporter:
             m2 = load_py(io.StringIO(src2), imports=imports, reporter=reporter)
         # Segfaults:
         m2.a(2)

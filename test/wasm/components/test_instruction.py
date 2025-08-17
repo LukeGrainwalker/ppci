@@ -2,7 +2,7 @@
 Basic instruction tests, like nesting.
 """
 
-from ppci.wasm import Module, run_wasm_in_node, has_node
+from ppci.wasm import Module, has_node, run_wasm_in_node
 
 
 def dedent(code):

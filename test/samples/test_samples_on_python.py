@@ -1,14 +1,18 @@
-import unittest
 import io
-
-from .sample_helpers import add_samples, build_sample_to_ir
-from ..helper_util import run_python
-from ..helper_util import do_long_tests, make_filename
+import unittest
 
 from ppci import api
+from ppci.irutils import (
+    from_json,
+    print_module,
+    read_module,
+    to_json,
+    verify_module,
+)
 from ppci.utils.reporting import html_reporter
-from ppci.irutils import print_module, read_module, to_json, from_json
-from ppci.irutils import verify_module
+
+from ..helper_util import do_long_tests, make_filename, run_python
+from .sample_helpers import add_samples, build_sample_to_ir
 
 
 @unittest.skipUnless(do_long_tests("python"), "skipping slow tests")
@@ -18,8 +22,8 @@ class TestSamplesOnPython(unittest.TestCase):
 
     def do(self, src, expected_output, lang="c3"):
         base_filename = make_filename(self.id())
-        sample_filename = base_filename + ".py"
-        list_filename = base_filename + ".html"
+        sample_filename = base_filename.with_suffix(".py")
+        list_filename = base_filename.with_suffix(".html")
 
         bsp_c3 = io.StringIO(
             """
@@ -39,7 +43,7 @@ class TestSamplesOnPython(unittest.TestCase):
                     ir_module, level=self.opt_level, reporter=reporter
                 )
 
-            with open(sample_filename, "w") as f:
+            with sample_filename.open("w") as f:
                 api.ir_to_python(ir_modules, f, reporter=reporter)
 
                 # Add glue:

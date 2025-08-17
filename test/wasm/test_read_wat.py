@@ -4,7 +4,6 @@ Strain WASM code a bit by pushing some real WAT through it ...
 
 from ppci.wasm import Module
 
-
 TEXT1 = r"""
 ;; Classic Unix echo program in WebAssembly WASM AST
 

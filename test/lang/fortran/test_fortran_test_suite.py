@@ -9,21 +9,20 @@ http://www.itl.nist.gov/div897/ctg/fortran_form.htm
 
 """
 
+import os
 import unittest
-import glob
-import os.path
+from pathlib import Path
 
 from ppci.api import fortrancompile, get_arch
 
 
-def create_test_function(cls, filename):
+def create_test_function(cls, filename: Path):
     """Create a test function for a single snippet"""
-    _, snippet_filename = os.path.split(filename)
-    test_function_name = "test_" + snippet_filename.replace(".", "_")
+    test_function_name = "test_" + filename.stem.replace(".", "_")
 
     def test_function(self):
         march = get_arch("arm")
-        with open(filename) as f:
+        with filename.open() as f:
             fortrancompile([f.read()], march)
         # TODO: check output for correct values:
 
@@ -35,8 +34,8 @@ def create_test_function(cls, filename):
 
 def populate(cls):
     if "FCVS_DIR" in os.environ:
-        directory = os.path.normpath(os.environ["FCVS_DIR"])
-        for filename in sorted(glob.iglob(os.path.join(directory, "*.FOR"))):
+        path = Path(os.environ["FCVS_DIR"]).resolve()
+        for filename in sorted(path.glob("*.FOR")):
             create_test_function(cls, filename)
     return cls
 

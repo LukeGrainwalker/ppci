@@ -3,9 +3,8 @@ import os
 import unittest
 
 from ppci import api
-from ppci.wasm import wasm_to_ir, ir_to_wasm, read_wasm, read_wat
+from ppci.wasm import ir_to_wasm, read_wasm, read_wat, wasm_to_ir
 from ppci.wasm.util import sanitize_name
-
 
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 

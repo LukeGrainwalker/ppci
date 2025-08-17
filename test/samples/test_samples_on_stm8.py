@@ -1,7 +1,7 @@
 import unittest
 
+from ..helper_util import make_filename, relpath
 from .sample_helpers import add_samples, build
-from ..helper_util import relpath, make_filename
 
 
 @unittest.skip("TODO")

@@ -1,8 +1,8 @@
 """Compile a piece of code to wasm, to ir, run it, compile back to wasm."""
 
 from ppci import wasm
+from ppci.api import get_current_arch, ir_to_object
 from ppci.lang.python import python_to_wasm
-from ppci.api import ir_to_object, get_current_arch
 from ppci.utils import codepage
 
 # Example Python code

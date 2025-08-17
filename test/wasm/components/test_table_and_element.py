@@ -3,9 +3,10 @@ Test WASM Table and Element definition classes.
 """
 
 from ppci.api import is_platform_supported
-from ppci.wasm import Module, Table, run_wasm_in_node, has_node
-from ppci.wasm import instantiate
 from ppci.utils.reporting import html_reporter
+from ppci.wasm import Module, Table, has_node, instantiate, run_wasm_in_node
+
+from ...helper_util import make_filename
 
 
 def dedent(code):
@@ -64,7 +65,7 @@ def test_table1():
     b0 = m0.to_bytes()
     assert Module(b0).to_bytes() == b0
 
-    html_report = "table_and_element_compilation_report.html"
+    html_report = make_filename("test_table1").with_suffix(".html")
     with html_reporter(html_report) as reporter:
         printed_numbers = []
 

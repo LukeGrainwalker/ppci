@@ -2,7 +2,7 @@
 Test WASM Type definition class.
 """
 
-from ppci.wasm import Module, Type, run_wasm_in_node, has_node
+from ppci.wasm import Module, Type, has_node, run_wasm_in_node
 
 
 def dedent(code):

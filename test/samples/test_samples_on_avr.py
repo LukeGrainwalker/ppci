@@ -1,8 +1,14 @@
 import unittest
 
+from ..helper_util import (
+    do_iverilog,
+    do_long_tests,
+    has_avr_emulator,
+    make_filename,
+    relpath,
+    run_avr,
+)
 from .sample_helpers import add_samples, build
-from ..helper_util import has_avr_emulator, run_avr, relpath
-from ..helper_util import do_long_tests, do_iverilog, make_filename
 
 
 @unittest.skipUnless(do_long_tests("avr"), "skipping slow tests")
@@ -28,8 +34,7 @@ class TestSamplesOnAvr(unittest.TestCase):
             bin_format="hex",
             code_image="flash",
         )
-        hexfile = base_filename + ".hex"
-        print(hexfile)
+        hexfile = base_filename.with_suffix(".hex")
         if has_avr_emulator() and do_iverilog():
             res = run_avr(hexfile)
             self.assertEqual(expected_output, res)

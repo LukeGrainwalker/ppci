@@ -21,13 +21,13 @@ https://github.com/c-testsuite/c-testsuite
 """
 
 import unittest
-import glob
 import fnmatch
 import argparse
 import io
 import os
 import logging
 import subprocess
+from pathlib import Path
 
 from ppci.common import CompilerError, logformat
 from ppci import api
@@ -36,18 +36,18 @@ from ppci.utils.reporting import html_reporter
 from ppci.format.elf import write_elf
 
 
-this_dir = os.path.dirname(os.path.abspath(__file__))
+this_dir = Path(__file__).resolve().parent
+root_folder = this_dir.parent.parent.parent
+build_folder = root_folder / "build" / "c_test_suite"
 logger = logging.getLogger("c-test-suite")
 
 
 def c_test_suite_populate(cls):
     """Enrich a unittest.TestCase with a function for each test snippet."""
     if "C_TEST_SUITE_DIR" in os.environ:
-        c_test_suite_directory = os.path.normpath(
-            os.environ["C_TEST_SUITE_DIR"]
-        )
+        suite_folder = Path(os.environ["C_TEST_SUITE_DIR"]).resolve()
 
-        for filename in get_test_snippets(c_test_suite_directory):
+        for filename in get_test_snippets(suite_folder):
             create_test_function(cls, filename)
     else:
 
@@ -60,26 +60,21 @@ def c_test_suite_populate(cls):
     return cls
 
 
-def get_test_snippets(c_test_suite_directory, name_filter="*"):
-    snippet_folder = os.path.join(
-        c_test_suite_directory, "tests", "single-exec"
-    )
+def get_test_snippets(suite_folder: Path, name_filter="*"):
+    snippet_folder = suite_folder / "tests" / "single-exec"
 
     # Check if we have a folder:
-    if not os.path.isdir(snippet_folder):
+    if not snippet_folder.is_dir():
         raise ValueError(f"{snippet_folder} is not a directory")
 
-    for filename in sorted(glob.iglob(os.path.join(snippet_folder, "*.c"))):
-        base_name = os.path.splitext(os.path.split(filename)[1])[0]
-
-        if fnmatch.fnmatch(base_name, name_filter):
+    for filename in sorted(snippet_folder.glob("*.c")):
+        if fnmatch.fnmatch(filename.stem, name_filter):
             yield filename
 
 
-def create_test_function(cls, filename):
+def create_test_function(cls, filename: Path):
     """Create a test function for a single snippet"""
-    snippet_filename = os.path.split(filename)[1]
-    test_name = os.path.splitext(snippet_filename)[0]
+    test_name = filename.stem
     test_name = test_name.replace(".", "_").replace("-", "_")
     test_function_name = "test_" + test_name
 
@@ -91,24 +86,25 @@ def create_test_function(cls, filename):
     setattr(cls, test_function_name, test_function)
 
 
-def perform_test(filename):
+def perform_test(filename: Path):
     """Try to compile the given snippet."""
     logger.info("Step 1: Compile %s!", filename)
     march = "x86_64"
 
-    html_report = os.path.splitext(filename)[0] + "_report.html"
+    build_folder.mkdir(parents=True, exist_ok=True)
+
+    html_report = build_folder / (filename.stem + "_report.html")
 
     coptions = COptions()
-    root_folder = os.path.join(this_dir, "..", "..", "..")
-    libc_folder = os.path.join(root_folder, "librt", "libc")
-    libc_include = os.path.join(libc_folder, "include")
-    coptions.add_include_path(libc_include)
+    libc_folder = root_folder / "librt" / "libc"
+    libc_include = libc_folder / "include"
+    coptions.add_include_path(str(libc_include))
 
     # TODO: this should be injected elsewhere?
     coptions.add_define("__LP64__", "1")
     # coptions.enable('freestanding')
 
-    with html_reporter(html_report) as reporter, open(filename) as f:
+    with html_reporter(html_report) as reporter, filename.open() as f:
         try:
             obj1 = api.cc(f, march, coptions=coptions, reporter=reporter)
         except CompilerError as ex:
@@ -118,15 +114,19 @@ def perform_test(filename):
 
     obj0 = api.asm(io.StringIO(STARTERCODE), march)
     obj2 = api.c3c([io.StringIO(BSP_C3_SRC)], [], march)
-    with open(os.path.join(libc_include, "lib.c")) as f:
+    with (libc_folder / "lib.c").open() as f:
         obj3 = api.cc(f, march, coptions=coptions)
 
-    obj = api.link([obj0, obj1, obj2, obj3], layout=io.StringIO(ARCH_MMAP))
+    # with (libc_folder / "src" / "string" / "string.c").open() as f:
+    #     obj4 = api.cc(f, march, coptions=coptions)
+
+    objs = [obj0, obj1, obj2, obj3]
+    obj = api.link(objs, layout=io.StringIO(ARCH_MMAP))
 
     logger.info("Step 2: Run it!")
 
-    exe_filename = os.path.splitext(filename)[0] + "_executable.elf"
-    with open(exe_filename, "wb") as f:
+    exe_filename = build_folder / (filename.stem + "_executable.elf")
+    with exe_filename.open("wb") as f:
         write_elf(obj, f, type="executable")
     api.chmod_x(exe_filename)
 
@@ -136,7 +136,8 @@ def perform_test(filename):
     assert exit_code == 0
     captured_stdout = test_prog.stdout.read().decode("ascii")
 
-    with open(filename + ".expected") as f:
+    expected_filename = filename.parent / (filename.stem + ".c.expected")
+    with expected_filename.open() as f:
         expected_stdout = f.read()
 
     # Compare stdout:
@@ -213,18 +214,18 @@ def main():
     logging.basicConfig(level=loglevel, format=logformat)
 
     if args.folder is not None:
-        suite_folder = args.folder
+        suite_folder = Path(args.folder)
     elif "C_TEST_SUITE_DIR" in os.environ:
-        suite_folder = os.environ["C_TEST_SUITE_DIR"]
+        suite_folder = Path(os.environ["C_TEST_SUITE_DIR"])
     else:
         parser.print_help()
-        print("ERROR: Specify where the c test suite is located!")
+        logger.error("ERROR: Specify where the c test suite is located!")
         return 1
 
     for filename in get_test_snippets(suite_folder, name_filter=args.filter):
         perform_test(filename)
 
-    print("OK.")
+    logger.info("OK.")
 
 
 if __name__ == "__main__":

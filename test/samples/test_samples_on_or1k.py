@@ -1,9 +1,16 @@
 import unittest
 
-from .sample_helpers import add_samples, build
-from ..helper_util import has_qemu, qemu, relpath, create_qemu_launch_script
-from ..helper_util import do_long_tests, make_filename
 from ppci.format import uboot_image
+
+from ..helper_util import (
+    create_qemu_launch_script,
+    do_long_tests,
+    has_qemu,
+    make_filename,
+    qemu,
+    relpath,
+)
+from .sample_helpers import add_samples, build
 
 
 @unittest.skipUnless(do_long_tests("or1k"), "skipping slow tests")
@@ -29,14 +36,13 @@ class OpenRiscSamplesTestCase(unittest.TestCase):
             bin_format="bin",
             code_image="flash",
         )
-        binfile = base_filename + ".bin"
+        binfile = base_filename.with_suffix(".bin")
 
         # Create a uboot application file:
-        with open(binfile, "rb") as f:
-            bindata = f.read()
+        bindata = binfile.read_bytes()
 
-        img_filename = base_filename + ".img"
-        with open(img_filename, "wb") as f:
+        img_filename = base_filename.with_suffix(".img")
+        with img_filename.open("wb") as f:
             uboot_image.write_uboot_image(
                 f, bindata, arch=uboot_image.Architecture.OPENRISC
             )
@@ -52,7 +58,7 @@ class OpenRiscSamplesTestCase(unittest.TestCase):
             img_filename,
         ]
 
-        create_qemu_launch_script(base_filename + ".sh", qemu_cmd)
+        create_qemu_launch_script(base_filename.with_suffix(".sh"), qemu_cmd)
         if has_qemu():
             output = qemu(qemu_cmd)
             self.assertEqual(expected_output, output)

@@ -1,6 +1,6 @@
-import unittest
 import logging
 import re
+import unittest
 
 from .sample_helpers import add_samples
 

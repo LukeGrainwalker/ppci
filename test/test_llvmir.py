@@ -1,20 +1,21 @@
-import unittest
 import io
-import os
-from ppci.lang.llvmir import LlvmIrFrontend
+import unittest
+from pathlib import Path
+
 from ppci.common import CompilerError
-from .helper_util import relpath, source_files
+from ppci.lang.llvmir import LlvmIrFrontend
+
+from .helper_util import source_files, test_path
 
 
-def create_test_function(source):
+def create_test_function(source: Path):
     """Create a test function for a source file"""
-    with open(source) as f:
-        snippet = f.read()
+    snippet = source.read_text()
 
-    def tst_func(slf):
+    def test_func(slf):
         slf.do(snippet)
 
-    return tst_func
+    return test_func
 
 
 def add_samples(*folders):
@@ -22,12 +23,11 @@ def add_samples(*folders):
 
     def deco(cls):
         for folder in folders:
-            for source in source_files(relpath("data", folder), ".ll"):
-                tf = create_test_function(source)
-                basename = os.path.basename(source)
-                func_name = "test_" + os.path.splitext(basename)[0]
+            for source in source_files(test_path / "data" / folder, ".ll"):
+                test_func = create_test_function(source)
+                func_name = "test_" + source.stem
                 assert not hasattr(cls, func_name)
-                setattr(cls, func_name, tf)
+                setattr(cls, func_name, test_func)
         return cls
 
     return deco

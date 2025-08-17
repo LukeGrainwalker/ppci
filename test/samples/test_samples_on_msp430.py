@@ -1,11 +1,17 @@
 import io
 import unittest
 
-from .sample_helpers import add_samples, build
-from ..helper_util import relpath
-from ..helper_util import has_iverilog, run_msp430
-from ..helper_util import do_long_tests, do_iverilog, make_filename
 from ppci.binutils.objectfile import merge_memories
+
+from ..helper_util import (
+    do_iverilog,
+    do_long_tests,
+    has_iverilog,
+    make_filename,
+    relpath,
+    run_msp430,
+)
+from .sample_helpers import add_samples, build
 
 
 @unittest.skipUnless(do_long_tests("msp430"), "skipping slow tests")
@@ -101,11 +107,10 @@ class TestSamplesOnMsp430(unittest.TestCase):
         rom_data = rom.data
         assert len(rom_data) % 2 == 0
 
-        with open(base_filename + ".bin", "wb") as f:
-            f.write(rom_data)
+        base_filename.with_suffix(".bin").write_bytes(rom_data)
 
-        mem_file = base_filename + ".mem"
-        with open(mem_file, "w") as f:
+        mem_file = base_filename.with_suffix(".mem")
+        with mem_file.open("w") as f:
             for i in range(len(rom_data) // 2):
                 w = rom_data[2 * i : 2 * i + 2]
                 print(f"{w[1]:02x}{w[0]:02x}", file=f)

@@ -1,26 +1,28 @@
+import logging
 import os
 import re
-import sys
-import subprocess
-import socket
-import time
 import shutil
-import logging
+import socket
 import string
+import subprocess
+import sys
+import time
 from contextlib import suppress
 from functools import lru_cache
+from pathlib import Path
 
 # Store testdir for safe switch back to directory:
 testdir = os.path.dirname(os.path.abspath(__file__))
+test_path = Path(testdir)
 logger = logging.getLogger("util")
 
 
-def make_filename(s):
+def make_filename(s) -> Path:
     """Remove all invalid characters from a string for a valid filename.
 
     And create a directory if none present.
     """
-    folders = ["listings"]
+    folders = ["..", "build", "listings"]
     parts = list(map(only_valid_chars, s.split(".")))
     assert parts
     folders.extend(parts[:-1])
@@ -28,10 +30,10 @@ def make_filename(s):
     assert basename.startswith("test_")
     basename = basename[5:]
     assert basename
-    output_dir = relpath(*folders)
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-    return os.path.join(output_dir, basename)
+    output_dir = Path(relpath(*folders))
+    if not output_dir.exists():
+        output_dir.mkdir(parents=True)
+    return output_dir / basename
 
 
 def only_valid_chars(s):
@@ -43,10 +45,10 @@ def relpath(*args):
     return os.path.normpath(os.path.join(testdir, *args))
 
 
-def source_files(folder, extension):
-    for filename in os.listdir(folder):
-        if filename.endswith(extension):
-            yield os.path.join(folder, filename)
+def source_files(folder: Path, extension):
+    for filename in folder.iterdir():
+        if str(filename).endswith(extension):
+            yield folder / filename
 
 
 qemu_app = "qemu-system-arm"

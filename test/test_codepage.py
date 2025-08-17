@@ -1,12 +1,13 @@
-import unittest
-import io
 import ctypes
 import importlib
-from .helper_util import make_filename
+import io
+import unittest
+
 from ppci.api import cc, get_current_arch, is_platform_supported
-from ppci.utils.codepage import load_code_as_module
-from ppci.utils.codepage import load_obj
+from ppci.utils.codepage import load_code_as_module, load_obj
 from ppci.utils.reporting import html_reporter
+
+from .helper_util import make_filename
 
 
 def has_numpy() -> bool:
@@ -93,7 +94,7 @@ class CodePageTestCase(unittest.TestCase):
         """
         )
         arch = get_current_arch()
-        html_filename = make_filename(self.id()) + ".html"
+        html_filename = make_filename(self.id()).with_suffix(".html")
         with html_reporter(html_filename) as reporter:
             obj = cc(source, arch, debug=True, reporter=reporter)
         m = load_obj(obj)
@@ -130,7 +131,7 @@ class NumpyCodePageTestCase(unittest.TestCase):
             }
             """
         )
-        html_filename = make_filename(self.id()) + ".html"
+        html_filename = make_filename(self.id()).with_suffix(".html")
         with html_reporter(html_filename) as reporter:
             m = load_code_as_module(source_file, reporter=reporter)
 
@@ -161,7 +162,7 @@ class NumpyCodePageTestCase(unittest.TestCase):
             }
             """
         )
-        html_filename = make_filename(self.id()) + ".html"
+        html_filename = make_filename(self.id()).with_suffix(".html")
         with html_reporter(html_filename) as r:
             m = load_code_as_module(source_file, reporter=r)
 

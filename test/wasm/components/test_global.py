@@ -2,7 +2,7 @@
 Test WASM Global definition class.
 """
 
-from ppci.wasm import Module, Global, Instruction, run_wasm_in_node, has_node
+from ppci.wasm import Global, Instruction, Module, has_node, run_wasm_in_node
 
 
 def dedent(code):

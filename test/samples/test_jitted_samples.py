@@ -1,12 +1,12 @@
-import unittest
 import io
-
-from .sample_helpers import add_samples, partial_build
-from ..helper_util import do_long_tests, make_filename
+import unittest
 
 from ppci.api import get_current_arch
 from ppci.utils.codepage import load_obj
 from ppci.utils.reporting import html_reporter
+
+from ..helper_util import do_long_tests, make_filename
+from .sample_helpers import add_samples, partial_build
 
 
 @unittest.skipUnless(do_long_tests("jit"), "skipping slow tests")
@@ -22,8 +22,7 @@ class TestJittedSamples(unittest.TestCase):
         """
         bsp_c3 = io.StringIO(bsp_c3_src)
         march = get_current_arch()
-        base_filename = make_filename(self.id())
-        report_filename = base_filename + ".html"
+        report_filename = make_filename(self.id()).with_suffix(".html")
         with html_reporter(report_filename) as reporter:
             obj = partial_build(src, lang, bsp_c3, 0, march, reporter)
 

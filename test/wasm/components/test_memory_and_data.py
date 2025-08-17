@@ -2,8 +2,14 @@
 Test WASM Memory and Data definition classes.
 """
 
-from ppci.wasm import Module, Memory, Instruction, run_wasm_in_node, has_node
-from ppci.wasm import instantiate
+from ppci.wasm import (
+    Instruction,
+    Memory,
+    Module,
+    has_node,
+    instantiate,
+    run_wasm_in_node,
+)
 
 
 def dedent(code):

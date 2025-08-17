@@ -1,9 +1,8 @@
 import io
 import unittest
 
+from ..helper_util import do_long_tests, has_qemu, make_filename, qemu, relpath
 from .sample_helpers import add_samples, build
-from ..helper_util import has_qemu, qemu, relpath
-from ..helper_util import do_long_tests, make_filename
 
 
 @unittest.skipUnless(do_long_tests("arm"), "skipping slow tests")
@@ -67,7 +66,7 @@ class TestSamplesOnVexpress(unittest.TestCase):
             lang=lang,
             bin_format="bin",
         )
-        sample_filename = base_filename + ".bin"
+        sample_filename = base_filename.with_suffix(".bin")
 
         # Run bin file in emulator:
         if has_qemu():
@@ -164,7 +163,7 @@ class TestSamplesOnCortexM3O2(unittest.TestCase):
             lang=lang,
             bin_format="bin",
         )
-        sample_filename = base_filename + ".bin"
+        sample_filename = base_filename.with_suffix(".bin")
 
         # Run bin file in emulator:
         if has_qemu():

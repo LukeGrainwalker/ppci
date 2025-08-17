@@ -1,14 +1,14 @@
-import unittest
 import io
 import os
 import platform
 import subprocess
+import unittest
 from tempfile import mkstemp
 
-from .sample_helpers import add_samples, build
-from ..helper_util import do_long_tests, make_filename
-
 from ppci.api import asm, link, objcopy
+
+from ..helper_util import do_long_tests, make_filename
+from .sample_helpers import add_samples, build
 
 
 @unittest.skipUnless(do_long_tests("x86_64"), "skipping slow tests")
@@ -32,7 +32,7 @@ class TestSamplesOnX86Linux(unittest.TestCase):
             bin_format="elf",
         )
 
-        exe = base_filename + ".elf"
+        exe = base_filename.with_suffix(".elf")
 
         if has_linux():
             if hasattr(subprocess, "TimeoutExpired"):

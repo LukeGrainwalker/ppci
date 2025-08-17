@@ -1,12 +1,18 @@
 import io
 import unittest
 
-from .sample_helpers import add_samples, build
-
-from ..helper_util import has_iverilog, run_picorv32
-from ..helper_util import do_long_tests, do_iverilog, make_filename
 from ppci.binutils.objectfile import merge_memories
-from ..helper_util import has_qemu, qemu
+
+from ..helper_util import (
+    do_iverilog,
+    do_long_tests,
+    has_iverilog,
+    has_qemu,
+    make_filename,
+    qemu,
+    run_picorv32,
+)
+from .sample_helpers import add_samples, build
 
 
 @unittest.skipUnless(do_long_tests("riscv"), "skipping slow tests")
@@ -80,8 +86,8 @@ class TestSamplesOnRiscv(unittest.TestCase):
         filewordsize = 0x8000
         datawordlen = len(rom_data) // 4
 
-        mem_file = base_filename + ".mem"
-        with open(mem_file, "w") as f:
+        mem_file = base_filename.with_suffix(".mem")
+        with mem_file.open("w") as f:
             for i in range(filewordsize):
                 if i < datawordlen:
                     w = rom_data[4 * i : 4 * i + 4]
@@ -174,7 +180,7 @@ class TestSamplesOnRiscvSiFiveU(unittest.TestCase):
 
         base_filename = make_filename(self.id())
 
-        elf_filename = base_filename + ".elf"
+        elf_filename = base_filename.with_suffix(".elf")
 
         if has_qemu():
             output = qemu(

@@ -2,7 +2,7 @@
 Test WASM Export definition class.
 """
 
-from ppci.wasm import Module, Export, Ref
+from ppci.wasm import Export, Module, Ref
 
 
 def dedent(code):

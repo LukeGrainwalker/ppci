@@ -1,17 +1,18 @@
 import io
 import os
-from ..helper_util import relpath, source_files
+from pathlib import Path
+
 from ppci import api
-from ppci.utils.reporting import html_reporter
 from ppci.lang.c import COptions
+from ppci.utils.reporting import html_reporter
+
+from ..helper_util import relpath, source_files, test_path
 
 
-def create_test_function(source, output, lang):
+def create_test_function(source: Path, output: Path, lang: str):
     """Create a test function for a source file"""
-    with open(source) as f:
-        snippet = f.read()
-    with open(output) as f:
-        res = f.read()
+    snippet = source.read_text()
+    res = output.read_text()
 
     def tst_func(slf):
         slf.do(snippet, res, lang=lang)
@@ -26,15 +27,14 @@ def add_samples(*folders):
 
     def deco(cls):
         for folder in folders:
-            for source in source_files(relpath("samples", folder), extensions):
-                output = os.path.splitext(source)[0] + ".out"
-                basename = os.path.basename(source)
-                name, lang = os.path.splitext(basename)
-                lang = lang[1:]
-                func_name = "test_" + name
-                tf = create_test_function(source, output, lang)
+            sample_path = test_path / "samples" / folder
+            for source in source_files(sample_path, extensions):
+                output = source.with_suffix(".out")
+                lang = source.suffix[1:]
+                func_name = "test_" + source.stem
+                test_func = create_test_function(source, output, lang)
                 assert not hasattr(cls, func_name)
-                setattr(cls, func_name, tf)
+                setattr(cls, func_name, test_func)
         return cls
 
     return deco
@@ -137,7 +137,7 @@ def partial_build(src, lang, bsp_c3, opt_level, march, reporter):
 
 
 def build(
-    base_filename,
+    base_filename: Path,
     src,
     bsp_c3,
     crt0_asm,
@@ -150,7 +150,7 @@ def build(
     code_image="code",
 ):
     """Construct object file from source snippet"""
-    list_filename = base_filename + ".html"
+    list_filename = base_filename.with_suffix(".html")
 
     with html_reporter(list_filename) as reporter:
         objs = build_sample_to_code(
@@ -163,17 +163,17 @@ def build(
         )
 
     # Save object:
-    obj_file = base_filename + ".oj"
-    with open(obj_file, "w") as f:
+    obj_file = base_filename.with_suffix(".oj")
+    with obj_file.open("w") as f:
         obj.save(f)
 
     if elf_format:
-        elf_filename = base_filename + "." + elf_format
+        elf_filename = base_filename.with_suffix("." + elf_format)
         api.objcopy(obj, code_image, elf_format, elf_filename)
 
     # Export code image to some format:
     if bin_format:
-        sample_filename = base_filename + "." + bin_format
+        sample_filename = base_filename.with_suffix("." + bin_format)
         api.objcopy(obj, code_image, bin_format, sample_filename)
 
     return obj

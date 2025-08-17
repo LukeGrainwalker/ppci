@@ -1,14 +1,13 @@
-import unittest
 import io
-
-from .sample_helpers import add_samples, build_sample_to_ir
-from ..helper_util import run_nodejs
-from ..helper_util import do_long_tests, make_filename
+import unittest
 
 from ppci import api
+from ppci.irutils import ir_link
 from ppci.utils.reporting import html_reporter
 from ppci.wasm import ir_to_wasm
-from ppci.irutils import ir_link
+
+from ..helper_util import do_long_tests, make_filename, run_nodejs
+from .sample_helpers import add_samples, build_sample_to_ir
 
 
 @unittest.skipUnless(do_long_tests("wasm"), "skipping slow tests")
@@ -38,8 +37,7 @@ class TestSamplesOnWasm(unittest.TestCase):
             wasm_module = ir_to_wasm(ir_link(ir_modules), reporter=reporter)
 
         # Output wasm file:
-        wasm_filename = base_filename + ".wasm"
-        with open(wasm_filename, "wb") as f:
+        with base_filename.with_suffix(".wasm").open("wb") as f:
             wasm_module.to_file(f)
 
         # Dat was 'm:
@@ -49,8 +47,8 @@ class TestSamplesOnWasm(unittest.TestCase):
 
         # Output javascript file:
         js = NODE_JS_TEMPLATE.replace("JS_PLACEHOLDER", wasm_data)
-        js_filename = base_filename + ".js"
-        with open(js_filename, "w") as f:
+        js_filename = base_filename.with_suffix(".js")
+        with js_filename.open("w") as f:
             f.write(js)
 
         # run node.js and compare output:
