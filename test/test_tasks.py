@@ -1,8 +1,8 @@
 import os
-import unittest
 import tempfile
+import unittest
 
-from ppci.build.tasks import TaskRunner, TaskError, Project, Target, Task
+from ppci.build.tasks import Project, Target, Task, TaskError, TaskRunner
 
 
 class TaskTestCase(unittest.TestCase):

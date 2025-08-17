@@ -1,14 +1,17 @@
-import unittest
 import io
+import unittest
 from unittest.mock import patch
 
-from ppci.binutils.objectfile import ObjectFile, serialize, deserialize, Image
-from ppci.binutils.outstream import DummyOutputStream, TextOutputStream
-from ppci.binutils.outstream import binary_and_logging_stream
-from ppci.common import CompilerError
-from ppci.api import link, get_arch
+from ppci.api import get_arch, link
+from ppci.arch.example import R0, R1, ExampleArch, Mov
 from ppci.binutils import layout
-from ppci.arch.example import Mov, R0, R1, ExampleArch
+from ppci.binutils.objectfile import Image, ObjectFile, deserialize, serialize
+from ppci.binutils.outstream import (
+    DummyOutputStream,
+    TextOutputStream,
+    binary_and_logging_stream,
+)
+from ppci.common import CompilerError
 
 
 class OutstreamTestCase(unittest.TestCase):

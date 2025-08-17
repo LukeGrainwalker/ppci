@@ -1,10 +1,9 @@
-from cProfile import Profile
-import pstats
 import logging
 import logging.handlers
-import shutil
 import os
-
+import pstats
+import shutil
+from cProfile import Profile
 
 if __name__ == "__main__":
     logging.getLogger().setLevel(logging.DEBUG)

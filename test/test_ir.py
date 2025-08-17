@@ -1,10 +1,11 @@
-import unittest
 import io
-from ppci import ir
-from ppci import irutils
-from ppci.opt import ConstantFolder
+import unittest
+
+from ppci import ir, irutils
 from ppci.binutils.debuginfo import DebugDb
-from .helper_util import relpath
+from ppci.opt import ConstantFolder
+
+from .helper_util import test_path
 
 
 class IrCodeTestCase(unittest.TestCase):
@@ -114,7 +115,8 @@ class TestWriter(unittest.TestCase):
 
 class TestReader(unittest.TestCase):
     def test_add_example(self):
-        with open(relpath("data", "add.pi")) as f:
+        sample = test_path / "data" / "add.pi"
+        with sample.open() as f:
             m = irutils.read_module(f)
             self.assertTrue(m)
 
@@ -122,7 +124,8 @@ class TestReader(unittest.TestCase):
 class TestIrToPython(unittest.TestCase):
     def test_add_example(self):
         reader = irutils.Reader()
-        with open(relpath("data", "add.pi")) as f:
+        sample = test_path / "data" / "add.pi"
+        with sample.open() as f:
             reader.read(f)
 
 

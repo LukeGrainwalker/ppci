@@ -6,7 +6,9 @@ from ppci import api
 from ppci.lang.c import COptions
 from ppci.utils.reporting import html_reporter
 
-from ..helper_util import relpath, source_files, test_path
+from ..helper_util import source_files, test_path
+
+librt_path = test_path.parent / "librt"
 
 
 def create_test_function(source: Path, output: Path, lang: str):
@@ -45,7 +47,7 @@ def build_sample_to_ir(src, lang, bsp_c3, march, reporter):
     if lang == "c3":
         ir_modules = [
             api.c3_to_ir(
-                [bsp_c3, relpath("..", "librt", "io.c3"), io.StringIO(src)],
+                [bsp_c3, librt_path / "io.c3", io.StringIO(src)],
                 [],
                 march,
                 reporter=reporter,
@@ -55,11 +57,11 @@ def build_sample_to_ir(src, lang, bsp_c3, march, reporter):
         ir_modules = [api.bf_to_ir(src, march)]
     elif lang == "c":
         coptions = COptions()
-        libc_path = relpath("..", "librt", "libc")
+        libc_path = librt_path / "libc"
         include_path1 = os.path.join(libc_path, "include")
-        lib = relpath("..", "librt", "libc", "lib.c")
+        lib = libc_path / "lib.c"
         coptions.add_include_path(include_path1)
-        with open(lib) as f:
+        with lib.open() as f:
             mod1 = api.c_to_ir(f, march, coptions=coptions, reporter=reporter)
         mod2 = api.c_to_ir(
             io.StringIO(src), march, coptions=coptions, reporter=reporter
@@ -78,7 +80,7 @@ def build_sample_to_ir(src, lang, bsp_c3, march, reporter):
 def build_sample_to_code(src, lang, bsp_c3, opt_level, march, debug, reporter):
     """Turn example sample into code objects."""
     if lang == "c3":
-        srcs = [relpath("..", "librt", "io.c3"), bsp_c3, io.StringIO(src)]
+        srcs = [librt_path / "io.c3", bsp_c3, io.StringIO(src)]
         o2 = api.c3c(
             srcs,
             [],
@@ -95,10 +97,10 @@ def build_sample_to_code(src, lang, bsp_c3, opt_level, march, debug, reporter):
     elif lang == "c":
         o2 = api.c3c([bsp_c3], [], march, reporter=reporter)
         coptions = COptions()
-        libc_path = relpath("..", "librt", "libc")
+        libc_path = librt_path / "libc"
         include_path1 = os.path.join(libc_path, "include")
         coptions.add_include_path(include_path1)
-        with open(relpath("..", "librt", "libc", "lib.c")) as f:
+        with open(libc_path / "lib.c") as f:
             o3 = api.cc(
                 f, march, coptions=coptions, debug=debug, reporter=reporter
             )

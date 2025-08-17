@@ -1,11 +1,12 @@
-import unittest
-import tempfile
 import io
 import os
+import tempfile
+import unittest
 from unittest.mock import patch
 
-from .helper_util import relpath, do_long_tests
 from ppci.cli.hexutil import hexutil
+
+from .helper_util import do_long_tests, examples_path
 
 
 def new_temp_file(suffix):
@@ -28,7 +29,7 @@ class HexutilTestCase(unittest.TestCase):
     @patch("sys.stderr", new_callable=io.StringIO)
     def test_hexutil_address_format(self, mock_stderr):
         file1 = new_temp_file(".hex")
-        datafile = relpath("..", "examples", "build.xml")
+        datafile = str(examples_path / "build.xml")
         with self.assertRaises(SystemExit) as cm:
             hexutil(["new", file1, "10000000", datafile])
         self.assertEqual(2, cm.exception.code)
@@ -47,7 +48,7 @@ class HexutilTestCase(unittest.TestCase):
         file1 = new_temp_file("file1.hex")
         file2 = new_temp_file("file2.hex")
         file3 = new_temp_file("file3.hex")
-        datafile = relpath("..", "docs", "logo", "logo.png")
+        datafile = str(examples_path.parent / "docs" / "logo" / "logo.png")
         hexutil(["new", file1, "0x10000000", datafile])
         hexutil(["new", file2, "0x20000000", datafile])
         hexutil(["merge", file1, file2, file3])
@@ -57,7 +58,7 @@ class HexutilTestCase(unittest.TestCase):
     @patch("sys.stdout", new_callable=io.StringIO)
     def test_hexutil_info(self, mock_stdout):
         file1 = new_temp_file("file1.hex")
-        datafile = relpath("..", "docs", "logo", "logo.png")
+        datafile = str(examples_path.parent / "docs" / "logo" / "logo.png")
         hexutil(["new", file1, "0x10000000", datafile])
         hexutil(["info", file1])
         self.assertIn("Hexfile containing 1416 bytes", mock_stdout.getvalue())

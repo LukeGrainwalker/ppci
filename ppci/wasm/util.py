@@ -9,6 +9,7 @@ import math
 import re
 import tempfile
 import struct
+from pathlib import Path
 import subprocess
 import keyword
 from contextlib import suppress
@@ -23,7 +24,7 @@ __all__ = [
     "has_node",
 ]
 
-
+this_dir = Path(__file__).resolve().parent
 PAGE_SIZE = 64 * 1024  # 64 KiB
 hex_prog = re.compile(r"-?0x[0-9a-fA-F]+")
 hex_float_prog = re.compile(r"[-+]?0x[0-9a-fA-F]+")
@@ -77,6 +78,11 @@ def make_float(s):
             return float(s)
     else:
         raise NotImplementedError(str(s))
+
+
+def read_template(name):
+    path = this_dir / name
+    return path.read_text()
 
 
 class SlugTable:
@@ -199,14 +205,8 @@ def export_wasm_example(filename, code, wasm, main_js=""):
     fname = os.path.basename(filename).rsplit(".", 1)[0]
 
     # Read templates
-    src_filename_js = os.path.join(os.path.dirname(__file__), "template.js")
-    src_filename_html = os.path.join(
-        os.path.dirname(__file__), "template.html"
-    )
-    with open(src_filename_js, "rb") as f:
-        js = f.read().decode()
-    with open(src_filename_html, "rb") as f:
-        html = f.read().decode()
+    js = read_template("template.js")
+    html = read_template("template.html")
 
     # Produce HTML
     js = js.replace(
@@ -243,9 +243,7 @@ def run_wasm_in_notebook(wasm):
     wasm_text = str(list(wasm))  # [0, 1, 12, ...]
 
     # Read templates
-    src_filename_js = os.path.join(os.path.dirname(__file__), "template.js")
-    with open(src_filename_js, "rb") as f:
-        js = f.read().decode()
+    js = read_template("template.js")
 
     # Get id
     global _nb_output
@@ -297,9 +295,7 @@ def run_wasm_in_node(wasm, silent=False):
     wasm_text = str(list(wasm))  # [0, 1, 12, ...]
 
     # Read templates
-    src_filename_js = os.path.join(os.path.dirname(__file__), "template.js")
-    with open(src_filename_js, "rb") as f:
-        js = f.read().decode()
+    js = read_template("template.js")
 
     # Produce JS
     js = js.replace("MAIN_JS_PLACEHOLDER", "")

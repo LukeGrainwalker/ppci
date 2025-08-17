@@ -1,7 +1,7 @@
 import io
 import unittest
 
-from ppci.arch.jvm import read_class_file, class_to_ir
+from ppci.arch.jvm import class_to_ir, read_class_file
 
 
 class JavaTestCase(unittest.TestCase):

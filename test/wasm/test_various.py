@@ -1,12 +1,11 @@
 import io
-import os
 import unittest
 
 from ppci import api
 from ppci.wasm import ir_to_wasm, read_wasm, read_wat, wasm_to_ir
 from ppci.wasm.util import sanitize_name
 
-THIS_DIR = os.path.abspath(os.path.dirname(__file__))
+from ..helper_util import examples_path
 
 
 class WasmGeneratorTestCase(unittest.TestCase):
@@ -36,14 +35,11 @@ class WasmGeneratorTestCase(unittest.TestCase):
 class WasmLoadAndSaveTestCase(unittest.TestCase):
     def test_load_save(self):
         """Load program.wasm from disk and save it again."""
-        program_filename = os.path.join(
-            THIS_DIR, "..", "..", "examples", "wasm", "program.wasm"
-        )
-        with open(program_filename, "rb") as f:
+        program_filename = examples_path / "wasm" / "program.wasm"
+        with program_filename.open("rb") as f:
             wasm_module = read_wasm(f)
 
-        with open(program_filename, "rb") as f:
-            content1 = f.read()
+        content1 = program_filename.read_bytes()
 
         # Save to file:
         f = io.BytesIO()
@@ -59,14 +55,10 @@ class WasmLoadAndSaveTestCase(unittest.TestCase):
         This is a good stress/sanity test on both
         WAT generation and parsing.
         """
-        program_filename = os.path.join(
-            THIS_DIR, "..", "..", "examples", "wasm", "program.wasm"
-        )
+        program_filename = examples_path / "wasm" / "program.wasm"
+        content1 = program_filename.read_bytes()
 
-        with open(program_filename, "rb") as f:
-            content1 = f.read()
-
-        with open(program_filename, "rb") as f:
+        with program_filename.open("rb") as f:
             wasm_module = read_wasm(f)
 
         # convert to text format:

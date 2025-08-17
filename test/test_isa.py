@@ -1,7 +1,7 @@
 import unittest
-from ppci.arch.encoding import Instruction, Syntax, Operand
-from ppci.arch.encoding import TokenSequence
+
 from ppci.arch import example
+from ppci.arch.encoding import Instruction, Operand, Syntax, TokenSequence
 
 
 class DummyInstruction1(Instruction):

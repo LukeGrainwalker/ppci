@@ -2,15 +2,14 @@
 Optimalization tests.
 """
 
-import unittest
 import io
 import sys
-from ppci import ir
-from ppci import irutils
+import unittest
+
+from ppci import ir, irutils
 from ppci.binutils.debuginfo import DebugDb
 from ppci.irutils import verify_module
-from ppci.opt import Mem2RegPromotor
-from ppci.opt import CleanPass
+from ppci.opt import CleanPass, Mem2RegPromotor
 from ppci.opt.constantfolding import correct
 from ppci.opt.tailcall import TailCallOptimization
 

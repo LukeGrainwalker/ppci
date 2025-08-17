@@ -5,8 +5,8 @@ from ..helper_util import (
     do_long_tests,
     has_avr_emulator,
     make_filename,
-    relpath,
     run_avr,
+    examples_path,
 )
 from .sample_helpers import add_samples, build
 
@@ -19,9 +19,9 @@ class TestSamplesOnAvr(unittest.TestCase):
 
     def do(self, src, expected_output, lang="c3"):
         base_filename = make_filename(self.id())
-        bsp_c3 = relpath("..", "examples", "avr", "bsp.c3")
-        crt0 = relpath("..", "examples", "avr", "glue.asm")
-        mmap = relpath("..", "examples", "avr", "avr.mmap")
+        bsp_c3 = examples_path / "avr" / "bsp.c3"
+        crt0 = examples_path / "avr" / "glue.asm"
+        mmap = examples_path / "avr" / "avr.mmap"
         build(
             base_filename,
             src,

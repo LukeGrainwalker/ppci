@@ -1,6 +1,7 @@
-import unittest
 import sys
-from ppci.utils.bitfun import rotate_left, rotate_right, BitView, sign_extend
+import unittest
+
+from ppci.utils.bitfun import BitView, rotate_left, rotate_right, sign_extend
 
 
 class BitRotationTestCase(unittest.TestCase):

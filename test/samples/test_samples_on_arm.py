@@ -1,7 +1,13 @@
 import io
 import unittest
 
-from ..helper_util import do_long_tests, has_qemu, make_filename, qemu, relpath
+from ..helper_util import (
+    do_long_tests,
+    has_qemu,
+    make_filename,
+    qemu,
+    examples_path,
+)
 from .sample_helpers import add_samples, build
 
 
@@ -52,7 +58,7 @@ class TestSamplesOnVexpress(unittest.TestCase):
 
     def do(self, src, expected_output, lang="c3"):
         # Construct binary file from snippet:
-        bsp_c3 = relpath("..", "examples", "realview-pb-a8", "arch.c3")
+        bsp_c3 = examples_path / "realview-pb-a8" / "arch.c3"
         startercode = io.StringIO(self.startercode)
         base_filename = make_filename(self.id())
         build(
@@ -149,7 +155,7 @@ class TestSamplesOnCortexM3O2(unittest.TestCase):
 
     def do(self, src, expected_output, lang="c3"):
         # Construct binary file from snippet:
-        bsp_c3 = relpath("..", "examples", "lm3s6965evb", "bare", "arch.c3")
+        bsp_c3 = examples_path / "lm3s6965evb" / "bare" / "arch.c3"
         startercode = io.StringIO(self.startercode)
         base_filename = make_filename(self.id())
         build(

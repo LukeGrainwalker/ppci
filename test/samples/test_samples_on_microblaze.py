@@ -1,6 +1,12 @@
 import unittest
 
-from ..helper_util import do_long_tests, has_qemu, make_filename, qemu, relpath
+from ..helper_util import (
+    do_long_tests,
+    has_qemu,
+    make_filename,
+    qemu,
+    examples_path,
+)
 from .sample_helpers import add_samples, build
 
 
@@ -12,9 +18,9 @@ class MicroblazeSamplesTestCase(unittest.TestCase):
 
     def do(self, src, expected_output, lang="c3"):
         base_filename = make_filename(self.id())
-        bsp_c3 = relpath("..", "examples", "microblaze", "bsp.c3")
-        crt0 = relpath("..", "examples", "microblaze", "crt0.asm")
-        mmap = relpath("..", "examples", "microblaze", "layout.mmp")
+        bsp_c3 = examples_path / "microblaze" / "bsp.c3"
+        crt0 = examples_path / "microblaze" / "crt0.asm"
+        mmap = examples_path / "microblaze" / "layout.mmp"
         build(
             base_filename,
             src,

@@ -1,6 +1,6 @@
 import unittest
 
-from ..helper_util import make_filename, relpath
+from ..helper_util import make_filename, examples_path
 from .sample_helpers import add_samples, build
 
 
@@ -12,9 +12,9 @@ class TestSamplesOnStm8(unittest.TestCase):
 
     def do(self, src, expected_output, lang="c3"):
         base_filename = make_filename(self.id())
-        bsp_c3 = relpath("..", "examples", "stm8", "bsp.c3")
-        crt0 = relpath("..", "examples", "stm8", "start.asm")
-        mmap = relpath("..", "examples", "avr", "avr.mmap")
+        bsp_c3 = examples_path / "stm8" / "bsp.c3"
+        crt0 = examples_path / "stm8" / "start.asm"
+        mmap = examples_path / "avr" / "avr.mmap"
         build(
             base_filename,
             src,

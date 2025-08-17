@@ -1,25 +1,25 @@
 """
-Example that compiles Python code to WASM, then WASM to PPCI-IR, then to native,
-and run in-process.
+Example that compiles Python code to WASM, then WASM to PPCI-IR,
+then to native, and run in-process.
 """
 
-import os
 import logging
 from io import StringIO
+from pathlib import Path
 from time import perf_counter
 
 from ppci import irutils
-from ppci.api import ir_to_object, get_current_arch
+from ppci.api import get_current_arch, ir_to_object
+from ppci.lang.python import ir_to_python, python_to_wasm
 from ppci.utils import codepage, reporting
-
-from ppci.wasm import wasm_to_ir, export_wasm_example
-from ppci.lang.python import python_to_wasm, ir_to_python
+from ppci.wasm import export_wasm_example, wasm_to_ir
 
 logging.basicConfig(level=logging.DEBUG)
 
 
 # Example Python code
-# A bit silly; they are assumed to be "main functions" so they can return a value
+# A bit silly; they are assumed to be "main functions"
+# so they can return a value
 
 py1 = """
 return 42
@@ -46,7 +46,7 @@ j = 0
 
 while n < max:
     i = i + 1
-    
+
     if i <= 1:
         continue  # nope
     elif i == 2:
@@ -80,9 +80,9 @@ ppci_module = wasm_to_ir(wasm_module, arch.info.get_type_info("ptr"))
 # Optimizer fails, or makes it slower ;)
 # optimize(ppci_module, 2)
 
-this_dir = os.path.dirname(os.path.abspath(__file__))
+this_dir = Path(__file__).resolve().parent
 # Generate a report:
-html_report = os.path.join(this_dir, "compilation_report.html")
+html_report = this_dir / "compilation_report.html"
 with reporting.html_reporter(html_report) as reporter:
     # Write IR code
     f = StringIO()
@@ -104,9 +104,7 @@ etime = perf_counter() - t0
 print(f"native says {result} in {etime} s")
 
 # Generate html page:
-export_wasm_example(
-    os.path.join(this_dir, "prime_demo_page.html"), py3, wasm_module
-)
+export_wasm_example(this_dir / "prime_demo_page.html", py3, wasm_module)
 
 # Convert PPCI IR to (ugly) Python to skip codegen
 if True:

@@ -1,11 +1,13 @@
 """Test cases for the various commandline utilities."""
 
-import unittest
-import tempfile
 import io
 import os
+import tempfile
+import unittest
 from unittest.mock import patch
 
+from ppci import api
+from ppci.binutils.objectfile import Image, ObjectFile, Section
 from ppci.cli.asm import asm
 from ppci.cli.build import build
 from ppci.cli.c3c import c3c
@@ -13,16 +15,15 @@ from ppci.cli.cc import cc
 from ppci.cli.hexdump import hexdump
 from ppci.cli.java import java
 from ppci.cli.link import link
-from ppci.cli.objdump import objdump
 from ppci.cli.objcopy import objcopy
+from ppci.cli.objdump import objdump
 from ppci.cli.ocaml import ocaml
 from ppci.cli.opt import opt
 from ppci.cli.pascal import pascal
 from ppci.cli.yacc import yacc
-from ppci import api
 from ppci.common import DiagnosticsManager, SourceLocation
-from ppci.binutils.objectfile import ObjectFile, Section, Image
-from .helper_util import relpath, do_long_tests
+
+from .helper_util import do_long_tests, examples_path, test_path
 
 
 def new_temp_file(suffix):
@@ -41,9 +42,7 @@ class BuildTestCase(unittest.TestCase):
     def test_build_command(self, mock_stdout, mock_stderr):
         """Test normal use"""
         report_file = new_temp_file(".html")
-        build_file = relpath(
-            "..", "examples", "lm3s6965evb", "snake", "build.xml"
-        )
+        build_file = str(examples_path / "lm3s6965evb" / "snake" / "build.xml")
         build(["-v", "--report", report_file, "-f", build_file])
 
     @patch("sys.stdout", new_callable=io.StringIO)
@@ -70,7 +69,7 @@ class C3cTestCase(unittest.TestCase):
     @patch("sys.stdout", new_callable=io.StringIO)
     @patch("sys.stderr", new_callable=io.StringIO)
     def test_c3c_command_fails(self, mock_stdout, mock_stderr):
-        c3_file = relpath("..", "examples", "snake", "game.c3")
+        c3_file = str(examples_path / "snake" / "game.c3")
         obj_file = new_temp_file(".obj")
         with self.assertRaises(SystemExit) as cm:
             c3c(["-m", "arm", c3_file, "-o", obj_file])
@@ -80,7 +79,7 @@ class C3cTestCase(unittest.TestCase):
     @patch("sys.stderr", new_callable=io.StringIO)
     def test_c3c_command_succes(self, mock_stdout, mock_stderr):
         """Capture stdout. Important because it is closed by the command!"""
-        c3_file = relpath("..", "examples", "stm32f4", "bsp.c3")
+        c3_file = str(examples_path / "stm32f4" / "bsp.c3")
         obj_file = new_temp_file(".obj")
         c3c(["-m", "arm", c3_file, "-o", obj_file])
 
@@ -95,7 +94,7 @@ class C3cTestCase(unittest.TestCase):
 class CcTestCase(unittest.TestCase):
     """Test the cc command-line utility"""
 
-    c_file = relpath("..", "examples", "c", "hello", "std.c")
+    c_file = str(examples_path / "c" / "hello" / "std.c")
 
     @patch("sys.stdout", new_callable=io.StringIO)
     @patch("sys.stderr", new_callable=io.StringIO)
@@ -140,7 +139,7 @@ class PascalTestCase(unittest.TestCase):
     @patch("sys.stderr", new_callable=io.StringIO)
     def test_hello(self, mock_stdout, mock_stderr):
         """Compile hello world.pas"""
-        hello_pas = relpath("..", "examples", "src", "pascal", "hello.pas")
+        hello_pas = str(examples_path / "src" / "pascal" / "hello.pas")
         obj_file = new_temp_file(".obj")
         pascal(["-m", "arm", "-o", obj_file, hello_pas])
 
@@ -156,7 +155,7 @@ class AsmTestCase(unittest.TestCase):
     @patch("sys.stderr", new_callable=io.StringIO)
     def test_asm_command(self, mock_stderr):
         obj_file = new_temp_file(".obj")
-        src = relpath("..", "examples", "avr", "arduino-blinky", "boot.asm")
+        src = str(examples_path / "avr" / "arduino-blinky" / "boot.asm")
         asm(["-m", "avr", "-o", obj_file, src])
 
     @patch("sys.stdout", new_callable=io.StringIO)
@@ -179,7 +178,7 @@ class ObjdumpTestCase(unittest.TestCase):
     @patch("sys.stderr", new_callable=io.StringIO)
     def test_command(self, mock_stderr):
         obj_file = new_temp_file(".obj")
-        src = relpath("..", "examples", "avr", "arduino-blinky", "boot.asm")
+        src = str(examples_path / "avr" / "arduino-blinky" / "boot.asm")
         asm(["-m", "avr", "-o", obj_file, src])
         with patch("sys.stdout", new_callable=io.StringIO) as mock_stdout:
             objdump([obj_file])
@@ -227,7 +226,7 @@ class OptimizeCommandTestCase(unittest.TestCase):
     @patch("sys.stdout", new_callable=io.StringIO)
     @patch("sys.stderr", new_callable=io.StringIO)
     def test_optimize_command(self, mock_stdout, mock_stderr):
-        in_file = relpath("data", "add.pi")
+        in_file = str(test_path / "data" / "add.pi")
         out = new_temp_file(".ir")
         opt([in_file, out])
 
@@ -247,13 +246,13 @@ class LinkCommandTestCase(unittest.TestCase):
         obj1 = new_temp_file(".obj")
         obj2 = new_temp_file(".obj")
         obj3 = new_temp_file(".obj")
-        asm_src = relpath("..", "examples", "lm3s6965evb", "startup.asm")
-        mmap = relpath("..", "examples", "lm3s6965evb", "memlayout.mmap")
+        asm_src = str(examples_path / "lm3s6965evb" / "startup.asm")
+        mmap = str(examples_path / "lm3s6965evb" / "memlayout.mmap")
         c3_srcs = [
-            relpath("..", "examples", "src", "snake", "main.c3"),
-            relpath("..", "examples", "src", "snake", "game.c3"),
-            relpath("..", "librt", "io.c3"),
-            relpath("..", "examples", "lm3s6965evb", "bsp.c3"),
+            str(examples_path / "src" / "snake" / "main.c3"),
+            str(examples_path / "src" / "snake" / "game.c3"),
+            str(test_path.parent / "librt" / "io.c3"),
+            str(examples_path / "lm3s6965evb" / "bsp.c3"),
         ]
         asm(["-m", "arm", "--mtune", "thumb", "-o", obj1, asm_src])
         c3c(["-m", "arm", "--mtune", "thumb", "-o", obj2] + c3_srcs)
@@ -272,7 +271,9 @@ class YaccTestCase(unittest.TestCase):
     @patch("sys.stderr", new_callable=io.StringIO)
     def test_normal_use(self, mock_stdout, mock_stderr):
         """Test normal yacc use"""
-        grammar_file = relpath("..", "ppci", "codegen", "burg.grammar")
+        grammar_file = str(
+            test_path.parent / "ppci" / "codegen" / "burg.grammar"
+        )
         file1 = new_temp_file(".py")
         yacc([grammar_file, "-o", file1])
         with open(file1) as f:
@@ -308,7 +309,7 @@ class HexDumpTestCase(unittest.TestCase):
 
     @patch("sys.stdout", new_callable=io.StringIO)
     def test_dump(self, mock_stdout):
-        bin_file = relpath("..", "docs", "logo", "logo.png")
+        bin_file = str(test_path.parent / "docs" / "logo" / "logo.png")
         hexdump([bin_file])
 
 
@@ -316,7 +317,7 @@ class DiagnosticsTestCase(unittest.TestCase):
     @patch("sys.stdout", new_callable=io.StringIO)
     def test_error_reporting(self, mock_stdout):
         """Simulate some errors into the diagnostics system"""
-        filename = relpath("..", "examples", "src", "snake", "game.c3")
+        filename = examples_path / "src" / "snake" / "game.c3"
         diag = DiagnosticsManager()
         with open(filename) as f:
             src = f.read()

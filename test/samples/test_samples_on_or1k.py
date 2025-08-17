@@ -8,7 +8,7 @@ from ..helper_util import (
     has_qemu,
     make_filename,
     qemu,
-    relpath,
+    examples_path,
 )
 from .sample_helpers import add_samples, build
 
@@ -21,9 +21,9 @@ class OpenRiscSamplesTestCase(unittest.TestCase):
 
     def do(self, src, expected_output, lang="c3"):
         base_filename = make_filename(self.id())
-        bsp_c3 = relpath("..", "examples", "or1k", "bsp.c3")
-        crt0 = relpath("..", "examples", "or1k", "crt0.asm")
-        mmap = relpath("..", "examples", "or1k", "layout.mmp")
+        bsp_c3 = examples_path / "or1k" / "bsp.c3"
+        crt0 = examples_path / "or1k" / "crt0.asm"
+        mmap = examples_path / "or1k" / "layout.mmp"
         build(
             base_filename,
             src,

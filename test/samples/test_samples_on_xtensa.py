@@ -1,6 +1,12 @@
 import unittest
 
-from ..helper_util import do_long_tests, has_qemu, make_filename, qemu, relpath
+from ..helper_util import (
+    do_long_tests,
+    has_qemu,
+    make_filename,
+    qemu,
+    examples_path,
+)
 from .sample_helpers import add_samples, build
 
 
@@ -12,9 +18,9 @@ class TestSamplesOnXtensa(unittest.TestCase):
 
     def do(self, src, expected_output, lang="c3"):
         base_filename = make_filename(self.id())
-        bsp_c3 = relpath("..", "examples", "xtensa", "bsp.c3")
-        crt0 = relpath("..", "examples", "xtensa", "glue.asm")
-        mmap = relpath("..", "examples", "xtensa", "layout.mmp")
+        bsp_c3 = examples_path / "xtensa" / "bsp.c3"
+        crt0 = examples_path / "xtensa" / "glue.asm"
+        mmap = examples_path / "xtensa" / "layout.mmp"
         build(
             base_filename,
             src,

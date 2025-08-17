@@ -5,8 +5,8 @@ for the corresponding languages.
 
 import unittest
 
-from ppci.programs import Program, get_program_classes, get_targets
 from ppci import programs
+from ppci.programs import Program, get_program_classes, get_targets
 
 main_classes = (
     programs.SourceCodeProgram,

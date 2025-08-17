@@ -2,13 +2,15 @@
 
 import io
 import unittest
-from ppci.common import CompilerError, DiagnosticsManager
+
+from ppci.api import get_arch, link
+from ppci.arch.generic_instructions import Label
 from ppci.binutils.assembler import AsmLexer, BaseAssembler
+from ppci.binutils.layout import Layout
 from ppci.binutils.objectfile import ObjectFile
 from ppci.binutils.outstream import BinaryOutputStream
-from ppci.arch.generic_instructions import Label
-from ppci.api import link, get_arch
-from ppci.binutils.layout import Layout
+from ppci.common import CompilerError, DiagnosticsManager
+
 from .helper_util import gnu_assemble
 
 

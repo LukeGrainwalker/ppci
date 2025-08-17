@@ -14,6 +14,7 @@ from pathlib import Path
 # Store testdir for safe switch back to directory:
 testdir = os.path.dirname(os.path.abspath(__file__))
 test_path = Path(testdir)
+examples_path = test_path.parent / "examples"
 logger = logging.getLogger("util")
 
 
@@ -84,13 +85,15 @@ def has_qemu():
             return False
 
 
-def run_qemu(kernel, machine="lm3s811evb", dump_file=None, dump_range=None):
+def run_qemu(
+    kernel: Path, machine="lm3s811evb", dump_file=None, dump_range=None
+):
     """Runs qemu on a given kernel file"""
 
     if not has_qemu():
         return ""
     # Check bin file exists:
-    assert os.path.isfile(kernel)
+    assert kernel.is_file()
 
     logger.debug("Running qemu with machine=%s and image %s", machine, kernel)
 
@@ -107,7 +110,7 @@ def run_qemu(kernel, machine="lm3s811evb", dump_file=None, dump_range=None):
     return qemu(args)
 
 
-def create_qemu_launch_script(filename, qemu_cmd):
+def create_qemu_launch_script(filename: Path, qemu_cmd):
     """Create a shell script for a qemu command.
 
     This can be used to launch qemu manually for a specific test example.
@@ -129,7 +132,7 @@ def create_qemu_launch_script(filename, qemu_cmd):
     if "-nographic" in qemu_cmd:
         qemu_cmd.remove("-nographic")
 
-    with open(filename, "w") as f:
+    with filename.open("w") as f:
         print("#!/bin/bash", file=f)
         print("", file=f)
         print("# *** automatically generated QEMU launch file! ***", file=f)
@@ -141,8 +144,8 @@ def create_qemu_launch_script(filename, qemu_cmd):
         # chmod +x:
         import stat
 
-        st = os.stat(filename)
-        os.chmod(filename, st.st_mode | stat.S_IEXEC)
+        st = filename.stat()
+        filename.chmod(st.st_mode | stat.S_IEXEC)
 
 
 def qemu(args):
@@ -264,22 +267,20 @@ def has_iverilog():
     return hasattr(shutil, "which") and bool(shutil.which(iverilog_app))
 
 
-def run_msp430(pmem):
+def run_msp430(pmem: Path):
     """Run the given memory file in the openmsp430 iverilog project."""
 
     # Make a run file with the same name as the mem file:
-    simv = pmem[:-4] + ".run"
+    simv = pmem.with_suffix(".run")
 
-    if not os.path.exists(simv):
+    if not simv.exists():
         print()
         print("======")
         print("Compiling verilog!")
         print("======")
 
         # compile msp430 bench for this pmem:
-        workdir = relpath(
-            "..", "examples", "msp430", "test_system", "iverilog"
-        )
+        workdir = examples_path / "msp430" / "test_system" / "iverilog"
         cmd = [
             "iverilog",
             "-o",
@@ -313,20 +314,20 @@ def run_msp430(pmem):
     return data
 
 
-def run_picorv32(pmem):
+def run_picorv32(pmem: Path):
     """Run the given memory file in the riscvpicorv32 iverilog project."""
 
     # Make a run file with the same name as the mem file:
-    simv = pmem[:-4] + ".run"
+    simv = pmem.with_suffix(".run")
 
-    if not os.path.exists(simv):
+    if not simv.exists():
         print()
         print("======")
         print("Compiling verilog!")
         print("======")
 
         # compile picorv32 bench for this pmem:
-        workdir = relpath("..", "examples", "riscvpicorv32", "iverilog")
+        workdir = examples_path / "riscvpicorv32" / "iverilog"
         cmd = [
             "iverilog",
             "-o",
@@ -353,11 +354,11 @@ def run_picorv32(pmem):
     return outs
 
 
-avr_emu1 = relpath("..", "examples", "avr", "emu", "build", "emu1")
+avr_emu1 = examples_path / "avr" / "emu" / "build" / "emu1"
 
 
 def has_avr_emulator():
-    return os.path.exists(avr_emu1)
+    return avr_emu1.exists()
 
 
 def run_avr(hexfile):

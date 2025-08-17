@@ -8,8 +8,8 @@ from ..helper_util import (
     do_long_tests,
     has_iverilog,
     make_filename,
-    relpath,
     run_msp430,
+    examples_path,
 )
 from .sample_helpers import add_samples, build
 
@@ -88,7 +88,7 @@ class TestSamplesOnMsp430(unittest.TestCase):
 
     def do(self, src, expected_output, lang="c3"):
         base_filename = make_filename(self.id())
-        bsp_c3 = relpath("..", "examples", "msp430", "bsp.c3")
+        bsp_c3 = examples_path / "msp430" / "bsp.c3"
         startercode = io.StringIO(self.startercode)
         obj = build(
             base_filename,

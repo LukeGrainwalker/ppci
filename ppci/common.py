@@ -5,6 +5,7 @@ Source location structures
 """
 
 import logging
+from pathlib import Path
 from .lang.common import SourceLocation
 
 
@@ -34,6 +35,8 @@ def get_file(f, mode="r"):
     if hasattr(f, "read"):
         # Assume this is a file like object
         return f
+    elif isinstance(f, Path):
+        return f.open(mode)
     elif isinstance(f, str):
         return open(f, mode)
     else:

@@ -1,11 +1,12 @@
 import unittest
-from ppci.arch.encoding import Syntax
-from ppci.arch.token import bit_range, Token
-from ppci.arch.avr import instructions as avr_instructions
-from ppci.arch.avr import registers as avr_registers
+
 from ppci.arch.arm import arm_instructions
 from ppci.arch.arm import registers as arm_registers
 from ppci.arch.arm.arm_instructions import ArmToken
+from ppci.arch.avr import instructions as avr_instructions
+from ppci.arch.avr import registers as avr_registers
+from ppci.arch.encoding import Syntax
+from ppci.arch.token import Token, bit_range
 
 
 class TokenTestCase(unittest.TestCase):
