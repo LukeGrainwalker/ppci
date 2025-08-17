@@ -19,11 +19,12 @@ The result of parser-semantic actions is a type-checked AST.
 
 import difflib
 import logging
-from .nodes import nodes, types, declarations, statements, expressions
-from . import utils, init
-from .scope import Scope, RootScope
-from .printer import expr_to_str, type_to_str
+
 from ...utils.integer_set import IntegerSet
+from . import init, utils
+from .nodes import declarations, expressions, nodes, statements, types
+from .printer import expr_to_str, type_to_str
+from .scope import RootScope, Scope
 
 
 class CSemantics:

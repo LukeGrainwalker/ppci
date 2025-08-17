@@ -1,4 +1,5 @@
 import enum
+
 from ..common import Token
 from .utils import LineInfo
 

@@ -98,7 +98,7 @@ def perform_test(filename: Path):
     coptions = COptions()
     libc_folder = root_folder / "librt" / "libc"
     libc_include = libc_folder / "include"
-    coptions.add_include_path(str(libc_include))
+    coptions.add_include_path(libc_include)
 
     # TODO: this should be injected elsewhere?
     coptions.add_define("__LP64__", "1")

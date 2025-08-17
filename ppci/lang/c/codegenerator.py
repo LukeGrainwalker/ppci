@@ -8,15 +8,16 @@ phase.
 """
 
 import logging
+
 from ... import ir, irutils
-from ...common import CompilerError
 from ...binutils import debuginfo
-from .nodes import types, declarations, statements, expressions
-from .utils import required_padding
+from ...common import CompilerError
+from ...utils.bitfun import bits_to_bytes, value_to_bits
+from .eval import ConstantExpressionEvaluator
+from .nodes import declarations, expressions, statements, types
 from .nodes.types import BasicType
 from .scope import RootScope
-from ...utils.bitfun import value_to_bits, bits_to_bytes
-from .eval import ConstantExpressionEvaluator
+from .utils import required_padding
 
 
 class CCodeGenerator:

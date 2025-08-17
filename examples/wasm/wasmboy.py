@@ -5,24 +5,29 @@ $ npm run build
 $ copy the file dist/core/index.untouched.wasm
 """
 
-import sys
-import logging
-import os
 import argparse
+import logging
+import sys
+from pathlib import Path
 
 import numpy as np
 import pygame
 from pygame.locals import QUIT
 
-from ppci.wasm import Module, instantiate
 from ppci.utils import reporting
+from ppci.wasm import Module, instantiate
 
+this_dir = Path(__file__).resolve().parent
+default_gb_path = this_dir / "cpu_instrs.gb"
+wasmboy_path = this_dir / "wasmboy.wasm"
 parser = argparse.ArgumentParser()
-parser.add_argument("--rom", default="cpu_instrs.gb")
+parser.add_argument("--rom", default=default_gb_path, type=Path)
 args = parser.parse_args()
 logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger()
 
-with open("wasmboy.wasm", "rb") as f:
+logger.info(f"Loading {wasmboy_path}")
+with wasmboy_path.open("rb") as f:
     wasm_module = Module(f)
 
 
@@ -30,8 +35,7 @@ def log(a: int, b: int, c: int, d: int, e: int, f: int, g: int) -> None:
     print("Log:", a, b, c, d, e, f, g)
 
 
-this_dir = os.path.dirname(os.path.abspath(__file__))
-html_report = os.path.join(this_dir, "wasmboy_report.html")
+html_report = this_dir / "wasmboy_report.html"
 with reporting.html_reporter(html_report) as reporter:
     wasm_boy = instantiate(
         wasm_module,
@@ -44,11 +48,10 @@ with reporting.html_reporter(html_report) as reporter:
 # https://github.com/torch2424/wasmBoy/wiki/%5BWIP%5D-Core-API
 
 rom_filename = args.rom
-logging.info("Loading %s", rom_filename)
+logger.info("Loading %s", rom_filename)
 # Load in a game to CARTRIDGE_ROM_LOCATION
 rom_location = wasm_boy.exports.CARTRIDGE_ROM_LOCATION.read()
-with open(rom_filename, "rb") as f:
-    rom_data = f.read()
+rom_data = rom_filename.read_bytes()
 rom_size = len(rom_data)
 wasm_boy.exports.memory[rom_location : rom_location + rom_size] = rom_data
 

@@ -1,6 +1,6 @@
 from ... import ir
 from ...graph.relooper import find_structure
-from .nodes import types, declarations, expressions, statements
+from .nodes import declarations, expressions, statements, types
 
 
 class CSynthesizer:

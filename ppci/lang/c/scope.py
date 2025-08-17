@@ -1,8 +1,8 @@
 """C scoping functions"""
 
-from .nodes.types import BasicType
-from .nodes import types, expressions, declarations
 from ...utils.collections import OrderedDict
+from .nodes import declarations, expressions, types
+from .nodes.types import BasicType
 
 
 def type_tuple(*args):

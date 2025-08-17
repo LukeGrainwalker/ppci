@@ -1,18 +1,17 @@
 """C front end."""
 
-from .context import CContext
+from .api import c_to_ir, preprocess
 from .builder import CBuilder, create_ast, parse_text, parse_type
+from .context import CContext
 from .lexer import CLexer
+from .options import COptions
 from .parser import CParser
+from .preprocessor import CPreProcessor
+from .printer import CPrinter, render_ast
 from .semantics import CSemantics
 from .synthesize import CSynthesizer
-from .preprocessor import CPreProcessor
-from .utils import CAstPrinter, print_ast
-from .printer import CPrinter, render_ast
-from .options import COptions
 from .token import CTokenPrinter
-from .api import preprocess, c_to_ir
-
+from .utils import CAstPrinter, print_ast
 
 __all__ = [
     "create_ast",

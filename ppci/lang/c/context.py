@@ -2,13 +2,14 @@
 
 import logging
 import struct
-from ...common import CompilerError
-from ...arch.arch_info import Endianness
+
 from ... import ir
-from .nodes.types import BasicType
-from .nodes import types, expressions
-from .utils import required_padding
+from ...arch.arch_info import Endianness
+from ...common import CompilerError
 from .eval import ConstantExpressionEvaluator
+from .nodes import expressions, types
+from .nodes.types import BasicType
+from .utils import required_padding
 
 
 class CContext:

@@ -5,6 +5,7 @@ position in an C style initializer.
 """
 
 import abc
+
 from .nodes import expressions, types
 
 

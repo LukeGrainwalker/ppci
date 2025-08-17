@@ -1,10 +1,10 @@
 """C Language lexer"""
 
-import logging
 import io
+import logging
 
-from .token import CToken
 from ..tools.handlexer import HandLexerBase
+from .token import CToken
 
 
 class SourceFile:

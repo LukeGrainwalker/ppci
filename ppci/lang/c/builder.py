@@ -1,11 +1,12 @@
-import logging
 import io
-from .options import COptions
-from .context import CContext
-from .parser import CParser
-from .semantics import CSemantics
-from .preprocessor import CPreProcessor, prepare_for_parsing
+import logging
+
 from .codegenerator import CCodeGenerator
+from .context import CContext
+from .options import COptions
+from .parser import CParser
+from .preprocessor import CPreProcessor, prepare_for_parsing
+from .semantics import CSemantics
 from .utils import print_ast
 
 

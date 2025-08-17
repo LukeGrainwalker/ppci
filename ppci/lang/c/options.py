@@ -1,4 +1,5 @@
 from argparse import ArgumentParser
+from pathlib import Path
 
 
 class COptions:
@@ -21,9 +22,9 @@ class COptions:
         # self.add_include_path(
         #    '/usr/lib/gcc/x86_64-pc-linux-gnu/6.3.1/include/')
 
-    def add_include_path(self, path):
+    def add_include_path(self, path: Path):
         """Add a path to the list of include paths"""
-        self.include_directories.append(path)
+        self.include_directories.append(Path(path))
 
     def add_include_paths(self, paths):
         """Add all the given include paths"""

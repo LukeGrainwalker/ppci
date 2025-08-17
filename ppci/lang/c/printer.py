@@ -2,7 +2,8 @@
 
 import io
 from contextlib import contextmanager
-from .nodes import types, declarations, expressions, statements
+
+from .nodes import declarations, expressions, statements, types
 
 
 def render_ast(ast):

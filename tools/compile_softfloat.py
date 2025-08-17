@@ -13,7 +13,7 @@ filename = os.path.join(
 # march = 'xtensa'
 march = "x86_64"
 # march = 'msp430'
-obj_filename = "softfloat_{}.oj".format(march)
+obj_filename = f"softfloat_{march}.oj"
 cc(
     [
         filename,
@@ -24,9 +24,10 @@ cc(
         "-o",
         obj_filename,
         "--html-report",
-        "softfloat_{}_report.html".format(march),
+        f"softfloat_{march}_report.html",
     ]
 )
-# cc([filename, '-S', '-v', '-m', 'msp430', '--html-report', 'softfloat_report.html'])
+# cc([filename, '-S', '-v', '-m', 'msp430', '--html-report',
+#   'softfloat_report.html'])
 # cc([filename, '--ast', '-v'])
 # cc([filename, '--ir', '-v'])

@@ -14,16 +14,16 @@ Sourcecode of inspiration:
 - https://github.com/rui314/8cc/blob/master/cpp.c
 """
 
-import os
 import logging
 import operator
 import time
+from pathlib import Path
 
 from ...common import CompilerError
-from .lexer import CLexer, CToken, lex_text, SourceFile
-from .utils import cnum, charval, replace_escape_codes, LineInfo
-from .macro import Macro, FunctionMacro
-from .nodes import types, expressions
+from .lexer import CLexer, CToken, SourceFile, lex_text
+from .macro import FunctionMacro, Macro
+from .nodes import expressions, types
+from .utils import LineInfo, charval, cnum, replace_escape_codes
 
 
 class CPreProcessor:
@@ -193,8 +193,8 @@ class CPreProcessor:
         self.files.pop()
 
     def locate_include(
-        self, filename, loc, use_current_dir: bool, include_next
-    ):
+        self, filename: Path, loc, use_current_dir: bool, include_next
+    ) -> Path:
         """Determine which file to use given the include filename.
 
         Parameters:
@@ -205,8 +205,8 @@ class CPreProcessor:
         self.logger.debug("Locating %s", filename)
 
         # Maybe it is an absolute path:
-        if os.path.isabs(filename):
-            if os.path.exists(filename):
+        if filename.is_absolute():
+            if filename.exists():
                 self.logger.debug("Absolute path, not searching include paths")
                 return filename
             else:
@@ -216,15 +216,15 @@ class CPreProcessor:
         search_directories = []
         if use_current_dir:
             # In the case of: #include "foo.h"
-            current_dir = os.path.dirname(self.files[-1].source_file.filename)
+            current_dir = Path(self.files[-1].source_file.filename).parent
             search_directories.append(current_dir)
         search_directories.extend(self.coptions.include_directories)
 
         # self.logger.debug((search_directories)
         for path in search_directories:
             self.logger.debug("Searching in %s", path)
-            full_path = os.path.join(path, filename)
-            if os.path.exists(full_path):
+            full_path = path / filename
+            if full_path.exists():
                 if include_next:
                     current_filename = self.files[-1].source_file.filename
                     if full_path == current_filename:
@@ -232,20 +232,20 @@ class CPreProcessor:
                 else:
                     return full_path
 
-        self.logger.error("File not found: %s", filename)
-        raise CompilerError(f"Could not find {filename}", loc)
+        self.error(f"Could not find {filename}", loc=loc)
 
     def include(
         self, filename, loc, use_current_dir=False, include_next=False
     ):
         """Turn the given filename into a series of tokens."""
+        filename = Path(filename)
         full_path = self.locate_include(
             filename, loc, use_current_dir, include_next
         )
         self.logger.debug("Including %s", full_path)
         source_file = SourceFile(full_path)
         self.files[-1].dependencies.append(source_file)
-        with open(full_path) as f:
+        with full_path.open() as f:
             yield from self.process_file(f, full_path)
 
     # Token consume / peeking:

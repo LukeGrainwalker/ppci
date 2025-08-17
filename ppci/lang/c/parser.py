@@ -16,10 +16,10 @@ Sources of inspiration:
 """
 
 import logging
-from ..tools.recursivedescent import RecursiveDescentParser
-from .nodes import statements, expressions
-from .printer import type_to_str
 
+from ..tools.recursivedescent import RecursiveDescentParser
+from .nodes import expressions, statements
+from .printer import type_to_str
 
 LEFT_ASSOCIATIVE = "left-associative"
 RIGHT_ASSOCIATIVE = "right-associative"

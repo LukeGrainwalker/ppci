@@ -1,9 +1,10 @@
 import io
+
+from ...utils.reporting import DummyReportGenerator
 from .builder import CBuilder
+from .options import COptions
 from .preprocessor import CPreProcessor
 from .token import CTokenPrinter
-from .options import COptions
-from ...utils.reporting import DummyReportGenerator
 
 
 def preprocess(f, output_file, coptions=None):

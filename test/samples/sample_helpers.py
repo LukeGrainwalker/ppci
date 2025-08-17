@@ -1,5 +1,4 @@
 import io
-import os
 from pathlib import Path
 
 from ppci import api
@@ -58,7 +57,7 @@ def build_sample_to_ir(src, lang, bsp_c3, march, reporter):
     elif lang == "c":
         coptions = COptions()
         libc_path = librt_path / "libc"
-        include_path1 = os.path.join(libc_path, "include")
+        include_path1 = libc_path / "include"
         lib = libc_path / "lib.c"
         coptions.add_include_path(include_path1)
         with lib.open() as f:
@@ -98,7 +97,7 @@ def build_sample_to_code(src, lang, bsp_c3, opt_level, march, debug, reporter):
         o2 = api.c3c([bsp_c3], [], march, reporter=reporter)
         coptions = COptions()
         libc_path = librt_path / "libc"
-        include_path1 = os.path.join(libc_path, "include")
+        include_path1 = libc_path / "include"
         coptions.add_include_path(include_path1)
         with open(libc_path / "lib.c") as f:
             o3 = api.cc(

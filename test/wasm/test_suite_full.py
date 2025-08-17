@@ -20,7 +20,7 @@ Then, invoke this script with either pytest or run this script with python.
 import argparse
 import logging
 import math
-import os.path
+import os
 import unittest
 from fnmatch import fnmatch
 from functools import reduce
