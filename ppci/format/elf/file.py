@@ -207,11 +207,11 @@ class ElfFile:
             typ = SectionHeaderType(section.header["sh_type"])
             if typ == SectionHeaderType.REL:
                 f.seek(section.header["sh_offset"])
-                rh = elf_file.header_types.RelocationTableEntry.read(f)
+                rh = elf_file.header_types.RelTableEntry.read(f)
                 elf_file.relocations.append(ElfRelocation(rh, bits=bits))
             elif typ == SectionHeaderType.RELA:
                 f.seek(section.header.sh_offset)
-                rh = elf_file.header_types.RelocationTableEntryWA.read(f)
+                rh = elf_file.header_types.RelaTableEntry.read(f)
                 elf_file.relocations.append(ElfRelocation(rh, bits=bits))
             elif typ in [SectionHeaderType.SYMTAB, SectionHeaderType.DYNSYM]:
                 elf_file.symbole_table = elf_file.read_symtab(section)
