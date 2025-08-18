@@ -338,44 +338,44 @@ class HeaderTypes:
             assert self.SymbolTableEntry.size == 16
 
         if bits == 64:
-            self.RelocationTableEntryWA = header.mk_header(
-                "RelocationTableEntryWA",
+            self.RelaTableEntry = header.mk_header(
+                "RelaTableEntry",
                 [
                     header.Uint64("r_offset"),
                     header.Uint64("r_info"),
                     header.Int64("r_addend"),
                 ],
             )
-            assert self.RelocationTableEntryWA.size == 24
+            assert self.RelaTableEntry.size == 24
         else:
-            self.RelocationTableEntryWA = header.mk_header(
-                "RelocationTableEntryWA",
+            self.RelaTableEntry = header.mk_header(
+                "RelaTableEntry",
                 [
                     header.Uint32("r_offset"),
                     header.Uint32("r_info"),
                     header.Int32("r_addend"),
                 ],
             )
-            assert self.RelocationTableEntryWA.size == 12
+            assert self.RelaTableEntry.size == 12
 
         if bits == 64:
-            self.RelocationTableEntry = header.mk_header(
-                "RelocationTableEntry",
+            self.RelTableEntry = header.mk_header(
+                "RelTableEntry",
                 [
                     header.Uint64("r_offset"),
                     header.Uint64("r_info"),
                 ],
             )
-            assert self.RelocationTableEntry.size == 16
+            assert self.RelTableEntry.size == 16
         else:
-            self.RelocationTableEntry = header.mk_header(
-                "RelocationTableEntry",
+            self.RelTableEntry = header.mk_header(
+                "RelTableEntry",
                 [
                     header.Uint32("r_offset"),
                     header.Uint32("r_info"),
                 ],
             )
-            assert self.RelocationTableEntry.size == 8
+            assert self.RelTableEntry.size == 8
 
         if bits == 64:
             self.DynamicEntry = header.mk_header(
