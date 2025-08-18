@@ -11,15 +11,16 @@ Functions present:
 """
 
 import logging
+from collections import namedtuple
+
+from . import lt
+from .algorithm.fixed_point_dominator import (
+    calculate_immediate_post_dominators,
+    calculate_post_dominators,
+)
 
 # TODO: this is possibly the third edition of flow graph code.. Merge at will!
 from .digraph import DiGraph, DiNode
-from . import lt
-from .algorithm.fixed_point_dominator import calculate_post_dominators
-from .algorithm.fixed_point_dominator import (
-    calculate_immediate_post_dominators,
-)
-from collections import namedtuple
 
 
 class DomTreeNode:

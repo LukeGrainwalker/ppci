@@ -56,10 +56,11 @@ tree. This strategy consists of two steps:
 
 """
 
+import argparse
 import sys
 from os import path
-import argparse
-from ppci.lang.common import Token, SourceLocation
+
+from ppci.lang.common import SourceLocation, Token
 from ppci.lang.tools import baselex, yacc
 from ppci.utils.tree import Tree
 

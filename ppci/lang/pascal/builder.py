@@ -1,10 +1,11 @@
 import logging
-from ...irutils import Verifier
+
 from ...common import DiagnosticsManager
+from ...irutils import Verifier
+from .codegenerator import CodeGenerator
 from .context import Context
 from .lexer import Lexer
 from .parser import Parser
-from .codegenerator import CodeGenerator
 
 
 def pascal_to_ir(sources, march):

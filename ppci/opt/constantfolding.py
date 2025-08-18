@@ -1,6 +1,7 @@
 import operator
-from .transform import BlockPass
+
 from .. import ir
+from .transform import BlockPass
 
 
 def cast(value, ty):

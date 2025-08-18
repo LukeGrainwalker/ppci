@@ -4,8 +4,8 @@ Communication channel for debug client.
 
 import abc
 import logging
-import socket
 import select
+import socket
 from threading import Thread
 
 

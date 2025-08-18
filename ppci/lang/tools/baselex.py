@@ -1,6 +1,7 @@
 import re
+
 from ...common import CompilerError
-from ..common import Token, SourceLocation
+from ..common import SourceLocation, Token
 
 EOF = "EOF"
 EPS = "EPS"

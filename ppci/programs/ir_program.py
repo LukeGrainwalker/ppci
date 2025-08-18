@@ -1,14 +1,11 @@
 from io import StringIO
 
 from .. import irutils
-
-from .base import IntermediateProgram
-
+from ..api import get_arch, ir_to_object, optimize
 from ..ir import Module as IrModule
-from ..wasm import ir_to_wasm
-from ..api import ir_to_object, get_arch, optimize
-
 from ..lang.python import ir_to_python
+from ..wasm import ir_to_wasm
+from .base import IntermediateProgram
 
 
 class IrProgram(IntermediateProgram):

@@ -5,10 +5,11 @@ Gdb debug client implementation for the debugger driver.
 import abc
 import binascii
 import logging
-import struct
-import string
 import queue
+import string
+import struct
 from threading import Thread
+
 from ..debug_driver import DebugDriver, DebugState
 from .rsp import RspHandler
 

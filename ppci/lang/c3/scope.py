@@ -5,11 +5,23 @@ A context is the space where the whole program lives.
 """
 
 import itertools
+
 from ...common import CompilerError
-from .astnodes import Constant, Variable, Function, BaseType, Symbol
-from .astnodes import ArrayType, StructureType, DefinedType, PointerType
-from .astnodes import StructField
-from .astnodes import SignedIntegerType, UnsignedIntegerType, FloatType
+from .astnodes import (
+    ArrayType,
+    BaseType,
+    Constant,
+    DefinedType,
+    FloatType,
+    Function,
+    PointerType,
+    SignedIntegerType,
+    StructField,
+    StructureType,
+    Symbol,
+    UnsignedIntegerType,
+    Variable,
+)
 
 
 class SemanticError(CompilerError):

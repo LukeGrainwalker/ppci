@@ -2,9 +2,9 @@
 
 import io
 import logging
-from .opcodes import Instrs, Instruction, Opcode
-from .io import FileReader
 
+from .io import FileReader
+from .opcodes import Instrs, Instruction, Opcode
 
 logger = logging.getLogger("ocaml")
 

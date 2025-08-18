@@ -6,9 +6,10 @@ bugs in the compiler itself.
 
 import logging
 from collections import defaultdict
-from ..graph.domtree import CfgInfo
-from ..common import IrFormError
+
 from .. import ir
+from ..common import IrFormError
+from ..graph.domtree import CfgInfo
 
 
 def verify_module(module: ir.Module):

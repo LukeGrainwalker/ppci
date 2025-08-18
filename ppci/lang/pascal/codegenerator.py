@@ -1,10 +1,10 @@
 """This module contains the code generation class."""
 
 import logging
-from ... import ir
-from ... import irutils
+
+from ... import ir, irutils
 from ...binutils import debuginfo
-from .nodes import statements, expressions, types, symbols
+from .nodes import expressions, statements, symbols, types
 
 
 class CodeGenerator:

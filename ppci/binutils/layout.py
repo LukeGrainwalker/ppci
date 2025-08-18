@@ -1,7 +1,7 @@
-from ..lang.tools.baselex import BaseLexer, EOF, EPS
+from ..common import get_file, make_num
+from ..lang.tools.baselex import EOF, EPS, BaseLexer
 from ..lang.tools.grammar import Grammar
 from ..lang.tools.lr import LrParserBuilder
-from ..common import make_num, get_file
 
 
 def get_layout(layout):

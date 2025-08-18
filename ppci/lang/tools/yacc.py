@@ -2,13 +2,13 @@
 Parser generator script
 """
 
-import types
-import io
 import datetime
+import io
 import logging
+import types
 
-from .baselex import BaseLexer, EOF
-from ..common import Token, SourceLocation
+from ..common import SourceLocation, Token
+from .baselex import EOF, BaseLexer
 from .grammar import Grammar
 from .lr import LrParserBuilder
 from .recursivedescent import RecursiveDescentParser

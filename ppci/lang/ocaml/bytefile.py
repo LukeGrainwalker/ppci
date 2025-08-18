@@ -1,9 +1,9 @@
 """Handling of OCaml bytecode files ending with .byte extension."""
 
 import logging
+
 from .code import load_code
 from .marshall import read_value
-
 
 logger = logging.getLogger("ocaml")
 

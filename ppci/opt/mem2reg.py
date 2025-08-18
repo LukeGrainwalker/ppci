@@ -4,9 +4,9 @@ When a memory location is only used by store and load, the stored value can
 also be stored into a register, to improve performance.
 """
 
-from .transform import FunctionPass
 from .. import ir
 from ..graph.domtree import CfgInfo
+from .transform import FunctionPass
 
 
 def is_alloc_promotable(alloc_inst: ir.Alloc):

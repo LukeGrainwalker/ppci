@@ -1,8 +1,7 @@
 """Writing IR-code into a textual format."""
 
-from .verify import verify_module
 from .. import ir
-
+from .verify import verify_module
 
 IR_FORMAT_INDENT = 2
 

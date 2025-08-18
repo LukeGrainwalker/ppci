@@ -5,6 +5,7 @@ The selection dag is splitted into trees by this module.
 """
 
 import logging
+
 from .. import ir
 from ..utils.tree import Tree
 

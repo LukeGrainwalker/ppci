@@ -1,5 +1,6 @@
 import logging
 from collections import defaultdict
+
 from ..graph.digraph import DiGraph, DiNode
 
 

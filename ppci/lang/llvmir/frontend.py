@@ -1,7 +1,7 @@
 from . import nodes
+from .codegenerator import CodeGenerator
 from .lexer import LlvmIrLexer
 from .parser import LlvmIrParser
-from .codegenerator import CodeGenerator
 
 
 def llvm_to_ir(source):

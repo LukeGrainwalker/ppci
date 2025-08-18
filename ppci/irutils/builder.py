@@ -1,6 +1,7 @@
 """Constructing IR."""
 
 import contextlib
+
 from .. import ir
 from ..binutils.debuginfo import DebugLocation
 

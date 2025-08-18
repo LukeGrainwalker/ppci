@@ -3,10 +3,11 @@
 Edge information is retained, and restored when the node is placed back.
 """
 
-from itertools import chain
 from collections import defaultdict
-from .graph import Graph
+from itertools import chain
+
 from ..utils.collections import OrderedSet
+from .graph import Graph
 
 
 class MaskableGraph(Graph):

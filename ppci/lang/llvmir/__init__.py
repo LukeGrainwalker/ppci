@@ -14,5 +14,4 @@ and parsing are combined, the llvm optimizers can be used.
 
 from .frontend import LlvmIrFrontend, llvm_to_ir
 
-
 __all__ = ["llvm_to_ir", "LlvmIrFrontend"]

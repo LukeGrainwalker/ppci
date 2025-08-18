@@ -32,8 +32,9 @@ This can be useful in these scenario's:
 """
 
 import json
+
 from .. import ir
-from ..utils.binary_txt import bin2asc, asc2bin
+from ..utils.binary_txt import asc2bin, bin2asc
 
 
 def to_json(module):

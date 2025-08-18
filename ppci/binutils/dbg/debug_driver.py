@@ -2,6 +2,7 @@
 
 import abc
 import enum
+
 from .event import Events
 
 

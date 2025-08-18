@@ -1,12 +1,13 @@
 """Python to IR compilation."""
 
-import logging
 import ast
 import contextlib
 import inspect
+import logging
+
 from ... import ir, irutils
-from ...common import SourceLocation, CompilerError
 from ...binutils import debuginfo
+from ...common import CompilerError, SourceLocation
 
 
 def python_to_ir(f, imports=None):

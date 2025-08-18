@@ -1,7 +1,8 @@
 """Transformation to optimize IR-code"""
 
-import logging
 import abc
+import logging
+
 from .. import ir
 
 

@@ -1,10 +1,11 @@
 """This is the brain-fuck language front-end."""
 
 import logging
+
 from .. import ir
+from ..arch import get_arch
 from ..common import CompilerError
 from ..irutils import Builder
-from ..arch import get_arch
 
 __all__ = ("bf_to_ir", "BrainFuckGenerator")
 

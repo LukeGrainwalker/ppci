@@ -33,12 +33,12 @@ supposed to look at its C output, not at its appalling inner workings'
 """
 
 import re
+
 from ...common import CompilerError
-from ..common import Token, SourceLocation
+from ..common import SourceLocation, Token
 from ..tools.grammar import Grammar, print_grammar
 from ..tools.lr import LrParserBuilder
 from . import nodes
-
 
 TYPES = ("INTEGER", "REAL")
 

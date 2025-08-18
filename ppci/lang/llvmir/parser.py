@@ -1,5 +1,6 @@
-from collections import namedtuple
 import logging
+from collections import namedtuple
+
 from ..tools.recursivedescent import RecursiveDescentParser
 from . import nodes
 

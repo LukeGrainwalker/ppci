@@ -1,7 +1,7 @@
 """A callgraph is a graph of functions which call eachother."""
 
-from .digraph import DiGraph, DiNode
 from .. import ir
+from .digraph import DiGraph, DiNode
 
 
 class CallGraph(DiGraph):

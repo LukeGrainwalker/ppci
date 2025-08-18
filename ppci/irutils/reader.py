@@ -1,7 +1,8 @@
 """Parsing IR-code from a textual form."""
 
-from binascii import unhexlify
 import re
+from binascii import unhexlify
+
 from .. import ir
 
 

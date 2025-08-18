@@ -27,7 +27,8 @@ The algorithm for finding a program structure is as following:
 """
 
 import logging
-from .cfg import ir_function_to_graph, Loop
+
+from .cfg import Loop, ir_function_to_graph
 
 # from ..utils.collections import OrderedSet, OrderedDict
 

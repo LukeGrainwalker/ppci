@@ -6,9 +6,9 @@ https://www.irif.fr/~balat/publications/vouillon_balat-js_of_ocaml.pdf
 """
 
 import logging
+
 from ... import ir
 from .opcodes import Opcode
-
 
 logger = logging.getLogger("ocaml")
 

@@ -1,15 +1,15 @@
 """Command line interface for the debugger"""
 
-import cmd
 import binascii
-from threading import Lock
-from ... import __version__ as ppci_version
-from ...common import str2int, CompilerError
-from .debug_driver import DebugState
+import cmd
 import logging
 import os
 import sys
+from threading import Lock
 
+from ... import __version__ as ppci_version
+from ...common import CompilerError, str2int
+from .debug_driver import DebugState
 
 if os.name == "nt":
     from colorama import init

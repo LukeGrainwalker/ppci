@@ -4,8 +4,9 @@ This module contains classes for storage of debug information.
 
 import logging
 from collections import namedtuple
-from ..common import SourceLocation
+
 from ..arch.stack import StackLocation
+from ..common import SourceLocation
 
 
 class DebugDb:

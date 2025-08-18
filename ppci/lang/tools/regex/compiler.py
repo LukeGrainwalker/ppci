@@ -1,5 +1,5 @@
-from .parser import parse
 from ....utils.integer_set import IntegerSet
+from .parser import parse
 
 
 def compile(r: str):

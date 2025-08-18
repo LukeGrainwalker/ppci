@@ -10,8 +10,8 @@ A cursor is a pointer to a specific character in the chunk sequence.
 
 """
 
-from ..common import Token, SourceLocation
 from ...common import CompilerError
+from ..common import SourceLocation, Token
 
 
 class HandLexerBase:

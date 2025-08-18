@@ -7,18 +7,25 @@ debugger interface.
 """
 
 import logging
-import struct
 import operator
+import struct
+
 from ...api import get_arch, get_object
 from ...common import CompilerError
-from ..disasm import Disassembler
-from ..debuginfo import DebugBaseType, DebugArrayType, DebugStructType
-from ..debuginfo import DebugInfo
-from ..debuginfo import DebugPointerType, DebugAddress, FpOffsetAddress
-from ..outstream import FunctionOutputStream
-from ...lang.c3.builder import C3ExprParser
-from ...lang.c3 import astnodes as c3nodes
 from ...lang.c3 import Context as C3Context
+from ...lang.c3 import astnodes as c3nodes
+from ...lang.c3.builder import C3ExprParser
+from ..debuginfo import (
+    DebugAddress,
+    DebugArrayType,
+    DebugBaseType,
+    DebugInfo,
+    DebugPointerType,
+    DebugStructType,
+    FpOffsetAddress,
+)
+from ..disasm import Disassembler
+from ..outstream import FunctionOutputStream
 from .debug_driver import DebugState
 
 

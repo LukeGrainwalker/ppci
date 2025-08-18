@@ -1,6 +1,7 @@
 import logging
-from . import nodes
+
 from ... import ir, irutils
+from . import nodes
 
 
 class CodeGenerator:

@@ -1,6 +1,7 @@
 """Lexer for pascal."""
 
 import re
+
 from ..common import SourceLocation, Token
 from ..tools.baselex import SimpleLexer, on
 

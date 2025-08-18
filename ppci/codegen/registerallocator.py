@@ -115,13 +115,14 @@ The following class can be used to perform register allocation.
 
 import logging
 from functools import lru_cache
-from .flowgraph import FlowGraph
-from .interferencegraph import InterferenceGraph
+
 from ..arch.arch import Architecture, Frame
 from ..arch.registers import Register
-from ..utils.tree import Tree
 from ..utils.collections import OrderedSet
+from ..utils.tree import Tree
+from .flowgraph import FlowGraph
 from .instructionselector import ContextInterface
+from .interferencegraph import InterferenceGraph
 
 
 class MiniCtx(ContextInterface):

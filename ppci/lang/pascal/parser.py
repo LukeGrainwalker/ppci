@@ -1,6 +1,7 @@
 """A recursive descent pascal parser."""
 
 import logging
+
 from ...common import CompilerError
 from ..tools.recursivedescent import RecursiveDescentParser
 from .nodes import expressions, statements, symbols, types

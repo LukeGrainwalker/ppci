@@ -4,24 +4,33 @@ The architecture is provided when the generator is created.
 """
 
 import logging
+
 from .. import ir
-from ..irutils import Verifier, split_block
-from ..arch.arch import Architecture
-from ..arch.generic_instructions import Label, Comment, Global, DebugData
-from ..arch.generic_instructions import RegisterUseDef, VirtualInstruction
-from ..arch.generic_instructions import InlineAssembly, SetSymbolType
-from ..arch.generic_instructions import ArtificialInstruction, Alignment
-from ..arch.encoding import Instruction
-from ..arch.data_instructions import DZero, DByte
 from ..arch import data_instructions
+from ..arch.arch import Architecture
 from ..arch.arch_info import Endianness
-from ..binutils.debuginfo import DebugType, DebugLocation, DebugDb
-from ..binutils.outstream import MasterOutputStream, FunctionOutputStream
-from .irdag import SelectionGraphBuilder
-from .instructionselector import InstructionSelector1
+from ..arch.data_instructions import DByte, DZero
+from ..arch.encoding import Instruction
+from ..arch.generic_instructions import (
+    Alignment,
+    ArtificialInstruction,
+    Comment,
+    DebugData,
+    Global,
+    InlineAssembly,
+    Label,
+    RegisterUseDef,
+    SetSymbolType,
+    VirtualInstruction,
+)
+from ..binutils.debuginfo import DebugDb, DebugLocation, DebugType
+from ..binutils.outstream import FunctionOutputStream, MasterOutputStream
+from ..irutils import Verifier, split_block
 from .instructionscheduler import InstructionScheduler
-from .registerallocator import GraphColoringRegisterAllocator
+from .instructionselector import InstructionSelector1
+from .irdag import SelectionGraphBuilder
 from .peephole import PeepHoleStream
+from .registerallocator import GraphColoringRegisterAllocator
 
 
 class CodeGenerator:

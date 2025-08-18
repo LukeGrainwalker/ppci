@@ -5,15 +5,20 @@ These can then be assembled.
 """
 
 import re
-from ..lang.tools.grammar import Grammar
+
+from ..arch.encoding import Operand, Register, Syntax
+from ..arch.generic_instructions import (
+    Alignment,
+    DebugData,
+    Global,
+    Label,
+    SectionInstruction,
+)
+from ..common import CompilerError, SourceLocation, make_num
+from ..lang.tools.baselex import EOF, EPS, BaseLexer
 from ..lang.tools.earley import EarleyParser
-from ..lang.tools.baselex import BaseLexer, EPS, EOF
-from ..common import make_num
-from ..arch.generic_instructions import Label, Alignment, SectionInstruction
-from ..arch.generic_instructions import DebugData, Global
-from ..arch.encoding import Operand, Syntax, Register
-from ..common import CompilerError, SourceLocation
-from .debuginfo import DebugLocation, DebugDb
+from ..lang.tools.grammar import Grammar
+from .debuginfo import DebugDb, DebugLocation
 
 id_regex = r"[A-Za-z_][A-Za-z\d_]*"
 id_matcher = re.compile(id_regex)

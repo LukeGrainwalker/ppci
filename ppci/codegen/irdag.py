@@ -13,11 +13,12 @@ series of tree patterns. This is often referred to as a forest of trees.
 
 import itertools
 import logging
+
 from .. import ir
 from ..arch.generic_instructions import Label
 from ..arch.stack import StackLocation
 from ..binutils.debuginfo import FpOffsetAddress
-from .selectiongraph import SGNode, SGValue, SelectionGraph
+from .selectiongraph import SelectionGraph, SGNode, SGValue
 
 
 def prepare_function_info(arch, function_info, ir_function):

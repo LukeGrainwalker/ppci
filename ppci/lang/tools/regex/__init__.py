@@ -12,12 +12,11 @@ https://swtch.com/~rsc/regexp/
 
 """
 
-from .regex import Symbol, SymbolSet, Kleene, EPSILON, NULL
-from .parser import parse
-from .compiler import compile
-from .scanner import make_scanner, scan
 from .codegen import generate_code
-
+from .compiler import compile
+from .parser import parse
+from .regex import EPSILON, NULL, Kleene, Symbol, SymbolSet
+from .scanner import make_scanner, scan
 
 __all__ = (
     "parse",

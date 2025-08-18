@@ -1,8 +1,9 @@
 """Regular expression descriptions"""
 
 import abc
-import itertools
 import functools
+import itertools
+
 from ....utils.integer_set import IntegerSet
 
 

@@ -7,7 +7,6 @@ Finally code is generated from it.
 
 from ..generic.nodes import Node
 
-
 # pylint: disable=R0903
 
 

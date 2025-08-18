@@ -1,7 +1,7 @@
 import argparse
 import logging
-from .cmo import read_file
 
+from .cmo import read_file
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

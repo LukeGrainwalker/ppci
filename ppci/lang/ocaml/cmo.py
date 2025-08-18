@@ -1,11 +1,11 @@
 """Read / write cmo files."""
 
 import logging
-from .io import FileReader
-from .marshall import parse_header, read_value
+
 from .bytefile import ByteCodeReader
 from .code import load_code
-
+from .io import FileReader
+from .marshall import parse_header, read_value
 
 logger = logging.getLogger("ocaml")
 

@@ -4,8 +4,13 @@ Functions related to inspecting Program objects/classes in a graph.
 
 import json
 
-from .base import Program, SourceCodeProgram, IntermediateProgram
-from .base import MachineProgram, get_program_classes
+from .base import (
+    IntermediateProgram,
+    MachineProgram,
+    Program,
+    SourceCodeProgram,
+    get_program_classes,
+)
 
 
 def get_targets(program):

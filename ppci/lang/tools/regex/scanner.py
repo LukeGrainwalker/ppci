@@ -1,7 +1,8 @@
 import bisect
-from .regex import ExpressionVector
+
 from .compiler import compile
 from .parser import parse
+from .regex import ExpressionVector
 
 
 def scan(prog, chars):

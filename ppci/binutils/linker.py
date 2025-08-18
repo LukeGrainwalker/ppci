@@ -2,12 +2,19 @@
 
 import logging
 from collections import defaultdict
-from .objectfile import ObjectFile, Image, get_object, RelocationEntry
+
 from ..common import CompilerError
-from .layout import Layout, Section, SectionData, SymbolDefinition, Align
-from .layout import get_layout
-from .debuginfo import SymbolIdAdjustingReplicator, DebugInfo
 from .archive import get_archive
+from .debuginfo import DebugInfo, SymbolIdAdjustingReplicator
+from .layout import (
+    Align,
+    Layout,
+    Section,
+    SectionData,
+    SymbolDefinition,
+    get_layout,
+)
+from .objectfile import Image, ObjectFile, RelocationEntry, get_object
 
 
 def link(

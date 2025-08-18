@@ -1,5 +1,5 @@
-from .transform import BlockPass
 from .. import ir
+from .transform import BlockPass
 
 
 class CommonSubexpressionEliminationPass(BlockPass):

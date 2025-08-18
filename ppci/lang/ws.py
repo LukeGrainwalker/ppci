@@ -9,6 +9,7 @@ http://compsoc.dur.ac.uk/whitespace/tutorial.html
 """
 
 import operator
+
 from ..common import CompilerError
 
 

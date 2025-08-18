@@ -17,8 +17,9 @@ The hierarchy is as follows:
 """
 
 import json
-from ..common import CompilerError, make_num, get_file
-from ..utils.binary_txt import bin2asc, asc2bin
+
+from ..common import CompilerError, get_file, make_num
+from ..utils.binary_txt import asc2bin, bin2asc
 from . import debuginfo
 
 

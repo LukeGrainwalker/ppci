@@ -7,7 +7,7 @@ import ast
 import inspect
 import types
 
-from ...common import SourceLocation, CompilerError
+from ...common import CompilerError, SourceLocation
 from ...wasm import Module
 
 

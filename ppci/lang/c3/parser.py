@@ -1,6 +1,7 @@
 """This module contains the parsing parts for the c3 language."""
 
 import logging
+
 from ...common import CompilerError
 from ..tools.recursivedescent import RecursiveDescentParser
 from . import astnodes as ast

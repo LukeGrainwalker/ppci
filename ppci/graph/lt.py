@@ -8,8 +8,8 @@ Algorithm 19.9 and 19.10 as can be found on page 448 of Appel.
 """
 
 import logging
-from .digraph import dfs
 
+from .digraph import dfs
 
 logger = logging.getLogger("lt")
 

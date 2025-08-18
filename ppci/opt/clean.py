@@ -1,5 +1,5 @@
-from .transform import FunctionPass
 from .. import ir
+from .transform import FunctionPass
 
 
 class CleanPass(FunctionPass):

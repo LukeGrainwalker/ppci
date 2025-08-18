@@ -56,15 +56,15 @@ Memory move operations:
 
 import abc
 import logging
-from ..utils.tree import Tree
-from .treematcher import State
+
 from .. import ir
 from ..arch.encoding import Instruction
+from ..arch.generic_instructions import InlineAssembly, RegisterUseDef
+from ..utils.tree import Tree
 from .burg import BurgSystem
-from .irdag import FunctionInfo, prepare_function_info
 from .dagsplit import DagSplitter
-from ..arch.generic_instructions import RegisterUseDef, InlineAssembly
-
+from .irdag import FunctionInfo, prepare_function_info
+from .treematcher import State
 
 data_types = [str(t).upper() for t in ir.all_types]
 

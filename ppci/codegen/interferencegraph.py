@@ -7,9 +7,10 @@
 
 import logging
 from collections import defaultdict
+
+from ..arch.registers import Register
 from ..graph.graph import Node
 from ..graph.maskable_graph import MaskableGraph
-from ..arch.registers import Register
 
 
 class InterferenceGraphNode(Node):

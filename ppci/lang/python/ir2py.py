@@ -1,11 +1,12 @@
 """Python back-end. Generates python code from ir-code."""
 
-import math
 import contextlib
 import io
-import struct
 import logging
+import math
+import struct
 import time
+
 from ... import ir
 from ...graph import relooper
 

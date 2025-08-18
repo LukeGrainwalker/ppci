@@ -1,10 +1,10 @@
 """Functionality to tokenize and parse S-expressions."""
 
-import io
 import enum
+import io
+
 from .tools.handlexer import HandLexerBase
 from .tools.recursivedescent import RecursiveDescentParser
-
 
 __all__ = ("parse_sexpr",)
 

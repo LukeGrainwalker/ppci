@@ -5,7 +5,7 @@ Currently this front-end is a work in progress.
 """
 
 from .parser import FortranParser
-from .utils import Visitor, Printer
+from .utils import Printer, Visitor
 
 
 class FortranBuilder:

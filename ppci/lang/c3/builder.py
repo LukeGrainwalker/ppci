@@ -1,20 +1,21 @@
 """Entry point when building c3 sources."""
 
-import logging
-import itertools
 import io
-from ...arch.arch_info import ArchInfo
+import itertools
+import logging
+
 from ...arch import get_arch
-from ...common import DiagnosticsManager, get_file, CompilerError
+from ...arch.arch_info import ArchInfo
 from ...build.tasks import TaskError
-from ...utils.reporting import DummyReportGenerator
+from ...common import CompilerError, DiagnosticsManager, get_file
 from ...irutils import Verifier, verify_module
+from ...utils.reporting import DummyReportGenerator
+from .codegenerator import CodeGenerator
+from .context import Context
 from .lexer import Lexer
 from .parser import Parser
-from .typechecker import TypeChecker
-from .codegenerator import CodeGenerator
 from .scope import SemanticError
-from .context import Context
+from .typechecker import TypeChecker
 
 
 def c3_to_ir(sources, includes, march, reporter=None):

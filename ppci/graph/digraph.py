@@ -4,6 +4,7 @@ In a directed graph, the edges have a direction.
 """
 
 from collections import defaultdict
+
 from .graph import BaseGraph, Node
 
 

@@ -3,18 +3,24 @@ The output stream is a stream of instructions that can be output
 to a file or binary or hexfile.
 """
 
-import logging
 import abc
 import binascii
-from ..arch.encoding import Instruction
+import logging
+
 from ..arch.asm_printer import AsmPrinter
-from ..arch.generic_instructions import Alignment, DebugData, Label
-from ..arch.generic_instructions import SectionInstruction
-from ..arch.generic_instructions import Global, SetSymbolType
-from ..arch.generic_instructions import ArtificialInstruction
-from ..arch.generic_instructions import RelocationHolder
-from .objectfile import RelocationEntry
+from ..arch.encoding import Instruction
+from ..arch.generic_instructions import (
+    Alignment,
+    ArtificialInstruction,
+    DebugData,
+    Global,
+    Label,
+    RelocationHolder,
+    SectionInstruction,
+    SetSymbolType,
+)
 from . import debuginfo
+from .objectfile import RelocationEntry
 
 
 class OutputStream(abc.ABC):

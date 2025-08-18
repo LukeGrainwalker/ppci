@@ -19,13 +19,12 @@ For the front-end a recursive descent parser is created.
 
 """
 
-from .parser import Parser
-from .lexer import Lexer
-from .codegenerator import CodeGenerator
-from .visitor import Visitor
-from .visitor import AstPrinter
 from .builder import C3Builder, c3_to_ir
+from .codegenerator import CodeGenerator
 from .context import Context
+from .lexer import Lexer
+from .parser import Parser
+from .visitor import AstPrinter, Visitor
 
 __all__ = [
     "AstPrinter",

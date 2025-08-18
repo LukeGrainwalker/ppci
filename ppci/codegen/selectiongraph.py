@@ -4,8 +4,8 @@ of a function or a basic block.
 """
 
 from collections import namedtuple
-from ..utils.collections import OrderedSet, OrderedDict
 
+from ..utils.collections import OrderedDict, OrderedSet
 
 SGEdge = namedtuple("SGEdge", ["src", "dst", "name", "kind"])
 SGGroup = namedtuple("SGGroup", ["name"])

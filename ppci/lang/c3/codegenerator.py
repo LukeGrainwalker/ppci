@@ -1,8 +1,8 @@
 """This module contains the code generation class."""
 
 import logging
-from ... import ir
-from ... import irutils
+
+from ... import ir, irutils
 from ...binutils import debuginfo
 from . import astnodes as ast
 from .scope import SemanticError

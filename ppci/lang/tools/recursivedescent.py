@@ -1,6 +1,7 @@
 from collections.abc import Iterable
-from ..common import Token
+
 from ...common import CompilerError
+from ..common import Token
 
 
 def make_comma_or(parts):

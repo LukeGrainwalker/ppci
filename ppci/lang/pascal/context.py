@@ -1,7 +1,8 @@
 import logging
 import struct
+
+from .nodes import expressions, symbols, types
 from .symbol_table import Scope
-from .nodes import symbols, types, expressions
 
 
 class Context:

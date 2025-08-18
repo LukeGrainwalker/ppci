@@ -11,10 +11,11 @@ http://python-ptrace.readthedocs.org/en/latest/
 
 """
 
-import os
 import ctypes
-from ppci.binutils.dbg.debug_driver import DebugDriver, DebugState
+import os
+
 from ppci.arch.x86_64 import registers as x86_registers
+from ppci.binutils.dbg.debug_driver import DebugDriver, DebugState
 
 libc = ctypes.CDLL("libc.so.6")
 PTRACE_TRACEME = 0

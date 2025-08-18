@@ -1,7 +1,6 @@
-from .base import IntermediateProgram
-
 from ..arch.arch_info import TypeInfo
 from ..wasm import wasm_to_ir
+from .base import IntermediateProgram
 
 
 class WasmProgram(IntermediateProgram):

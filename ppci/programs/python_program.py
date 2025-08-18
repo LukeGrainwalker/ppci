@@ -1,8 +1,7 @@
 import io
 
+from ..lang.python import python_to_ir, python_to_wasm
 from .base import SourceCodeProgram
-
-from ..lang.python import python_to_wasm, python_to_ir
 
 
 class PythonProgram(SourceCodeProgram):

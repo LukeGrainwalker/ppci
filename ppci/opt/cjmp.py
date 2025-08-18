@@ -1,6 +1,7 @@
 import operator
-from .transform import InstructionPass
+
 from .. import ir
+from .transform import InstructionPass
 
 
 class CJumpPass(InstructionPass):

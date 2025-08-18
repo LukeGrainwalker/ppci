@@ -1,13 +1,12 @@
-import logging
 import io
+import logging
 
-from .base import SourceCodeProgram
-from ..utils.reporting import DummyReportGenerator
-from ..irutils import Verifier
-from ..common import CompilerError, DiagnosticsManager, get_file
 from ..build.tasks import TaskError
-
+from ..common import CompilerError, DiagnosticsManager, get_file
+from ..irutils import Verifier
 from ..lang.c3 import C3Builder
+from ..utils.reporting import DummyReportGenerator
+from .base import SourceCodeProgram
 
 
 class C3Program(SourceCodeProgram):
@@ -32,8 +31,7 @@ class C3Program(SourceCodeProgram):
         """Compile C3 to PPCI IR for the given architecture."""
         # todo: why would we have to specify an arch here?
         # circular ref, maybe move get_arch to utils?
-        from ppci.api import get_arch
-        from ppci.api import get_current_arch
+        from ppci.api import get_arch, get_current_arch
 
         includes = [] if includes is None else includes
         march = get_current_arch() if march is None else get_arch(march)

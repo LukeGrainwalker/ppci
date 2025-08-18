@@ -1,4 +1,5 @@
 import logging
+
 from . import astnodes as ast
 from .scope import SemanticError
 

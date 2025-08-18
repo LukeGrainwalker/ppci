@@ -9,6 +9,7 @@ http://cadmium.x9c.fr/distrib/caml-formats.pdf
 import enum
 import io
 import logging
+
 from .io import FileReader
 
 logger = logging.getLogger("ocaml")

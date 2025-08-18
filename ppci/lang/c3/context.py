@@ -1,9 +1,10 @@
 import logging
 import operator
 import struct
-from .scope import create_top_scope, Scope, SemanticError
+
 from ...arch.arch_info import Endianness
 from . import astnodes as ast
+from .scope import Scope, SemanticError, create_top_scope
 
 
 class Context:

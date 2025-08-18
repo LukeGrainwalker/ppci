@@ -8,8 +8,9 @@ instructions and checking for possible optimizations.
 """
 
 import logging
-from ..binutils.outstream import OutputStream
+
 from ..arch.generic_instructions import Label
+from ..binutils.outstream import OutputStream
 
 logger = logging.getLogger("peephole")
 

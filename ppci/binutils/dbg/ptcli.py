@@ -2,6 +2,7 @@
 
 import logging
 from asyncio import get_event_loop
+
 from prompt_toolkit import __version__ as ptk_version
 
 # Check version of prompt toolkit:
@@ -10,19 +11,20 @@ if not ptk_version.startswith("3."):
 
 from prompt_toolkit import Application
 from prompt_toolkit.buffer import Buffer
-from prompt_toolkit.styles.pygments import style_from_pygments_cls
-from prompt_toolkit.lexers import PygmentsLexer
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.layout import Layout
-from prompt_toolkit.layout.containers import HSplit, Window, VSplit
-from prompt_toolkit.layout.controls import BufferControl
-from prompt_toolkit.layout.controls import FormattedTextControl
-from prompt_toolkit.layout.margins import NumberedMargin, ScrollbarMargin
-from prompt_toolkit.layout.margins import Margin
+from prompt_toolkit.layout.containers import HSplit, VSplit, Window
+from prompt_toolkit.layout.controls import BufferControl, FormattedTextControl
+from prompt_toolkit.layout.margins import (
+    Margin,
+    NumberedMargin,
+    ScrollbarMargin,
+)
 from prompt_toolkit.layout.processors import Processor, Transformation
+from prompt_toolkit.lexers import PygmentsLexer
+from prompt_toolkit.styles.pygments import style_from_pygments_cls
 from prompt_toolkit.widgets import Frame
-
 from pygments.lexers import CLexer
 from pygments.styles import get_style_by_name
 
