@@ -6,64 +6,60 @@ https://www.musl-libc.org/
 
 import os
 import logging
-import glob
 import time
-import traceback
+from pathlib import Path
 from ppci.api import cc
 from ppci.lang.c import COptions
 from ppci.common import CompilerError, logformat
 
-home = os.environ["HOME"]
-musl_folder = os.path.join(home, "GIT", "musl")
-cache_filename = os.path.join(musl_folder, "ppci_build.cache")
+logger = logging.getLogger("compile_musl")
+home = Path(os.environ["HOME"]).resolve()
+musl_folder = home / "GIT" / "musl"
+cache_filename = musl_folder / "ppci_build.cache"
 
 
-def do_compile(filename):
+def do_compile(filename: Path):
     include_paths = [
-        os.path.join(musl_folder, "include"),
-        os.path.join(musl_folder, "src", "internal"),
-        os.path.join(musl_folder, "obj", "include"),
-        os.path.join(musl_folder, "arch", "x86_64"),
-        os.path.join(musl_folder, "arch", "generic"),
+        musl_folder / "include",
+        musl_folder / "src" / "internal",
+        musl_folder / "obj" / "include",
+        musl_folder / "arch" / "x86_64",
+        musl_folder / "arch" / "generic",
     ]
     coptions = COptions()
     coptions.add_include_paths(include_paths)
-    with open(filename, "r") as f:
+    with filename.open() as f:
         obj = cc(f, "x86_64", coptions=coptions)
     return obj
 
 
 def main():
-    t1 = time.time()
-    print("Using musl folder:", musl_folder)
-    crypt_md5_c = os.path.join(musl_folder, "src", "crypt", "crypt_md5.c")
+    t1 = time.monotonic()
+    logger.info(f"Using musl folder: {musl_folder}")
+    # crypt_md5_c = os.path.join(musl_folder, "src", "crypt", "crypt_md5.c")
     failed = 0
     passed = 0
     # file_pattern = os.path.join(musl_folder, 'src', 'crypt', '*.c')
     # file_pattern = os.path.join(musl_folder, 'src', 'string', '*.c')
-    file_pattern = os.path.join(musl_folder, "src", "regex", "*.c")
-    for filename in glob.iglob(file_pattern):
-        print("==> Compiling", filename)
+    src_folder = musl_folder / "src" / "regex"
+    for filename in src_folder.glob("*.c"):
+        logger.info(f"==> Compiling {filename}")
         try:
             do_compile(filename)
         except CompilerError as ex:
-            print("Error:", ex.msg, ex.loc)
+            logger.exception(f"Error: {ex.msg}, {ex.loc}")
             ex.print()
-            traceback.print_exc()
             failed += 1
-            # break
         except Exception as ex:
-            print("General exception:", ex)
-            traceback.print_exc()
+            logger.exception(f"General exception: {ex}")
             failed += 1
-            # break
         else:
-            print("Great success!")
+            logger.info("Great success!")
             passed += 1
 
-    t2 = time.time()
+    t2 = time.monotonic()
     elapsed = t2 - t1
-    print("Passed:", passed, "failed:", failed, "in", elapsed, "seconds")
+    logger.info(f"Passed: {passed} failed: {failed} in {elapsed} seconds")
 
 
 if __name__ == "__main__":

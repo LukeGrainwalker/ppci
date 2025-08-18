@@ -77,7 +77,7 @@ class DebuggerTestCase(unittest.TestCase):
     def test_source_mappings(self):
         self.debugger.load_symbols(self.obj)
         self.debugger.find_pc()
-        addr = self.debugger.find_address("", 7)
+        addr = self.debugger.find_address(None, 7)
         self.assertTrue(addr is not None)
 
     def test_expressions_with_globals(self):

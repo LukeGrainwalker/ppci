@@ -15,7 +15,7 @@ class PartialVariable:
         self._children = None
 
     def __repr__(self):
-        return "{} @ 0x{:016X}".format(self.name, self.address)
+        return f"{self.name} @ 0x{self.address:016X}"
 
     @property
     def children(self):
@@ -25,7 +25,7 @@ class PartialVariable:
                 pass
             elif isinstance(self.typ, DebugArrayType):
                 for row in range(self.typ.size):
-                    name = "[{}]".format(row)
+                    name = f"[{row}]"
                     offset = row * self.typ.element_type.sizeof()
                     addr = self.address + offset
                     pv = PartialVariable(
@@ -34,12 +34,12 @@ class PartialVariable:
                     self._children.append(pv)
             elif isinstance(self.typ, DebugStructType):
                 for row, field in enumerate(self.typ.fields):
-                    name = "{}".format(field.name)
+                    name = f"{field.name}"
                     addr = self.address + field.offset
                     pv = PartialVariable(name, field.typ, addr, row, self)
                     self._children.append(pv)
             elif isinstance(self.typ, DebugPointerType):
-                name = "*{}".format(self.name)
+                name = f"*{self.name}"
                 typ = self.typ.pointed_type
                 addr = 0  # TODO load self.address
                 pv = PartialVariable(name, typ, addr, 0, self)
@@ -97,7 +97,9 @@ class VariableModel(QtCore.QAbstractItemModel):
     def columnCount(self, parent):
         return len(self.headers)
 
-    def index(self, row, column, parent=QtCore.QModelIndex()):
+    def index(self, row, column, parent=None):
+        if parent is None:
+            parent = QtCore.QModelIndex()
         if parent.isValid():
             ppv = parent.internalPointer()
             pv = ppv.children[row]
@@ -136,7 +138,7 @@ class VariableModel(QtCore.QAbstractItemModel):
             elif col == 2:
                 return str(var.typ)
             elif col == 3:
-                return "0x{:X}".format(var.address)
+                return f"0x{var.address:X}"
             else:
                 raise NotImplementedError()
 

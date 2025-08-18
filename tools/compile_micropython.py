@@ -4,38 +4,35 @@ Links to micropython: https://micropython.org/
 
 """
 
-import os
 import logging
-import glob
+import os
 import time
+from pathlib import Path
 
 from ppci.api import cc
-from ppci.lang.c import COptions
 from ppci.common import CompilerError, logformat
+from ppci.lang.c import COptions
 
-try:
-    from powertb import print_exc
-except ImportError:
-    from traceback import print_exc
-
-home = os.environ["HOME"]
-micropython_folder = os.path.join(home, "GIT", "micropython")
-this_dir = os.path.abspath(os.path.dirname(__file__))
-libc_path = os.path.join(this_dir, "..", "librt", "libc")
-libc_includes = os.path.join(libc_path, "include")
-port_folder = os.path.join(micropython_folder, "ports", "unix")
+logger = logging.getLogger("compile_micropython")
+home = Path(os.environ["HOME"])
+micropython_path = home / "GIT" / "micropython"
+this_dir = Path(__file__).resolve().parent
+root_path = this_dir.parent
+libc_path = root_path / "librt" / "libc"
+libc_includes = libc_path / "include"
+port_folder = micropython_path / "ports" / "unix"
 arch = "arm"
 
 
-def do_compile(filename, coptions):
+def do_compile(filename: Path, coptions):
     # coptions.add_define('NORETURN')
-    with open(filename, "r") as f:
+    with filename.open() as f:
         obj = cc(f, arch, coptions=coptions)
     return obj
 
 
 def main():
-    t1 = time.time()
+    t1 = time.monotonic()
     failed = 0
     passed = 0
     include_paths = [
@@ -43,45 +40,38 @@ def main():
         # TODO: not sure about the include path below for stddef.h:
         # '/usr/lib/gcc/x86_64-pc-linux-gnu/7.1.1/include'
         libc_includes,
-        micropython_folder,
+        micropython_path,
         port_folder,
     ]
     coptions = COptions()
     coptions.add_include_paths(include_paths)
     coptions.enable("freestanding")
     coptions.add_define("NO_QSTR", "1")
-    file_pattern = os.path.join(micropython_folder, "py", "*.c")
+    micropython_src_folder = micropython_path / "py"
     objs = []
-    for filename in glob.iglob(file_pattern):
-        print("==> Compiling", filename)
+    for filename in sorted(micropython_src_folder.glob("*.c")):
+        logger.info(f"==> Compiling {filename}")
         try:
             obj = do_compile(filename, coptions)
         except CompilerError as ex:
-            print("Error:", ex.msg, ex.loc)
+            logger.exception(f"Error: {ex.msg} {ex.loc}")
             ex.print()
-            print_exc()
             failed += 1
-            # break
         except Exception as ex:
-            print("General exception:", ex)
-            print_exc()
+            logger.exception(f"General exception: {ex}")
             failed += 1
-            # break
         else:
-            print("Great success!", obj)
+            logger.info(f"Great success! {obj}")
             passed += 1
             objs.append(obj)
 
-    t2 = time.time()
+    t2 = time.monotonic()
     elapsed = t2 - t1
-    print("Passed:", passed, "failed:", failed, "in", elapsed, "seconds")
+    logger.info(f"Passed: {passed} failed: {failed} in {elapsed} seconds")
 
 
 if __name__ == "__main__":
     verbose = False
-    if verbose:
-        loglevel = logging.DEBUG
-    else:
-        loglevel = logging.INFO
+    loglevel = logging.DEBUG if verbose else logging.INFO
     logging.basicConfig(level=loglevel, format=logformat)
     main()

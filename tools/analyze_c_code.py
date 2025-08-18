@@ -5,22 +5,23 @@ This tool should help in understanding existing legacy C code better.
 
 """
 
-import logging
 import argparse
-from ppci.lang.c import COptions, create_ast
-from ppci.lang.c.nodes import declarations
+import io
+import logging
+from pathlib import Path
+
+from pygments import highlight
+from pygments.formatters import HtmlFormatter
+from pygments.lexers import CLexer
+
 from ppci.api import get_arch
 from ppci.common import CompilerError
-import glob
-import os
-import io
-from pygments import highlight
-from pygments.lexers import CLexer
-from pygments.formatters import HtmlFormatter
+from ppci.lang.c import COptions, create_ast
+from ppci.lang.c.nodes import declarations
 
-
-THIS_DIR = os.path.abspath(os.path.dirname(__file__))
-LIBC_INCLUDES = os.path.join(THIS_DIR, "..", "librt", "libc", "include")
+THIS_DIR = Path(__file__).resolve().parent
+root_path = THIS_DIR.parent
+LIBC_INCLUDES = root_path / "librt" / "libc" / "include"
 logger = logging.getLogger("c-analyzer")
 
 
@@ -33,11 +34,11 @@ def main():
     analyze_sources(args.source_dir, defines)
 
 
-def get_tag(filename):
-    return os.path.splitext(os.path.split(filename)[1])[0]
+def get_tag(filename: Path) -> str:
+    return filename.stem
 
 
-def analyze_sources(source_dir, defines):
+def analyze_sources(source_dir: Path, defines):
     """Analyze a directory with sourcecode"""
 
     # Phase 1: acquire ast's:
@@ -49,26 +50,25 @@ def analyze_sources(source_dir, defines):
     coptions.add_include_path(LIBC_INCLUDES)
     coptions.add_include_path("/usr/include")
     asts = []
-    for source_filename in glob.iglob(os.path.join(source_dir, "*.c")):
+    for source_filename in sorted(source_dir.glob("*.c")):
         logger.info("Processing %s", source_filename)
-        with open(source_filename, "r") as f:
-            source_code = f.read()
+        source_code = source_filename.read_text()
         f = io.StringIO(source_code)
         # ast = parse_text(source_code)
         try:
             ast = create_ast(
                 f, arch_info, filename=source_filename, coptions=coptions
             )
-            asts.append((source_filename, source_code, ast))
-            # break
         except CompilerError as ex:
-            print("Compiler error:", ex)
+            logger.exception(f"Compiler error: {ex}")
+        else:
+            asts.append((source_filename, source_code, ast))
     logger.info("Got %s ast's", len(asts))
 
     # Phase 2: do some bad-ass analysis:
     global_variables = []
     functions = []
-    for source_filename, source_code, ast in asts:
+    for _source_filename, _source_code, ast in asts:
         for decl in ast.declarations:
             if isinstance(decl, declarations.VariableDeclaration):
                 global_variables.append(decl)
@@ -79,7 +79,8 @@ def analyze_sources(source_dir, defines):
     functions.sort(key=lambda d: d.name)
 
     # Phase 3: generate html report?
-    with open("analyze_report.html", "w") as f:
+    html_filename = "analyze_report.html"
+    with open(html_filename, "w") as f:
         c_lexer = CLexer()
         formatter = HtmlFormatter(lineanchors="fubar", linenos="inline")
         print(
@@ -99,11 +100,9 @@ def analyze_sources(source_dir, defines):
         print("<tr><th>Name</th><th>Location</th><th>typ</th></tr>", file=f)
         for func in functions:
             tagname = get_tag(func.location.filename)
-            name = '<a href="#{2}-{1}">{0}</a>'.format(
-                func.name, func.location.row, tagname
-            )
+            name = f'<a href="#{tagname}-{func.location.row}">{func.name}</a>'
             print(
-                "<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>".format(
+                "<tr><td>{}</td><td>{}</td><td>{}</td></tr>".format(
                     name, "", ""
                 ),
                 file=f,
@@ -115,7 +114,7 @@ def analyze_sources(source_dir, defines):
         for source_filename, source_code, ast in asts:
             tagname = get_tag(source_filename)
             formatter = HtmlFormatter(lineanchors=tagname, linenos="inline")
-            print("<h2>{}</h2>".format(source_filename), file=f)
+            print(f"<h2>{source_filename}</h2>", file=f)
             print("<table>", file=f)
             print(
                 "<tr><th>Name</th><th>Location</th><th>typ</th></tr>", file=f
@@ -131,16 +130,15 @@ def analyze_sources(source_dir, defines):
                 tp += str(decl.storage_class)
 
                 if source_filename == decl.location.filename:
-                    name = '<a href="#{2}-{1}">{0}</a>'.format(
-                        decl.name, decl.location.row, tagname
-                    )
+                    anchor = f"{tagname}-{decl.location.row}"
+                    name = f'<a href="#{anchor}">{decl.name}</a>'
                 else:
                     name = decl.name
 
                 print(
-                    "<tr><td>{}</td><td>{}</td><td>{}</td></tr>".format(
-                        name, decl.location, tp
-                    ),
+                    f"<tr><td>{name}</td>"
+                    f"<td>{decl.location}</td>"
+                    f"<td>{tp}</td></tr>",
                     file=f,
                 )
             print("</table>", file=f)

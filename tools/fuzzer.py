@@ -22,7 +22,7 @@ class Generator:
 
         # Generate some functions
         for i in range(random.randrange(6, 20)):
-            self.gen_function("fzfnc{}".format(i))
+            self.gen_function(f"fzfnc{i}")
 
         f = io.StringIO()
         self.verifier.verify(module)
@@ -44,9 +44,9 @@ class Generator:
         self.builder.emit(ir.Exit())
 
     def gen_ins(self, i):
-        c1 = self.builder.emit(ir.Const(i, "cnsta{}".format(i), ir.i32))
-        c2 = self.builder.emit(ir.Const(i + 2, "cnstb{}".format(i), ir.i32))
-        self.builder.emit(ir.Binop(c1, "+", c2, "op{}".format(i), ir.i32))
+        c1 = self.builder.emit(ir.Const(i, f"cnsta{i}", ir.i32))
+        c2 = self.builder.emit(ir.Const(i + 2, f"cnstb{i}", ir.i32))
+        self.builder.emit(ir.Binop(c1, "+", c2, f"op{i}", ir.i32))
 
 
 def go():

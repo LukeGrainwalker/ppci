@@ -2,11 +2,10 @@ import io
 import unittest
 from unittest import mock
 
-
-from ppci.lang.common import SourceLocation
-from ppci.lang.c import CLexer, lexer, CParser, CSemantics
-from ppci.lang.c.preprocessor import prepare_for_parsing, SourceFile
+from ppci.lang.c import CLexer, CParser, CSemantics, lexer
 from ppci.lang.c.options import COptions
+from ppci.lang.c.preprocessor import SourceFile, prepare_for_parsing
+from ppci.lang.common import SourceLocation
 
 
 def gen_tokens(tokens):

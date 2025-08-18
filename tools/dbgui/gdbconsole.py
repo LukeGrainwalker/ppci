@@ -16,12 +16,12 @@ class GdbConsole(QtWidgets.QWidget):
         self.qdebugger = qdebugger
 
         # Layout widgets:
-        l = QtWidgets.QVBoxLayout(self)
+        layout = QtWidgets.QVBoxLayout(self)
         l2 = QtWidgets.QHBoxLayout()
         l2.addWidget(QtWidgets.QLabel("Raw GDB RSP command:"))
         self.gdb_command = QtWidgets.QLineEdit()
         l2.addWidget(self.gdb_command)
-        l.addLayout(l2)
+        layout.addLayout(l2)
 
         # Hook up signals:
         self.gdb_command.returnPressed.connect(self.send_command)

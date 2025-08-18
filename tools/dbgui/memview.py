@@ -10,7 +10,7 @@ class MemoryView(QtWidgets.QWidget):
         self.debugger = debugger
 
         # Layout widgets:
-        l = QtWidgets.QVBoxLayout(self)
+        layout = QtWidgets.QVBoxLayout(self)
         l2 = QtWidgets.QHBoxLayout()
         l2.addWidget(QtWidgets.QLabel("Address"))
         self.addressLine = QtWidgets.QLineEdit()
@@ -22,11 +22,11 @@ class MemoryView(QtWidgets.QWidget):
         downButton = QtWidgets.QPushButton("down")
         downButton.clicked.connect(self.do_down)
         l2.addWidget(downButton)
-        l.addLayout(l2)
+        layout.addLayout(l2)
 
         self.hexEdit = HexEdit()
         self.address = 0  # x40200
-        l.addWidget(self.hexEdit)
+        layout.addWidget(self.hexEdit)
         self.addressLine.returnPressed.connect(self.refresh)
 
     def refresh(self):
@@ -47,7 +47,7 @@ class MemoryView(QtWidgets.QWidget):
         return int(txt, 16)
 
     def set_address(self, address):
-        self.addressLine.setText("{:016X}".format(address))
+        self.addressLine.setText(f"{address:016X}")
         self.refresh()
 
     address = property(get_address, set_address)

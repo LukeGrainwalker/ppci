@@ -181,7 +181,7 @@ class CSemantics:
         variable.initial_value = expression
 
     def on_variable_finished(self, variable, location):
-        if variable.typ.is_incomplete:
+        if variable.typ.is_incomplete and variable.storage_class != "extern":
             self.error(
                 f"Type of variable '{variable.name}' is incomplete",
                 location,

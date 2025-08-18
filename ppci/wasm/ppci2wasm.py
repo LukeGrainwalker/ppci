@@ -102,7 +102,7 @@ class IrToWasmCompiler:
 
         # Check external thingies:
         for ir_external in ir_module.externals:
-            print(ir_external.name, self.function_refs)
+            # print(ir_external.name, self.function_refs)
             if isinstance(ir_external, ir.ExternalSubRoutine):
                 assert not self.has_function(ir_external.name)
                 if ir_external.is_used:
@@ -111,7 +111,7 @@ class IrToWasmCompiler:
                         ret_types = (ir_external.return_ty,)
                     else:
                         ret_types = ()
-                    print(ir_external.name, ir_external.is_used)
+                    # print(ir_external.name, ir_external.is_used)
                     type_ref = self.get_type_id(arg_types, ret_types)
                     import_id = "$" + ir_external.name  # i
                     i = len(self.function_refs)
@@ -189,11 +189,8 @@ class IrToWasmCompiler:
         )  # Start with 10 pages?
         for memid, addr, data in self.initial_memory:
             offset = [components.Instruction("i32.const", addr)]
-            self.add_definition(
-                components.Data(
-                    components.Ref("memory", index=memid), offset, data
-                )
-            )
+            mode = (components.Ref("memory", index=memid), offset)
+            self.add_definition(components.Data(0, mode, data))
 
         if self.pointed_functions:
             indexes = self.pointed_functions

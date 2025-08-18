@@ -19,18 +19,18 @@ See also tools/mcpp/mcpp_validation.py
 
 """
 
-import unittest
-import glob
-import os.path
 import io
+import os.path
+import unittest
+from pathlib import Path
 
 from ppci.api import preprocess
 from ppci.lang.c import COptions
 
-this_dir = os.path.dirname(os.path.abspath(__file__))
+from ...helper_util import librt_path
 
 
-def create_test_function(cls, filename):
+def create_test_function(cls, filename: Path):
     """Create a test function for a single snippet"""
     test_t_directory, snippet_filename = os.path.split(filename)
     test_function_name = "test_" + snippet_filename.replace(".", "_")
@@ -39,11 +39,11 @@ def create_test_function(cls, filename):
         coptions = COptions()
         coptions.enable("trigraphs")
         coptions.add_include_path(test_t_directory)
-        libc_dir = os.path.join(this_dir, "..", "..", "..", "librt", "libc")
+        libc_dir = librt_path / "libc"
         coptions.add_include_path(libc_dir)
 
         output_file = io.StringIO()
-        with open(filename) as f:
+        with filename.open() as f:
             preprocess(f, output_file, coptions)
         # TODO: check output for correct values:
         print(output_file.getvalue())
@@ -56,9 +56,9 @@ def create_test_function(cls, filename):
 
 def mcpp_populate(cls):
     if "MCPP_DIR" in os.environ:
-        mcpp_directory = os.path.normpath(os.environ["MCPP_DIR"])
-        test_t_directory = os.path.join(mcpp_directory, "test-t")
-        files = sorted(glob.iglob(os.path.join(test_t_directory, "n_*.t")))
+        mcpp_path = Path(os.environ["MCPP_DIR"]).resolve()
+        test_t_path = mcpp_path / "test-t"
+        files = sorted(test_t_path.glob("n_*.t"))
         black_list = [
             "n_token.t",  # contains C++ token '::'
             "n_cnvucn.t",  # contains chinese chars # TODO
@@ -67,10 +67,10 @@ def mcpp_populate(cls):
             "n_8.t",  # raises error as an example
         ]
         for fullfile in files:
-            filename = os.path.split(fullfile)[1]
-            if filename in black_list:
+            if fullfile.name in black_list:
                 continue
-            create_test_function(cls, fullfile)
+            else:
+                create_test_function(cls, fullfile)
     else:
 
         def test_func(self):

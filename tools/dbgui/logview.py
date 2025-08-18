@@ -70,10 +70,10 @@ class LogView(QtWidgets.QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        l = QtWidgets.QVBoxLayout(self)
+        layout = QtWidgets.QVBoxLayout(self)
         self.tv = QtWidgets.QTableView(self)
         self.tv.horizontalHeader().setStretchLastSection(True)
-        l.addWidget(self.tv)
+        layout.addWidget(self.tv)
         self.log_model = LogModel()
         self.tv.setModel(self.log_model)
         logging.getLogger().addHandler(MyHandler(self.tv, self.log_model))

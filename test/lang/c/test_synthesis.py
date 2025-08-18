@@ -1,12 +1,11 @@
-import unittest
 import io
+import unittest
 
 from ppci import ir
-from ppci.irutils import verify_module
-from ppci.lang.c import CBuilder
-from ppci.lang.c.options import COptions
 from ppci.arch.example import ExampleArch
-from ppci.lang.c import CSynthesizer
+from ppci.irutils import verify_module
+from ppci.lang.c import CBuilder, CSynthesizer
+from ppci.lang.c.options import COptions
 
 
 class CSynthesizerTestCase(unittest.TestCase):

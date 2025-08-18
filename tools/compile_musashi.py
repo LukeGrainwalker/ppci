@@ -32,7 +32,7 @@ def do_compile(filename):
         src_folder,
     ]
     coptions.add_include_paths(include_paths)
-    with open(filename, "r") as f:
+    with open(filename) as f:
         obj = cc(f, arch, coptions=coptions)
     return obj
 

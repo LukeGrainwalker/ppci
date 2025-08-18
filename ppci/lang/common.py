@@ -1,5 +1,5 @@
 from collections import namedtuple
-import os
+from pathlib import Path
 
 
 class Token:
@@ -26,7 +26,7 @@ class SourceLocation:
     __slots__ = ["filename", "row", "col", "length", "source"]
 
     def __init__(self, filename, row, col, ln, source=None):
-        self.filename = filename
+        self.filename = Path(filename) if filename else None
         self.row = row
         self.col = col
         self.length = ln
@@ -38,9 +38,8 @@ class SourceLocation:
     def get_source_line(self):
         """Return the source line indicated by this location"""
         if not self.source and self.filename:
-            if os.path.exists(self.filename):
-                with open(self.filename) as f:
-                    self.source = f.read()
+            if self.filename.exists():
+                self.source = self.filename.read_text()
 
         if self.source:
             lines = self.source.split("\n")
@@ -53,8 +52,7 @@ class SourceLocation:
     ):
         """Print a message at this location in the given source lines"""
         if lines is None:
-            with open(self.filename) as f:
-                src = f.read()
+            src = self.filename.read_text()
             lines = src.splitlines()
 
         # Print filename:

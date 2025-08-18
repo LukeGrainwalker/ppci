@@ -94,9 +94,7 @@ class BinViewer(QtWidgets.QWidget):
         ypos = yposStart
         for index in range(firstIndex, lastIndex, BYTES_PER_LINE):
             painter.setPen(Qt.black)
-            painter.drawText(
-                self.xposAddr, ypos, "{0:08X}".format(index + self.Offset)
-            )
+            painter.drawText(self.xposAddr, ypos, f"{index + self.Offset:08X}")
             xpos = self.xposHex
             xposAscii = self.xposAscii
             for colIndex in range(BYTES_PER_LINE):
@@ -105,7 +103,7 @@ class BinViewer(QtWidgets.QWidget):
                     bo = self.originalData[index + colIndex]
                     pen_color = Qt.black if b == bo else Qt.red
                     painter.setPen(pen_color)
-                    painter.drawText(xpos, ypos, "{0:02X}".format(b))
+                    painter.drawText(xpos, ypos, f"{b:02X}")
                     painter.drawText(xposAscii, ypos, asciiChar(b))
                     xpos += 3 * chw
                     xposAscii += chw
@@ -220,7 +218,7 @@ class HexEditor(QtWidgets.QMainWindow):
         self.updateControls()
 
     def updateControls(self):
-        s = True if self.fileName else False
+        s = bool(self.fileName)
         self.actionSave.setEnabled(s)
         self.actionSaveAs.setEnabled(s)
 
@@ -236,7 +234,7 @@ class HexEditor(QtWidgets.QMainWindow):
         self.updateControls()
 
     def doSaveAs(self):
-        filename = QFileDialog.getSaveFileName(self)
+        filename = QtWidgets.QFileDialog.getSaveFileName(self)
         if filename:
             with open(filename, "wb") as f:
                 f.write(self.he.bv.Data)

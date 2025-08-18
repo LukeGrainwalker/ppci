@@ -1,10 +1,9 @@
-import unittest
 import io
+import unittest
 from unittest import mock
+
 from ppci.common import CompilerError
-from ppci.lang.c import CPreProcessor
-from ppci.lang.c import COptions
-from ppci.lang.c import CTokenPrinter
+from ppci.lang.c import COptions, CPreProcessor, CTokenPrinter
 
 
 class CPreProcessorTestCase(unittest.TestCase):

@@ -1,10 +1,11 @@
-import unittest
 import io
-from ppci.common import CompilerError
-from ppci.lang.c import CBuilder, render_ast, print_ast, COptions
-from ppci.arch.example import ExampleArch
+import unittest
+
 from ppci import ir
+from ppci.arch.example import ExampleArch
+from ppci.common import CompilerError
 from ppci.irutils import verify_module
+from ppci.lang.c import CBuilder, COptions, print_ast, render_ast
 
 
 class CFrontendTestCase(unittest.TestCase):

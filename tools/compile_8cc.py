@@ -43,11 +43,11 @@ include_paths = [
     linux_include_dir,
 ]
 coptions.add_include_paths(include_paths)
-coptions.add_define("BUILD_DIR", '"{}"'.format(_8cc_folder))
+coptions.add_define("BUILD_DIR", f'"{_8cc_folder}"')
 
 
 def do_compile(filename, reporter):
-    with open(filename, "r") as f:
+    with open(filename) as f:
         obj = api.cc(f, arch, coptions=coptions, reporter=reporter)
     print(filename, "compiled into", obj)
     return obj

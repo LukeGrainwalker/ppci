@@ -5,9 +5,7 @@ from ppci import api
 from ppci.lang.c import COptions
 from ppci.utils.reporting import html_reporter
 
-from ..helper_util import source_files, test_path
-
-librt_path = test_path.parent / "librt"
+from ..helper_util import source_files, test_path, librt_path
 
 
 def create_test_function(source: Path, output: Path, lang: str):
@@ -99,7 +97,7 @@ def build_sample_to_code(src, lang, bsp_c3, opt_level, march, debug, reporter):
         libc_path = librt_path / "libc"
         include_path1 = libc_path / "include"
         coptions.add_include_path(include_path1)
-        with open(libc_path / "lib.c") as f:
+        with (libc_path / "lib.c").open() as f:
             o3 = api.cc(
                 f, march, coptions=coptions, debug=debug, reporter=reporter
             )

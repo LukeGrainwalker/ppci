@@ -189,8 +189,7 @@ def export_wasm_example(filename, code, wasm, main_js=""):
     """Generate an html file for the given code and wasm module."""
     from .components import Module
 
-    if filename.startswith("~/"):
-        filename = os.path.expanduser(filename)
+    filename = Path(filename).resolve()
 
     if isinstance(wasm, Module):
         wasm = wasm.to_bytes()
@@ -202,7 +201,7 @@ def export_wasm_example(filename, code, wasm, main_js=""):
 
     wasm_text = str(list(wasm))  # [0, 1, 12, ...]
 
-    fname = os.path.basename(filename).rsplit(".", 1)[0]
+    fname = filename.stem
 
     # Read templates
     js = read_template("template.js")
@@ -219,8 +218,7 @@ def export_wasm_example(filename, code, wasm, main_js=""):
     html = html.replace("JS_PLACEHOLDER", js)
 
     # Export HTML file
-    with open(filename, "wb") as f:
-        f.write(html.encode())
+    filename.write_text(html)
     logging.info("Wrote example HTML to %s", filename)
 
 
@@ -306,11 +304,9 @@ def run_wasm_in_node(wasm, silent=False):
     js += '\nprint_ln("Hello from Nodejs!");\ncompile_my_wasm();\n'
 
     # Write temporary file
-    filename = os.path.join(
-        tempfile.gettempdir(), f"pyscript_{os.getpid():d}.js"
-    )
-    with open(filename, "wb") as f:
-        f.write(js.encode())
+    tmp_path = Path(tempfile.gettempdir())
+    filename = tmp_path / f"pyscript_{os.getpid():d}.js"
+    filename.write_text(js)
 
     # Execute JS in nodejs
     try:
@@ -323,7 +319,7 @@ def run_wasm_in_node(wasm, silent=False):
         raise Exception(err) from ex
     finally:
         with suppress(Exception):
-            os.remove(filename)
+            filename.unlink()
 
     # Process output
     output = res.decode()

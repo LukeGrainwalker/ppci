@@ -218,7 +218,7 @@ class InnerCode(QtWidgets.QWidget):
 
             # Draw line number:
             painter.setPen(Qt.black)
-            painter.drawText(self.xposLNA, ypos, "{0}".format(row))
+            painter.drawText(self.xposLNA, ypos, f"{row}")
             xpos = self.xposTXT
             painter.drawText(xpos, ypos, self.getRow(row))
 
@@ -262,10 +262,10 @@ class InnerCode(QtWidgets.QWidget):
         elif event.matches(QtGui.QKeySequence.MoveToPreviousLine):
             self.GotoPrevLine()
         elif event.matches(QtGui.QKeySequence.MoveToNextPage):
-            for i in range(5):
+            for _ in range(5):
                 self.GotoNextLine()
         elif event.matches(QtGui.QKeySequence.MoveToPreviousPage):
-            for i in range(5):
+            for _ in range(5):
                 self.GotoPrevLine()
         elif event.matches(QtGui.QKeySequence.MoveToEndOfLine):
             self.CursorPosition += len(self.CurrentLine) - self.CursorCol + 1

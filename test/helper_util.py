@@ -11,10 +11,11 @@ from contextlib import suppress
 from functools import lru_cache
 from pathlib import Path
 
-# Store testdir for safe switch back to directory:
-testdir = os.path.dirname(os.path.abspath(__file__))
-test_path = Path(testdir)
-examples_path = test_path.parent / "examples"
+test_path = Path(__file__).resolve().parent
+root_path = test_path.parent
+examples_path = root_path / "examples"
+librt_path = root_path / "librt"
+
 logger = logging.getLogger("util")
 
 
@@ -43,7 +44,7 @@ def only_valid_chars(s):
 
 
 def relpath(*args):
-    return os.path.normpath(os.path.join(testdir, *args))
+    return os.path.normpath(os.path.join(test_path, *args))
 
 
 def source_files(folder: Path, extension):

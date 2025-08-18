@@ -31,7 +31,7 @@ def do_compile(filename, include_paths, arch, reporter):
     coptions = COptions()
     coptions.add_include_paths(include_paths)
     coptions.add_define("FPM_DEFAULT", "1")
-    with open(filename, "r") as f:
+    with open(filename) as f:
         obj = cc(f, arch, coptions=coptions, reporter=reporter)
     return obj
 
@@ -89,9 +89,6 @@ def main():
 
 if __name__ == "__main__":
     verbose = "-v" in sys.argv
-    if verbose:
-        level = logging.DEBUG
-    else:
-        level = logging.INFO
+    level = logging.DEBUG if verbose else logging.INFO
     logging.basicConfig(level=level, format=logformat)
     main()

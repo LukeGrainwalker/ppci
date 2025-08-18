@@ -1,5 +1,5 @@
 import binascii
-from qtwrapper import QtGui, QtCore, QtWidgets, Qt
+from qtwrapper import QtCore, QtWidgets, Qt
 
 
 class DisAsmModel(QtCore.QAbstractTableModel):

@@ -10,3 +10,6 @@ def abspath(filename):
 
 def get_icon(filename):
     return QtGui.QPixmap(abspath(filename))
+
+
+__all__ = ["QtCore", "QtWidgets", "Qt", "pyqtSignal", "uic"]

@@ -44,7 +44,7 @@ class RegisterModel(QtCore.QAbstractTableModel):
                         value = self._register_values[register]
                     else:
                         value = 0
-                    return "0x{0:X}".format(value)
+                    return f"0x{value:X}"
 
     def setData(self, index, value, role):
         if index.isValid():

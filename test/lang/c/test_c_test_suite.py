@@ -20,21 +20,20 @@ https://github.com/c-testsuite/c-testsuite
 
 """
 
-import unittest
-import fnmatch
 import argparse
+import fnmatch
 import io
-import os
 import logging
+import os
 import subprocess
+import unittest
 from pathlib import Path
 
-from ppci.common import CompilerError, logformat
 from ppci import api
+from ppci.common import CompilerError, logformat
+from ppci.format.elf import write_elf
 from ppci.lang.c import COptions
 from ppci.utils.reporting import html_reporter
-from ppci.format.elf import write_elf
-
 
 this_dir = Path(__file__).resolve().parent
 root_folder = this_dir.parent.parent.parent

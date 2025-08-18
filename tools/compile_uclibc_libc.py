@@ -25,7 +25,7 @@ def do_compile(filename):
     coptions.add_include_paths(include_paths)
     coptions.add_define("HAVE_CONFIG_H")
     coptions.add_define("__MSP430__")
-    with open(filename, "r") as f:
+    with open(filename) as f:
         obj = cc(f, arch, coptions=coptions)
     return obj
 

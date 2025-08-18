@@ -1,4 +1,5 @@
 import unittest
+
 from ppci.lang.c.utils import replace_escape_codes
 
 

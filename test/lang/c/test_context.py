@@ -1,6 +1,7 @@
+import operator
 import unittest
 from functools import reduce
-import operator
+
 from ppci.arch import get_arch
 from ppci.lang.c import CContext, parse_type
 from ppci.lang.c.options import COptions

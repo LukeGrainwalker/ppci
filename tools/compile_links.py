@@ -36,7 +36,7 @@ arch = "x86_64"
 
 
 def do_compile(filename, coptions, reporter):
-    with open(filename, "r") as f:
+    with open(filename) as f:
         obj = cc(f, arch, coptions=coptions, reporter=reporter)
     return obj
 
