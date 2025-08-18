@@ -2,6 +2,7 @@
 
 from .file import ElfFile
 from .headers import SymbolTableBinding, SymbolTableType
+from ...utils.binary_txt import asc2bin
 
 # TODO: move some parts from ElfFile to this file.
 
@@ -25,9 +26,9 @@ def elf_to_object(f):
         so.data = asc2bin(s.data)
         so.alignment = s.header.sh_addralign if s.header.sh_addralign else 1
 
-    for r in relocations:
-        if self.header.r_addend:
-            addend = self.header.r_addend
+    for r in f.relocations:
+        if r.header.r_addend:
+            addend = r.header.r_addend
         else:
             addend = 0
         obj.add_relocation(
