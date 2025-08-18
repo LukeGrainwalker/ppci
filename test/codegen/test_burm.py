@@ -1,12 +1,12 @@
-import unittest
+import argparse
 import io
 import os
-import argparse
+import unittest
 
-from ppci.utils.tree import Tree, from_string
 from ppci.codegen import burg
 from ppci.codegen.burg import BurgSystem
 from ppci.codegen.instructionselector import TreeSelector
+from ppci.utils.tree import Tree, from_string
 
 brg_file = os.path.join(os.path.dirname(__file__), "..", "data", "sample4.brg")
 

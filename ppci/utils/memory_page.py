@@ -1,9 +1,8 @@
-import logging
-import sys
 import ctypes
-import struct
+import logging
 import mmap
-
+import struct
+import sys
 
 logger = logging.getLogger("mempage")
 

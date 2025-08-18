@@ -4,12 +4,12 @@ import logging
 import struct
 from contextlib import contextmanager
 from io import BytesIO
-from ...utils.leb128 import unsigned_leb128_decode, signed_leb128_decode
-from ..opcodes import ArgType, OPERANDS, REVERZ
-from ..components import Ref, Instruction, SECTION_IDS, DEFINITION_CLASSES
-from .. import components
-from .io import LANG_TYPES_REVERSE
 
+from ...utils.leb128 import signed_leb128_decode, unsigned_leb128_decode
+from .. import components
+from ..components import DEFINITION_CLASSES, SECTION_IDS, Instruction, Ref
+from ..opcodes import OPERANDS, REVERZ, ArgType
+from .io import LANG_TYPES_REVERSE
 
 logger = logging.getLogger("wasm")
 

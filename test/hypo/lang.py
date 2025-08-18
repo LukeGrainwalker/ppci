@@ -2,11 +2,13 @@
 of sourcecode to test the parser.
 """
 
-from lark import Lark
+from hypothesis import given
+from hypothesis import strategies as st
 from hypothesis.extra.lark import from_lark
-from hypothesis import given, strategies as st
-from ppci.lang.c import parse_text, print_ast
+from lark import Lark
+
 from ppci.common import CompilerError
+from ppci.lang.c import parse_text, print_ast
 
 grammar_text = r"""
 start: program

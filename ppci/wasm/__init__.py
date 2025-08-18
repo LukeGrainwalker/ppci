@@ -3,17 +3,34 @@ Tools for representing, loading and exporting WASM (Web Assembly),
 and for converting between PPCI-IR and WASM.
 """
 
-from .opcodes import I
-from .components import Ref, Module, Instruction, BlockInstruction
-from .components import Type, Import, Table, Memory, Global, Export
-from .components import Start, Func, Elem
-from .components import Data, Custom
-from .wasm2ppci import wasm_to_ir
-from .ppci2wasm import ir_to_wasm
 from .arch import WasmArchitecture
-from .util import run_wasm_in_node, export_wasm_example
-from .util import run_wasm_in_notebook, has_node
-from .execution import instantiate, execute_wasm, WasmTrapException
+from .components import (
+    BlockInstruction,
+    Custom,
+    Data,
+    Elem,
+    Export,
+    Func,
+    Global,
+    Import,
+    Instruction,
+    Memory,
+    Module,
+    Ref,
+    Start,
+    Table,
+    Type,
+)
+from .execution import WasmTrapException, execute_wasm, instantiate
+from .opcodes import I
+from .ppci2wasm import ir_to_wasm
+from .util import (
+    export_wasm_example,
+    has_node,
+    run_wasm_in_node,
+    run_wasm_in_notebook,
+)
+from .wasm2ppci import wasm_to_ir
 
 
 def read_wasm(input) -> Module:

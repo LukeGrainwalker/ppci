@@ -1,8 +1,9 @@
 """Text writer to create text representation of wasm."""
 
 import io
+
 from .. import components
-from .util import default_alignment, bytes2datastring
+from .util import bytes2datastring, default_alignment
 
 
 class TextWriter:

@@ -1,14 +1,15 @@
 #!/usr/bin/python
 
-import sys
 import argparse
-import ppci.common
 import logging
+import sys
+
+from dbgui import DebugUi, QtWidgets
+
+import ppci.common
 from ppci import api
 from ppci.binutils.dbg import Debugger
 from ppci.binutils.dbg.linux64debugdriver import Linux64DebugDriver
-from dbgui import DebugUi, QtWidgets
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

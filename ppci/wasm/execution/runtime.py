@@ -1,10 +1,19 @@
 """Wasm runtime functions."""
 
-import struct
 import math
+import struct
+
 from ... import ir
-from ...utils.bitfun import rotr, rotl, to_signed, to_unsigned
-from ...utils.bitfun import clz, ctz, popcnt, sign_extend
+from ...utils.bitfun import (
+    clz,
+    ctz,
+    popcnt,
+    rotl,
+    rotr,
+    sign_extend,
+    to_signed,
+    to_unsigned,
+)
 from ..util import make_int
 
 

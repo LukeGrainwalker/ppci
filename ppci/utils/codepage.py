@@ -5,16 +5,16 @@ using ctypes
 Credits for idea: Luke Campagnola
 """
 
-import inspect
-import sys
-import logging
 import ctypes
-from ..arch import get_current_arch
+import inspect
+import logging
+import sys
+
 from .. import ir
+from ..arch import get_current_arch
 from ..binutils import debuginfo, layout
 from ..binutils.linker import link
 from .memory_page import MemoryPage
-
 
 logger = logging.getLogger("codepage")
 

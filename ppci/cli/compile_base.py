@@ -2,12 +2,12 @@
 
 import argparse
 import logging
+
 from .. import api, irutils
 from ..binutils.outstream import TextOutputStream
-from .base import out_parser
-from ..wasm import ir_to_wasm
 from ..irutils.instrument import add_tracer
-
+from ..wasm import ir_to_wasm
+from .base import out_parser
 
 compile_parser = argparse.ArgumentParser(add_help=False, parents=[out_parser])
 compile_parser.add_argument(

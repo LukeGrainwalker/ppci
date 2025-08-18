@@ -11,41 +11,42 @@ Usage:
 
 """
 
-import glob
-import sys
-import os
 import logging
+import os
+import sys
 import time
-
-try:
-    from powertb import print_exc
-except ImportError:
-    from traceback import print_exc
+from pathlib import Path
+from traceback import print_exc
 
 from ppci.api import cc, link
-from ppci.lang.c import COptions
 from ppci.common import CompilerError, logformat
+from ppci.lang.c import COptions
 from ppci.utils.reporting import html_reporter
 
-links_folder = os.environ["LINKS_FOLDER"]
-this_dir = os.path.abspath(os.path.dirname(__file__))
-report_filename = os.path.join(this_dir, "report_links.html")
-libc_path = os.path.join(this_dir, "..", "librt", "libc")
-libc_includes = os.path.join(libc_path, "include")
+logger = logging.getLogger("compile_links")
+links_folder = Path(os.environ["LINKS_FOLDER"]).resolve()
+this_dir = Path(__file__).resolve().parent
+root_path = this_dir.parent
+build_path = root_path / "build"
+report_filename = build_path / "report_links.html"
+libc_path = root_path / "librtlibc"
+libc_includes = libc_path / "include"
 arch = "x86_64"
 
 
-def do_compile(filename, coptions, reporter):
-    with open(filename) as f:
+def do_compile(filename: Path, coptions, reporter):
+    with filename.open() as f:
         obj = cc(f, arch, coptions=coptions, reporter=reporter)
     return obj
 
 
 def main():
-    t1 = time.time()
+    if not build_path.exists():
+        build_path.mkdir(parents=True)
+    t1 = time.monotonic()
     failed = 0
     passed = 0
-    sources = glob.iglob(os.path.join(links_folder, "*.c"))
+    sources = sorted(links_folder.glob("*.c"))
     objs = []
     coptions = COptions()
     include_paths = [
@@ -56,7 +57,6 @@ def main():
     coptions.add_include_paths(include_paths)
     with html_reporter(report_filename) as reporter:
         for filename in sources:
-            filename = os.path.join(links_folder, filename)
             print("      ======================")
             print("    ========================")
             print("  ==> Compiling", filename)
@@ -73,10 +73,10 @@ def main():
                 print_exc()
                 failed += 1
             else:
-                print("Great success!")
+                logger.info("Great success!")
                 passed += 1
 
-    t2 = time.time()
+    t2 = time.monotonic()
     elapsed = t2 - t1
     print("Passed:", passed, "failed:", failed, "in", elapsed, "seconds")
     obj = link(objs)
@@ -85,9 +85,6 @@ def main():
 
 if __name__ == "__main__":
     verbose = "-v" in sys.argv
-    if verbose:
-        level = logging.DEBUG
-    else:
-        level = logging.INFO
+    level = logging.DEBUG if verbose else logging.INFO
     logging.basicConfig(level=level, format=logformat)
     main()

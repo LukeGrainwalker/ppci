@@ -1,8 +1,13 @@
 import logging
-from qtwrapper import QtCore, QtWidgets
-from qtwrapper import Qt
-from ppci.binutils.debuginfo import DebugBaseType, DebugArrayType
-from ppci.binutils.debuginfo import DebugStructType, DebugPointerType
+
+from qtwrapper import Qt, QtCore, QtWidgets
+
+from ppci.binutils.debuginfo import (
+    DebugArrayType,
+    DebugBaseType,
+    DebugPointerType,
+    DebugStructType,
+)
 
 
 class PartialVariable:

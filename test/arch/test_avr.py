@@ -1,12 +1,14 @@
 #!/usr/bin/python
 
-import unittest
 import io
-from ppci.binutils.layout import Layout
+import unittest
+
 from ppci.api import get_arch
+from ppci.arch.avr.instructions import Pop, Push
+from ppci.arch.avr.registers import r17, r18, r19, r19r18, r20, r25, r26
 from ppci.arch.stack import Frame
-from ppci.arch.avr.instructions import Push, Pop
-from ppci.arch.avr.registers import r17, r19r18, r18, r19, r20, r25, r26
+from ppci.binutils.layout import Layout
+
 from ..test_asm import AsmTestCaseBase
 
 

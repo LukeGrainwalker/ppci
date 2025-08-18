@@ -10,10 +10,11 @@ python -m pytest benchmark.py
 
 """
 
-import os
 import logging
-from pathlib import Path
+import os
 from glob import glob
+from pathlib import Path
+
 from ppci import api
 from ppci.lang.c import COptions
 

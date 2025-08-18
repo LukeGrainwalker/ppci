@@ -1,6 +1,7 @@
 import os
+
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
-from PyQt5.QtCore import pyqtSignal, Qt
+from PyQt5.QtCore import Qt, pyqtSignal
 
 
 def abspath(filename):

@@ -1,9 +1,9 @@
 """Dump windows exe/dll file contents"""
 
 import argparse
-from .base import base_parser
-from ..format.exefile import read_exe
 
+from ..format.exefile import read_exe
+from .base import base_parser
 
 parser = argparse.ArgumentParser(description=__doc__, parents=[base_parser])
 parser.add_argument(

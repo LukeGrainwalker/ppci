@@ -1,11 +1,10 @@
 """LLVM static compiler."""
 
 import argparse
-from .base import base_parser, march_parser, LogSetup
-from .base import get_arch_from_args
-from .compile_base import compile_parser, do_compile
-from .. import api
 
+from .. import api
+from .base import LogSetup, base_parser, get_arch_from_args, march_parser
+from .compile_base import compile_parser, do_compile
 
 parser = argparse.ArgumentParser(
     description=__doc__, parents=[base_parser, march_parser, compile_parser]

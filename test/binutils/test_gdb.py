@@ -3,7 +3,7 @@ import unittest
 from ppci.api import get_arch
 from ppci.binutils.dbg.debug_driver import DebugState
 from ppci.binutils.dbg.gdb.client import GdbDebugDriver
-from ppci.binutils.dbg.gdb.rsp import decoder, RspHandler
+from ppci.binutils.dbg.gdb.rsp import RspHandler, decoder
 
 
 class GdbDecoderTestCase(unittest.TestCase):

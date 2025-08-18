@@ -1,13 +1,14 @@
 """Helper script to compile uClibc."""
 
-import os
-import logging
 import glob
+import logging
+import os
 import time
 import traceback
+
 from ppci.api import cc
-from ppci.lang.c import COptions
 from ppci.common import CompilerError, logformat
+from ppci.lang.c import COptions
 
 home = os.environ["HOME"]
 this_dir = os.path.abspath(os.path.dirname(__file__))

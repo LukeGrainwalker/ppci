@@ -7,16 +7,14 @@ https://github.com/WebAssembly/wabt/blob/master/src/wast-parser.cc
 import logging
 from collections import defaultdict
 from collections.abc import Iterable
-from ...lang.sexpr import parse_sexpr
-from ...lang.sexpr import SList, SSymbol, SString
-from ...lang.common import SourceLocation
-from ...lang.common import Token
-from ...lang.tools.recursivedescent import RecursiveDescentParser
-from ..opcodes import OPERANDS, OPCODES, ArgType
-from ..util import datastring2bytes, make_int, make_float, is_int, PAGE_SIZE
-from .util import default_alignment, log2
-from .. import components
 
+from ...lang.common import SourceLocation, Token
+from ...lang.sexpr import SList, SString, SSymbol, parse_sexpr
+from ...lang.tools.recursivedescent import RecursiveDescentParser
+from .. import components
+from ..opcodes import OPCODES, OPERANDS, ArgType
+from ..util import PAGE_SIZE, datastring2bytes, is_int, make_float, make_int
+from .util import default_alignment, log2
 
 logger = logging.getLogger("wat")
 

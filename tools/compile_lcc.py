@@ -10,10 +10,10 @@ Usage:
 
 """
 
-import sys
 import glob
-import os
 import logging
+import os
+import sys
 import time
 
 try:
@@ -22,8 +22,8 @@ except ImportError:
     from traceback import print_exc
 
 from ppci.api import cc, link
-from ppci.lang.c import COptions
 from ppci.common import CompilerError, logformat
+from ppci.lang.c import COptions
 from ppci.utils.reporting import html_reporter
 
 

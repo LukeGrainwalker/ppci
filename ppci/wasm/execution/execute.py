@@ -1,7 +1,7 @@
 import logging
-from ._instantiate import instantiate
-from . import wasi
 
+from . import wasi
+from ._instantiate import instantiate
 
 logger = logging.getLogger("wasm-execute")
 

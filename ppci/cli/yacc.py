@@ -34,9 +34,9 @@ Alternatively you can load the parser on the fly:
 """
 
 import argparse
-from .base import base_parser, LogSetup
-from ..lang.tools.yacc import transform
 
+from ..lang.tools.yacc import transform
+from .base import LogSetup, base_parser
 
 parser = argparse.ArgumentParser(
     description=__doc__,

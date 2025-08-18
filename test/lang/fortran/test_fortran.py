@@ -4,6 +4,7 @@ Test fortran front end.
 """
 
 import unittest
+
 from ppci.lang.fortran import FortranParser, Printer
 
 example = """

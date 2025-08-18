@@ -1,10 +1,12 @@
 #!/usr/bin/python
 
-import unittest
 import io
-from ppci.binutils.layout import Layout
-from ..test_asm import AsmTestCaseBase
+import unittest
+
 from ppci.arch.msp430 import instructions, registers
+from ppci.binutils.layout import Layout
+
+from ..test_asm import AsmTestCaseBase
 
 
 class Msp430AssemblerTestCase(AsmTestCaseBase):

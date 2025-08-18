@@ -3,10 +3,10 @@ import unittest
 from ..helper_util import (
     do_iverilog,
     do_long_tests,
+    examples_path,
     has_avr_emulator,
     make_filename,
     run_avr,
-    examples_path,
 )
 from .sample_helpers import add_samples, build
 

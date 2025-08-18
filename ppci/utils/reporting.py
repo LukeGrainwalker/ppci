@@ -6,18 +6,18 @@ Reports can be written to plain text, or html.
 """
 
 import abc
+import io
+import logging
 from contextlib import contextmanager
 from datetime import datetime
-import logging
-import io
-from .. import ir
-from .. import __version__
+
+from .. import __version__, ir
+from ..binutils.debuginfo import DebugLocation
+from ..binutils.outstream import TextOutputStream
+from ..codegen.selectiongraph import SGValue
 from ..common import CompilerError
 from ..irutils import Writer
 from .graph2svg import Graph, LayeredLayout
-from ..codegen.selectiongraph import SGValue
-from ..binutils.outstream import TextOutputStream
-from ..binutils.debuginfo import DebugLocation
 
 
 @contextmanager

@@ -8,14 +8,15 @@ https://github.com/kstenerud/Musashi
 
 """
 
-import sys
-import os
 import logging
+import os
+import sys
 import time
 import traceback
+
 from ppci.api import cc, link
-from ppci.lang.c import COptions
 from ppci.common import CompilerError, logformat
+from ppci.lang.c import COptions
 
 home = os.environ["HOME"]
 src_folder = os.path.join(home, "GIT", "Musashi")

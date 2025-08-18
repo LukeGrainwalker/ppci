@@ -13,18 +13,27 @@ The compilation strategy is hence as follows:
 """
 
 import logging
+import operator
 from collections import defaultdict
 from functools import reduce
-import operator
+
 from .. import ir
+from ..binutils import debuginfo
+from ..codegen.dagsplit import DagSplitter
+from ..codegen.irdag import (
+    FunctionInfo,
+    SelectionGraphBuilder,
+    prepare_function_info,
+)
 from ..graph import relooper
 from . import components
-from ..codegen.irdag import SelectionGraphBuilder, prepare_function_info
-from ..codegen.irdag import FunctionInfo
-from ..codegen.dagsplit import DagSplitter
-from ..binutils import debuginfo
-from .arch import WasmArchitecture
-from .arch import I32Register, I64Register, F32Register, F64Register
+from .arch import (
+    F32Register,
+    F64Register,
+    I32Register,
+    I64Register,
+    WasmArchitecture,
+)
 
 
 def ir_to_wasm(ir_module: ir.Module, reporter=None) -> components.Module:

@@ -1,5 +1,6 @@
-import logging
 import abc
+import logging
+
 from .. import components
 
 logger = logging.getLogger("instantiate")

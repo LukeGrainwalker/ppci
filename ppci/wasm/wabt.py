@@ -13,7 +13,6 @@ from urllib.request import urlopen
 
 from ppci.wasm.util import get_node_exe
 
-
 THIS_DIR = os.path.dirname(__file__)
 
 

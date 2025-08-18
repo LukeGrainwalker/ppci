@@ -49,6 +49,9 @@ home = Path(os.environ["HOME"])
 core_mark_folder = home / "GIT" / "coremark"
 this_dir = Path(__file__).resolve().parent
 root_dir = this_dir.parent
+build_dir = root_dir / "build"
+if not build_dir.exists():
+    build_dir.mkdir(parents=True)
 port_folder = core_mark_folder / "linux64"
 libc_folder = root_dir / "librt" / "libc"
 linux64_folder = root_dir / "examples" / "linux64"
@@ -87,8 +90,7 @@ for source_file in sources:
         with source_file.open() as f:
             obj = api.cc(f, march, coptions=coptions, opt_level=opt_level)
     except CompilerError as ex:
-        print("ERROR!")
-        print(ex)
+        logger.exceptio(f"ERROR! {ex}")
         ex.print()
     else:
         objs.append(obj)
@@ -97,7 +99,7 @@ print(objs)
 
 full_obj = api.link(objs, layout=linker_script)
 
-exe_filename = this_dir / "coremark.elf"
+exe_filename = build_dir / "coremark.elf"
 logger.info(f"Creating {exe_filename}")
 with exe_filename.open("wb") as f:
     write_elf(full_obj, f)

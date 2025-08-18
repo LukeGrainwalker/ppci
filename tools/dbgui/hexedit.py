@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
 import sys
-from qtwrapper import QtGui, QtCore, QtWidgets, Qt, abspath, uic
 
+from qtwrapper import Qt, QtCore, QtGui, QtWidgets, abspath, uic
 
 BYTES_PER_LINE, GAP = 8, 12
 

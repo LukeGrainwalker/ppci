@@ -1,5 +1,6 @@
-from ..test_asm import AsmTestCaseBase
 import unittest
+
+from ..test_asm import AsmTestCaseBase
 
 
 class MipsAssemblyTestCase(AsmTestCaseBase):

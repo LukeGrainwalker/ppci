@@ -1,10 +1,10 @@
-import unittest
 import io
+import unittest
 
+from ppci.api import get_arch
 from ppci.binutils.archive import archive, get_archive
 from ppci.binutils.linker import link
 from ppci.binutils.objectfile import ObjectFile
-from ppci.api import get_arch
 
 
 class ArchiveFileTestCase(unittest.TestCase):

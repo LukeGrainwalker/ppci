@@ -1,9 +1,9 @@
 """Disassembler utility."""
 
 import argparse
-from .base import base_parser, march_parser, get_arch_from_args, LogSetup
-from .. import api
 
+from .. import api
+from .base import LogSetup, base_parser, get_arch_from_args, march_parser
 
 parser = argparse.ArgumentParser(
     description=__doc__, parents=[base_parser, march_parser]

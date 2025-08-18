@@ -1,9 +1,10 @@
 """Test algorithms which reconstruct structured flow blocks from cfg"""
 
-import unittest
 import io
-from ppci.graph import relooper
+import unittest
+
 from ppci import irutils
+from ppci.graph import relooper
 
 
 class RelooperTestCase(unittest.TestCase):

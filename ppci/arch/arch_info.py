@@ -10,8 +10,9 @@ The information present:
 """
 
 import enum
-from .. import ir
 from collections import defaultdict
+
+from .. import ir
 from ..utils.collections import OrderedSet
 
 

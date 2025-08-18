@@ -1,12 +1,27 @@
 import unittest
 from unittest.mock import MagicMock
-from ppci.codegen.registerallocator import GraphColoringRegisterAllocator
+
 from ppci.api import get_arch
 from ppci.arch.arch import Frame
-from ppci.arch.example import Def, Use, Add, Mov, R0, R1, ExampleRegister
-from ppci.arch.example import R10, R10l, DefHalf, UseHalf
-from ppci.arch.x86_64.registers import XmmRegisterSingle, xmm6
-from ppci.arch.x86_64.registers import XmmRegisterDouble
+from ppci.arch.example import (
+    R0,
+    R1,
+    R10,
+    Add,
+    Def,
+    DefHalf,
+    ExampleRegister,
+    Mov,
+    R10l,
+    Use,
+    UseHalf,
+)
+from ppci.arch.x86_64.registers import (
+    XmmRegisterDouble,
+    XmmRegisterSingle,
+    xmm6,
+)
+from ppci.codegen.registerallocator import GraphColoringRegisterAllocator
 
 
 class GraphColoringRegisterAllocatorTestCase(unittest.TestCase):

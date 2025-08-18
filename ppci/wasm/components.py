@@ -29,10 +29,10 @@ Common attribute names:
 # Validate WAT:
 # https://cdn.rawgit.com/WebAssembly/wabt/aae5a4b7/demo/wat2wasm/
 
-from io import BytesIO
 import logging
+from io import BytesIO
 
-from ..lang.sexpr import parse_sexpr, SExpression
+from ..lang.sexpr import SExpression, parse_sexpr
 
 
 def this_is_js():
@@ -253,8 +253,8 @@ class Module:
         load_s_expr(self, s_expr)
 
     def _from_string(self, text):
-        from .text import load_from_s_tokens
         from ..lang.sexpr import tokenize_sexpr
+        from .text import load_from_s_tokens
 
         # When loading from a string, tokenize to S-expression tokens
         # and then invoke the wasm parser on these tokens.

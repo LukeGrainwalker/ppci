@@ -1,4 +1,4 @@
-from qtwrapper import QtWidgets, Qt
+from qtwrapper import Qt, QtWidgets
 
 
 class DebugToolbar(QtWidgets.QToolBar):

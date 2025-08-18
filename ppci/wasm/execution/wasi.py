@@ -5,13 +5,13 @@ These are some of the WASI api functions implemented in python.
 See also: https://wasi.dev
 """
 
-import time
-import os
 import logging
+import os
 import stat
 import struct
-from ... import ir
+import time
 
+from ... import ir
 
 ESUCCESS = 0
 E2BIG = 1

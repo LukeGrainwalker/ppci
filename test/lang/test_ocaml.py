@@ -1,5 +1,6 @@
-import unittest
 import io
+import unittest
+
 from ppci.lang.ocaml import read_file
 
 minimal_bytecode = bytes(

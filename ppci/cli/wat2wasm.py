@@ -1,9 +1,9 @@
 """Convert binary wasm to wasm text (WAT) format."""
 
 import argparse
-from .base import base_parser, LogSetup
-from ..wasm import read_wat
 
+from ..wasm import read_wat
+from .base import LogSetup, base_parser
 
 parser = argparse.ArgumentParser(description=__doc__, parents=[base_parser])
 parser.add_argument(

@@ -1,5 +1,5 @@
-import unittest
 import io
+import unittest
 from unittest.mock import patch
 
 from ppci.cli.pedump import pedump

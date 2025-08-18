@@ -1,5 +1,6 @@
 import argparse
 import sys
+
 from ..format.hexfile import HexFile
 
 

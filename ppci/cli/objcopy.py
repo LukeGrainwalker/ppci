@@ -1,10 +1,10 @@
 """Objcopy utility to manipulate object files."""
 
 import argparse
-from .base import base_parser, LogSetup
+
 from .. import api
 from ..binutils.objectfile import ObjectFile
-
+from .base import LogSetup, base_parser
 
 parser = argparse.ArgumentParser(description=__doc__, parents=[base_parser])
 parser.add_argument("input", help="input file", type=argparse.FileType("r"))

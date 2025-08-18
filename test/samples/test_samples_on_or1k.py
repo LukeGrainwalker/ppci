@@ -5,10 +5,10 @@ from ppci.format import uboot_image
 from ..helper_util import (
     create_qemu_launch_script,
     do_long_tests,
+    examples_path,
     has_qemu,
     make_filename,
     qemu,
-    examples_path,
 )
 from .sample_helpers import add_samples, build
 

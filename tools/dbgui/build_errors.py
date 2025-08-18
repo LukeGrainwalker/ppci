@@ -1,4 +1,4 @@
-from qtwrapper import QtGui, QtWidgets, pyqtSignal, get_icon
+from qtwrapper import QtGui, QtWidgets, get_icon, pyqtSignal
 
 
 class BuildErrors(QtWidgets.QTreeView):

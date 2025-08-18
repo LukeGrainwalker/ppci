@@ -1,7 +1,8 @@
-from ppci.common import CompilerError
-from ppci.lang.common import Token, SourceLocation
-from ppci.lang.tools.recursivedescent import RecursiveDescentParser
 import unittest
+
+from ppci.common import CompilerError
+from ppci.lang.common import SourceLocation, Token
+from ppci.lang.tools.recursivedescent import RecursiveDescentParser
 
 
 def gen_tokens(tokens):

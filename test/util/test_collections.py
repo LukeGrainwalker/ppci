@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import unittest
+
 from ppci.utils.collections import OrderedSet
 
 

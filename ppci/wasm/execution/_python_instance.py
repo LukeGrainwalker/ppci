@@ -1,17 +1,23 @@
 """Instatiate wasm module as python code."""
 
-import logging
 import io
+import logging
 from types import ModuleType
+
+from ... import ir
 from ...arch.arch_info import TypeInfo
 from ...irutils import verify_module
-from ... import ir
-from ..components import Table, Global, Memory
-from .. import wasm_to_ir
+from ..components import Global, Memory, Table
 from ..util import PAGE_SIZE
-from ._base_instance import ModuleInstance, WasmTrapException
-from ._base_instance import MemoryInstance, GlobalInstance
-from ._base_instance import TableInstance, ElemInstance
+from ..wasm2ppci import wasm_to_ir
+from ._base_instance import (
+    ElemInstance,
+    GlobalInstance,
+    MemoryInstance,
+    ModuleInstance,
+    TableInstance,
+    WasmTrapException,
+)
 
 logger = logging.getLogger("instantiate")
 

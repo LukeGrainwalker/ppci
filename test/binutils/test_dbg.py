@@ -1,16 +1,15 @@
 import io
 import unittest
 from unittest.mock import MagicMock, patch
-from ppci.common import CompilerError
-from ppci.binutils.dbg.debugger import Debugger, TmpValue
-from ppci.binutils.dbg.debug_driver import DebugState
-from ppci.binutils.dbg.dummy_driver import DummyDebugDriver
-from ppci.binutils.dbg.cli import DebugCli
+
+from ppci.api import c3c, get_arch, link, write_ldb
 from ppci.binutils import debuginfo
+from ppci.binutils.dbg.cli import DebugCli
+from ppci.binutils.dbg.debug_driver import DebugState
+from ppci.binutils.dbg.debugger import Debugger, TmpValue
+from ppci.binutils.dbg.dummy_driver import DummyDebugDriver
 from ppci.binutils.objectfile import ObjectFile
-from ppci.api import c3c, link, get_arch
-from ppci.api import write_ldb
-from ppci.common import SourceLocation
+from ppci.common import CompilerError, SourceLocation
 
 
 class DebuggerTestCase(unittest.TestCase):

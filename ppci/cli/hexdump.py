@@ -1,9 +1,9 @@
 """Display file contents in hexadecimal"""
 
 import argparse
-from .base import base_parser, LogSetup
-from ..utils.hexdump import hexdump as dump
 
+from ..utils.hexdump import hexdump as dump
+from .base import LogSetup, base_parser
 
 parser = argparse.ArgumentParser(description=__doc__, parents=[base_parser])
 parser.add_argument(

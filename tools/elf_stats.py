@@ -3,9 +3,10 @@ Load an ELF file and create a detailed report about its statistics.
 """
 
 import argparse
-from ppci.format.elf import read_elf
+
 import matplotlib.pyplot as plt
 
+from ppci.format.elf import read_elf
 
 parser = argparse.ArgumentParser()
 parser.add_argument("elf_file")

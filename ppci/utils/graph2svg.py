@@ -1,6 +1,7 @@
 """Implementation of a graph to svg formatter."""
 
 from statistics import median
+
 from .collections import OrderedSet
 
 

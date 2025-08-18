@@ -4,11 +4,11 @@
 A widget to log a python logger.
 """
 
-import sys
-import logging
 import datetime
+import logging
+import sys
 
-from qtwrapper import QtCore, QtWidgets, Qt
+from qtwrapper import Qt, QtCore, QtWidgets
 
 
 def formatTime(t):

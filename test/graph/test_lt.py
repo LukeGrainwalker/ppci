@@ -1,6 +1,7 @@
 """Test Lengauer Tarjan algorithm"""
 
 import unittest
+
 from ppci.graph import DiGraph, DiNode
 from ppci.graph.lt import calculate_idom
 

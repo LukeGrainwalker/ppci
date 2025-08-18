@@ -1,6 +1,7 @@
+import io
 import unittest
 from unittest.mock import Mock
-import io
+
 from ppci import api, irutils
 from ppci.lang.python import load_py, python_to_ir
 from ppci.utils.reporting import html_reporter

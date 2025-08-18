@@ -4,22 +4,25 @@ import logging
 import os
 import shelve
 
-from ...utils.codepage import load_obj, MemoryPage
 from ...irutils import verify_module
-from .. import wasm_to_ir
+from ...utils.codepage import MemoryPage, load_obj
 from ..components import Table
 from ..util import PAGE_SIZE
-from ._base_instance import ModuleInstance
-from ._base_instance import MemoryInstance, GlobalInstance
-from ._base_instance import TableInstance, ElemInstance
-
+from ..wasm2ppci import wasm_to_ir
+from ._base_instance import (
+    ElemInstance,
+    GlobalInstance,
+    MemoryInstance,
+    ModuleInstance,
+    TableInstance,
+)
 
 logger = logging.getLogger("instantiate")
 
 
 def native_instantiate(module, imports, reporter, cache_file):
     """Load wasm module native"""
-    from ...api import ir_to_object, get_current_arch
+    from ...api import get_current_arch, ir_to_object
 
     logger.info("Instantiating wasm module as native code")
     arch = get_current_arch()

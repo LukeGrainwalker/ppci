@@ -1,10 +1,9 @@
-import unittest
 import io
 import os
+import unittest
 from unittest.mock import patch
 
 from ppci.cli.readelf import readelf
-
 
 bash_path = "/usr/bin/bash"
 

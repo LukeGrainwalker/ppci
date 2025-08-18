@@ -1,14 +1,18 @@
 #!/usr/bin/python
 
-import unittest
 import io
+import unittest
+
 from ppci import ir
-from ppci.irutils import Builder, Writer
-from ppci.codegen.irdag import SelectionGraphBuilder
-from ppci.codegen.irdag import FunctionInfo, prepare_function_info
+from ppci.api import get_arch
 from ppci.arch.example import ExampleArch
 from ppci.binutils.debuginfo import DebugDb
-from ppci.api import get_arch
+from ppci.codegen.irdag import (
+    FunctionInfo,
+    SelectionGraphBuilder,
+    prepare_function_info,
+)
+from ppci.irutils import Builder, Writer
 
 
 def print_module(m):

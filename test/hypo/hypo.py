@@ -6,11 +6,11 @@ Idea:
 - compare the results
 """
 
-from ppci.graph import lt, cfg
-from ppci.graph.algorithm import fixed_point_dominator
-
 import hypothesis
 from hypothesis_networkx import graph_builder
+
+from ppci.graph import cfg, lt
+from ppci.graph.algorithm import fixed_point_dominator
 
 builder = graph_builder(min_nodes=1, max_nodes=None)
 

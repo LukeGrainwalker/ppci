@@ -1,13 +1,14 @@
 """Helper script to help in compilation of the newlib libc."""
 
-import os
 import logging
+import os
 import time
 import traceback
 from pathlib import Path
+
 from ppci.api import cc
-from ppci.lang.c import COptions
 from ppci.common import CompilerError, logformat
+from ppci.lang.c import COptions
 
 logger = logging.getLogger("compile_newlib")
 home = Path(os.environ["HOME"]).resolve()

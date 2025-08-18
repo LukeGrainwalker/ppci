@@ -2,9 +2,9 @@
 
 from .. import ir
 from ..arch.arch import VirtualMachineArchitecture
-from ..arch.stack import FramePointerLocation
-from ..arch.registers import Register, RegisterClass
 from ..arch.arch_info import ArchInfo, TypeInfo
+from ..arch.registers import Register, RegisterClass
+from ..arch.stack import FramePointerLocation
 
 
 # Define 'registers' that are actually wasm local variables:

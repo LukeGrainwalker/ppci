@@ -2,12 +2,11 @@
 
 import argparse
 import sys
-from .base import base_parser, march_parser, LogSetup, get_arch_from_args
-from .compile_base import compile_parser, do_compile
-from ..arch.jvm import read_class_file, class_to_ir, print_class_file
-from ..arch.jvm import read_jar
-from ..irutils import print_module
 
+from ..arch.jvm import class_to_ir, print_class_file, read_class_file, read_jar
+from ..irutils import print_module
+from .base import LogSetup, base_parser, get_arch_from_args, march_parser
+from .compile_base import compile_parser, do_compile
 
 parser = argparse.ArgumentParser(description=__doc__, parents=[base_parser])
 subparsers = parser.add_subparsers(

@@ -1,6 +1,6 @@
 import unittest
 
-from ..helper_util import make_filename, examples_path
+from ..helper_util import examples_path, make_filename
 from .sample_helpers import add_samples, build
 
 

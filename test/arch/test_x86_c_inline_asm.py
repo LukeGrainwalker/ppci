@@ -1,5 +1,6 @@
-import unittest
 import io
+import unittest
+
 from ppci.api import cc, get_arch
 
 

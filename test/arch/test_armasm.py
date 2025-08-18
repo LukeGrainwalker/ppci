@@ -1,7 +1,9 @@
-import unittest
 import io
-from ..test_asm import AsmTestCaseBase
+import unittest
+
 from ppci.binutils.layout import Layout
+
+from ..test_asm import AsmTestCaseBase
 
 
 class ArmAssemblerTestCase(AsmTestCaseBase):

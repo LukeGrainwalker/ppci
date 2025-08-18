@@ -3,19 +3,18 @@ Utils for working with WASM and binary data.
 """
 
 import io
-import logging
-import os
-import math
-import re
-import tempfile
-import struct
-from pathlib import Path
-import subprocess
 import keyword
-from contextlib import suppress
+import logging
+import math
+import os
+import re
 import shutil
+import struct
+import subprocess
+import tempfile
+from contextlib import suppress
 from functools import lru_cache
-
+from pathlib import Path
 
 __all__ = [
     "export_wasm_example",
@@ -227,8 +226,9 @@ _nb_output = 0
 
 def run_wasm_in_notebook(wasm):
     """Load a WASM module in the Jupyter notebook."""
+    from IPython.display import HTML, Javascript, display
+
     from .components import Module
-    from IPython.display import display, HTML, Javascript
 
     if isinstance(wasm, Module):
         wasm = wasm.to_bytes()

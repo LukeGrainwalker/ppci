@@ -1,4 +1,5 @@
 import unittest
+
 from ppci.api import bf_to_ir, get_arch
 from ppci.common import CompilerError
 

@@ -5,13 +5,12 @@ computer architectures.
 """
 
 import argparse
-from .base import base_parser, march_parser
-from .compile_base import compile_parser, do_compile
-from .base import LogSetup, get_arch_from_args
-from .. import api
-from ..lang.c import create_ast, CAstPrinter
-from ..lang.c.options import COptions, coptions_parser
 
+from .. import api
+from ..lang.c import CAstPrinter, create_ast
+from ..lang.c.options import COptions, coptions_parser
+from .base import LogSetup, base_parser, get_arch_from_args, march_parser
+from .compile_base import compile_parser, do_compile
 
 parser = argparse.ArgumentParser(
     description=__doc__,

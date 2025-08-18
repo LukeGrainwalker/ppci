@@ -6,11 +6,10 @@ Multiple usage possible, for example:
 
 import argparse
 import sys
-from .base import base_parser, march_parser
-from .compile_base import compile_parser, do_compile
-from .base import LogSetup, get_arch_from_args
-from ..lang.ocaml import read_file, ocaml_to_ir
 
+from ..lang.ocaml import ocaml_to_ir, read_file
+from .base import LogSetup, base_parser, get_arch_from_args, march_parser
+from .compile_base import compile_parser, do_compile
 
 parser = argparse.ArgumentParser(
     description=__doc__,

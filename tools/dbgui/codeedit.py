@@ -7,10 +7,11 @@ features:
 - break point set / clear
 """
 
-import sys
-import os
-from qtwrapper import QtGui, QtCore, QtWidgets, pyqtSignal, Qt, get_icon
 import inspect
+import os
+import sys
+
+from qtwrapper import Qt, QtCore, QtGui, QtWidgets, get_icon, pyqtSignal
 
 GAP = 5
 

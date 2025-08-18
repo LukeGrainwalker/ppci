@@ -2,9 +2,9 @@
 
 import argparse
 import sys
-from .base import base_parser, LogSetup
-from ..wasm import read_wat, read_wasm, execute_wasm
 
+from ..wasm import execute_wasm, read_wasm, read_wat
+from .base import LogSetup, base_parser
 
 parser = argparse.ArgumentParser(description=__doc__, parents=[base_parser])
 subparsers = parser.add_subparsers(

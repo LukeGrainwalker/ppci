@@ -2,12 +2,12 @@
 
 import argparse
 
+from linux64debugdriver import Linux64DebugDriver
+
 # import logging
 from ppci import api
 from ppci.binutils.dbg import Debugger
 from ppci.binutils.dbg.ptcli import PtDebugCli
-from linux64debugdriver import Linux64DebugDriver
-
 
 if __name__ == "__main__":
     # logging.basicConfig(level=logging.DEBUG)

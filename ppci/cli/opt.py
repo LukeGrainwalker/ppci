@@ -1,9 +1,9 @@
 """Optimizer"""
 
 import argparse
-from .base import base_parser, LogSetup
-from .. import api, irutils
 
+from .. import api, irutils
+from .base import LogSetup, base_parser
 
 parser = argparse.ArgumentParser(description=__doc__, parents=[base_parser])
 parser.add_argument("-O", help="Optimization level", default=2, type=int)

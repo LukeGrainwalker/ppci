@@ -8,12 +8,11 @@ The wasm runtime contains the following:
 """
 
 from ...utils.reporting import DummyReportGenerator
-from .runtime import create_runtime
 from ..components import Import
+from ._base_instance import ModuleInstance
 from ._native_instance import native_instantiate
 from ._python_instance import python_instantiate
-from ._base_instance import ModuleInstance
-
+from .runtime import create_runtime
 
 __all__ = ("instantiate",)
 

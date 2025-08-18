@@ -1,5 +1,5 @@
-from qtwrapper import QtWidgets
 from hexedit import HexEdit
+from qtwrapper import QtWidgets
 
 
 class MemoryView(QtWidgets.QWidget):

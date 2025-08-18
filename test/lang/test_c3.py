@@ -1,11 +1,18 @@
-import unittest
-import logging
 import io
-from ppci.lang.c3 import C3Builder, Lexer, Parser, AstPrinter, Context
-from ppci.lang.c3 import astnodes
+import logging
+import unittest
+
 from ppci.arch.example import ExampleArch
-from ppci.common import DiagnosticsManager, CompilerError
+from ppci.common import CompilerError, DiagnosticsManager
 from ppci.irutils import verify_module
+from ppci.lang.c3 import (
+    AstPrinter,
+    C3Builder,
+    Context,
+    Lexer,
+    Parser,
+    astnodes,
+)
 
 
 class LexerTestCase(unittest.TestCase):

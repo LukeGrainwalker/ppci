@@ -16,30 +16,34 @@ Idea:
 
 import io
 import logging
-import os
-from itertools import cycle
 import traceback
-
-from pygments.styles import get_style_by_name
-from pygments.lexers import CLexer
+from itertools import cycle
+from pathlib import Path
 
 from prompt_toolkit import Application
 from prompt_toolkit.buffer import Buffer
+from prompt_toolkit.filters import Condition
 from prompt_toolkit.key_binding import KeyBindings
-from prompt_toolkit.key_binding.bindings.focus import focus_next
-from prompt_toolkit.key_binding.bindings.focus import focus_previous
+from prompt_toolkit.key_binding.bindings.focus import (
+    focus_next,
+    focus_previous,
+)
 from prompt_toolkit.keys import Keys
-from prompt_toolkit.lexers import PygmentsLexer
-from prompt_toolkit.layout.containers import HSplit, Window, VSplit
-from prompt_toolkit.layout.containers import ConditionalContainer
-from prompt_toolkit.layout.controls import BufferControl
-from prompt_toolkit.layout.controls import FormattedTextControl
-from prompt_toolkit.layout import ScrollbarMargin, NumberedMargin
-from prompt_toolkit.widgets import Frame
+from prompt_toolkit.layout import NumberedMargin, ScrollbarMargin
+from prompt_toolkit.layout.containers import (
+    ConditionalContainer,
+    HSplit,
+    VSplit,
+    Window,
+)
+from prompt_toolkit.layout.controls import BufferControl, FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.layout.processors import Processor, Transformation
-from prompt_toolkit.filters import Condition
+from prompt_toolkit.lexers import PygmentsLexer
 from prompt_toolkit.styles import style_from_pygments_cls
+from prompt_toolkit.widgets import Frame
+from pygments.lexers import CLexer
+from pygments.styles import get_style_by_name
 
 from ppci import __version__ as ppci_version
 from ppci import api
@@ -47,6 +51,10 @@ from ppci.binutils.outstream import TextOutputStream
 from ppci.common import CompilerError, logformat
 from ppci.irutils import print_module
 from ppci.lang.c import create_ast, print_ast
+
+this_path = Path(__file__).resolve().parent
+root_path = this_path.parent
+cache_path = root_path / ".cache"
 
 
 class MyHandler(logging.Handler):
@@ -74,7 +82,7 @@ class DisplayErrorsProcessor(Processor):
 class PpciExplorer:
     """Ppci explorer."""
 
-    cache_filename = "ppci_explorer_source.txt"
+    cache_filename = cache_path / "ppci_explorer_source.txt"
 
     def __init__(self):
         available_archs = [
@@ -170,13 +178,19 @@ class PpciExplorer:
         self.application = Application(
             layout=layout, key_bindings=kb, style=style, full_screen=True
         )
+        self.load_source()
 
-        if os.path.exists(self.cache_filename):
-            with open(self.cache_filename) as f:
-                src = f.read()
+    def load_source(self):
+        if self.cache_filename.exists():
+            src = self.cache_filename.read_text()
         else:
             src = DEMO_SOURCE
         self.source_buffer.text = src
+
+    def save_source(self):
+        if not self.cache_filename.parent.exists():
+            self.cache_filename.parent.mkdir(parents=True)
+        self.cache_filename.write_text(self.source_buffer.text)
 
     def on_change(self, source_buffer):
         self.do_compile()
@@ -246,8 +260,7 @@ class PpciExplorer:
         self.show_log = not self.show_log
 
     def quit(self, event):
-        with open(self.cache_filename, "w") as f:
-            f.write(self.source_buffer.text)
+        self.save_source()
         event.app.exit()
 
 

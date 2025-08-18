@@ -5,7 +5,7 @@ from ppci import api
 from ppci.lang.c import COptions
 from ppci.utils.reporting import html_reporter
 
-from ..helper_util import source_files, test_path, librt_path
+from ..helper_util import librt_path, source_files, test_path
 
 
 def create_test_function(source: Path, output: Path, lang: str):

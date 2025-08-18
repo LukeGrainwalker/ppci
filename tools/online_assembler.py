@@ -1,8 +1,9 @@
 """Helper to assemble code from a web page."""
 
-import flask
 import subprocess
 import tempfile
+
+import flask
 
 main_html = r"""
 <!DOCTYPE html>

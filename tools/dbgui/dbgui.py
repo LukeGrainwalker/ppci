@@ -5,19 +5,19 @@ Debug user interface for debugging.
 """
 
 import logging
-from qtwrapper import QtGui, QtCore, QtWidgets
-from qtwrapper import Qt
-from codeedit import CodeEdit
-from logview import LogView as BuildOutput
-from regview import RegisterView
-from memview import MemoryView
-from varview import VariablesView, LocalsView
-from disasm import Disassembly
+
 from aboutdialog import AboutDialog
 from build_errors import BuildErrors
+from codeedit import CodeEdit
 from dbgtoolbar import DebugToolbar
-from qdebugger import QDebugger
+from disasm import Disassembly
 from gdbconsole import GdbConsole
+from logview import LogView as BuildOutput
+from memview import MemoryView
+from qdebugger import QDebugger
+from qtwrapper import Qt, QtCore, QtGui, QtWidgets
+from regview import RegisterView
+from varview import LocalsView, VariablesView
 
 
 class DebugUi(QtWidgets.QMainWindow):

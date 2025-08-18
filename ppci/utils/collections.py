@@ -9,8 +9,8 @@ Inspiration:
 http://code.activestate.com/recipes/576694/
 """
 
-from collections.abc import MutableSet
 from collections import OrderedDict
+from collections.abc import MutableSet
 
 
 class OrderedSet(MutableSet):

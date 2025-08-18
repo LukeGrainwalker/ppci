@@ -1,6 +1,7 @@
 """Test architecture related classes"""
 
 import unittest
+
 from ppci.arch.stack import Frame, FramePointerLocation
 
 

@@ -2,10 +2,10 @@
 
 import argparse
 import importlib
-from .base import base_parser, march_parser, get_arch_from_args, LogSetup
+
 from ..binutils.dbg import Debugger
 from ..binutils.dbg.cli import DebugCli
-
+from .base import LogSetup, base_parser, get_arch_from_args, march_parser
 
 parser = argparse.ArgumentParser(
     description=__doc__, parents=(march_parser, base_parser)

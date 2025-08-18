@@ -1,11 +1,12 @@
 #!/usr/bin/python
 
 import unittest
-from ppci.graph import Graph, Node, DiGraph, DiNode, MaskableGraph
-from ppci.codegen.interferencegraph import InterferenceGraph
-from ppci.codegen.flowgraph import FlowGraph
+
+from ppci.arch.example import Add, Cmp, Def, DefUse, ExampleRegister, Use, Use3
 from ppci.arch.generic_instructions import Nop
-from ppci.arch.example import Def, Use, DefUse, Add, Cmp, Use3, ExampleRegister
+from ppci.codegen.flowgraph import FlowGraph
+from ppci.codegen.interferencegraph import InterferenceGraph
+from ppci.graph import DiGraph, DiNode, Graph, MaskableGraph, Node
 
 
 class GraphTestCase(unittest.TestCase):

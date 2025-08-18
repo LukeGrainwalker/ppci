@@ -4,11 +4,11 @@ Create or update an archive. Or extract object files from the archive.
 """
 
 import argparse
-from .base import base_parser, LogSetup
-from .. import api
-from ..binutils.objectfile import get_object
-from ..binutils.archive import get_archive
 
+from .. import api
+from ..binutils.archive import get_archive
+from ..binutils.objectfile import get_object
+from .base import LogSetup, base_parser
 
 parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,

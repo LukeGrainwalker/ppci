@@ -11,18 +11,18 @@ Usage:
 
 """
 
-import sys
-import os
 import logging
+import os
+import sys
 import time
 from pathlib import Path
 
 from ppci.api import cc, link
-from ppci.lang.c import COptions
 from ppci.common import CompilerError, logformat
+from ppci.lang.c import COptions
 from ppci.utils.reporting import html_reporter
 
-logger = logging.getLogger("compile_libmap")
+logger = logging.getLogger("compile_libmad")
 
 
 def do_compile(filename: Path, include_paths, arch, reporter):
@@ -45,14 +45,18 @@ def main():
         )
         return
 
-    this_dir = Path(__file__).resolve().parent
-    report_filename = this_dir / "report_libmad.html"
-    libc_folder = this_dir.parent / "librt" / "libc"
+    this_path = Path(__file__).resolve().parent
+    root_path = this_path.parent
+    build_path = root_path / "build"
+    if not build_path.exists():
+        build_path.mkdir(parents=True)
+    report_filename = build_path / "report_libmad.html"
+    libc_folder = root_path / "librt" / "libc"
     libc_includes = libc_folder / "include"
     include_paths = [libc_includes, libmad_folder]
     arch = "x86_64"
 
-    t1 = time.time()
+    t1 = time.monotonic()
     failed = 0
     passed = 0
     sources = [
@@ -87,9 +91,9 @@ def main():
                 logger.info("Great success!")
                 passed += 1
 
-    t2 = time.time()
+    t2 = time.monotonic()
     elapsed = t2 - t1
-    print("Passed:", passed, "failed:", failed, "in", elapsed, "seconds")
+    logger.info(f"Passed: {passed} failed: {failed} in {elapsed} seconds")
     obj = link(objs)
     print(obj)
 

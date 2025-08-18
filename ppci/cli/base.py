@@ -4,13 +4,16 @@ import argparse
 import logging
 import platform
 import sys
-from .. import __version__
-from ..arch.target_list import target_names, create_arch
-from ..build.tasks import TaskError
-from ..common import logformat, CompilerError
-from ..utils.reporting import HtmlReportGenerator, DummyReportGenerator
-from ..utils.reporting import TextReportGenerator
 
+from .. import __version__
+from ..arch.target_list import create_arch, target_names
+from ..build.tasks import TaskError
+from ..common import CompilerError, logformat
+from ..utils.reporting import (
+    DummyReportGenerator,
+    HtmlReportGenerator,
+    TextReportGenerator,
+)
 
 version_text = (
     f"ppci {__version__}"

@@ -1,10 +1,10 @@
-import unittest
 import io
+import unittest
 
+from ppci.api import get_arch
 from ppci.binutils.objectfile import ObjectFile
 from ppci.format.elf import ElfFile, write_elf
 from ppci.format.elf.writer import elf_hash
-from ppci.api import get_arch
 
 
 class ElfFileTestCase(unittest.TestCase):

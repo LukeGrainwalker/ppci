@@ -4,11 +4,12 @@
 Tool that randomly generates code and feeds it through the code generator.
 """
 
-import random
 import io
-from ppci.api import ir_to_object
+import random
+
 from ppci import ir
-from ppci.irutils import Builder, Writer, Verifier
+from ppci.api import ir_to_object
+from ppci.irutils import Builder, Verifier, Writer
 
 
 class Generator:

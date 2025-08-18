@@ -1,5 +1,6 @@
-import unittest
 import io
+import unittest
+
 from ppci.api import ws_to_ir
 from ppci.common import CompilerError
 

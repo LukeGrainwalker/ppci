@@ -6,9 +6,9 @@ to produce another resulting object file with images.
 
 import argparse
 import sys
-from .base import base_parser, out_parser, LogSetup
-from .. import api
 
+from .. import api
+from .base import LogSetup, base_parser, out_parser
 
 parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,

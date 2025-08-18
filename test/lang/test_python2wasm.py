@@ -3,8 +3,8 @@ This tets the python_to_wasm compiler, and also touches on some wasm-specifics,
 such as the floor operator.
 """
 
-from ppci.lang.python import python_to_wasm
 from ppci import wasm
+from ppci.lang.python import python_to_wasm
 
 
 def find_prime(nth):

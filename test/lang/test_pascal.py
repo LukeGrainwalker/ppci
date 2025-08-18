@@ -1,9 +1,10 @@
-import unittest
 import io
-from ppci.lang.pascal import PascalBuilder
+import unittest
+
 from ppci.arch.example import ExampleArch
-from ppci.common import DiagnosticsManager, CompilerError
+from ppci.common import CompilerError, DiagnosticsManager
 from ppci.irutils import verify_module
+from ppci.lang.pascal import PascalBuilder
 
 
 class BuildTestCaseBase(unittest.TestCase):

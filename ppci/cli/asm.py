@@ -1,10 +1,15 @@
 """Assembler utility."""
 
 import argparse
-from .base import base_parser, march_parser, out_parser, LogSetup
-from .base import get_arch_from_args
-from .. import api
 
+from .. import api
+from .base import (
+    LogSetup,
+    base_parser,
+    get_arch_from_args,
+    march_parser,
+    out_parser,
+)
 
 parser = argparse.ArgumentParser(
     description=__doc__,

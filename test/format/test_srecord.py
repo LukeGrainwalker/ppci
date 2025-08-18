@@ -1,4 +1,5 @@
 import unittest
+
 from ppci.format.srecord import SRecord
 
 

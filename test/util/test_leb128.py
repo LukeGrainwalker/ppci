@@ -1,7 +1,11 @@
 import unittest
 
-from ppci.utils.leb128 import signed_leb128_encode, unsigned_leb128_encode
-from ppci.utils.leb128 import signed_leb128_decode, unsigned_leb128_decode
+from ppci.utils.leb128 import (
+    signed_leb128_decode,
+    signed_leb128_encode,
+    unsigned_leb128_decode,
+    unsigned_leb128_encode,
+)
 
 
 class Leb128TestCase(unittest.TestCase):

@@ -1,6 +1,7 @@
 """Small helper to convert binary data into text and vice-versa."""
 
 import binascii
+
 from .chunk import chunks
 
 

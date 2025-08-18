@@ -12,28 +12,27 @@ Usage:
 
 """
 
-import os
-import logging
-import time
 import argparse
-
-try:
-    from powertb import print_exc
-except ImportError:
-    from traceback import print_exc
+import logging
+import os
+import time
+from pathlib import Path
 
 from ppci import api
-from ppci.utils.reporting import html_reporter
+from ppci.common import CompilerError, logformat
 from ppci.format.elf import write_elf
 from ppci.lang.c import COptions
-from ppci.common import CompilerError, logformat
+from ppci.utils.reporting import html_reporter
 
-home = os.environ["HOME"]
-_8cc_folder = os.path.join(home, "GIT", "8cc")
-this_dir = os.path.abspath(os.path.dirname(__file__))
-report_filename = os.path.join(this_dir, "report_8cc.html")
-libc_folder = os.path.join(this_dir, "..", "librt", "libc")
-libc_includes = os.path.join(libc_folder, "include")
+logger = logging.getLogger("compile_8cc")
+home = Path(os.environ["HOME"]).resolve()
+_8cc_folder = home / "GIT" / "8cc"
+this_dir = Path(__file__).resolve().parent
+root_path = this_dir.parent
+build_path = root_path / "build"
+report_filename = build_path / "report_8cc.html"
+libc_folder = root_path / "librt" / "libc"
+libc_includes = libc_folder / "include"
 linux_include_dir = "/usr/include"
 arch = "x86_64"
 coptions = COptions()
@@ -46,15 +45,15 @@ coptions.add_include_paths(include_paths)
 coptions.add_define("BUILD_DIR", f'"{_8cc_folder}"')
 
 
-def do_compile(filename, reporter):
-    with open(filename) as f:
+def do_compile(filename: Path, reporter):
+    with filename.open() as f:
         obj = api.cc(f, arch, coptions=coptions, reporter=reporter)
-    print(filename, "compiled into", obj)
+    logger.info(f"{filename} compiled into {obj}")
     return obj
 
 
 def main():
-    t1 = time.time()
+    t1 = time.monotonic()
     failed = 0
     passed = 0
     sources = [
@@ -76,30 +75,29 @@ def main():
     objs = []
     with html_reporter(report_filename) as reporter:
         for filename in sources:
-            filename = os.path.join(_8cc_folder, filename)
-            print("==> Compiling", filename)
+            filename = _8cc_folder / filename
+            logger.info(f"==> Compiling {filename}")
             try:
                 obj = do_compile(filename, reporter)
             except CompilerError as ex:
-                print("Error:", ex.msg, ex.loc)
+                logger.exception(f"Error: {ex.msg}, {ex.loc}")
                 ex.print()
-                print_exc()
                 failed += 1
             except Exception as ex:
-                print("General exception:", ex)
-                print_exc()
+                logger.exception(f"General exception: {ex}")
                 failed += 1
             else:
                 objs.append(obj)
-                print("Great success!")
+                logger.info("Great success!")
                 passed += 1
 
-    t2 = time.time()
+    t2 = time.monotonic()
     elapsed = t2 - t1
-    print(passed, "passed,", failed, "failed in", elapsed, "seconds")
+    logger.info(f"{passed} passed, {failed} failed in {elapsed} seconds")
 
     obj = api.link(objs)
-    with open("8cc.exe", "wb") as f:
+    exe_path = build_path / "8cc.exe"
+    with exe_path.open("wb") as f:
         write_elf(obj, f, type="executable")
 
 
@@ -107,9 +105,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--verbose", "-v", action="count", default=0)
     args = parser.parse_args()
-    if args.verbose > 0:
-        level = logging.DEBUG
-    else:
-        level = logging.INFO
+    level = logging.DEBUG if args.verbose > 0 else logging.INFO
     logging.basicConfig(level=level, format=logformat)
     main()

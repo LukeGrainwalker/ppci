@@ -2,14 +2,20 @@
 
 import logging
 import struct
-from .. import ir
-from .. import irutils
-from .. import common
-from ..binutils import debuginfo
+
+from .. import common, ir, irutils
 from ..arch.arch_info import TypeInfo
+from ..binutils import debuginfo
 from . import components
-from .opcodes import STORE_OPS, LOAD_OPS, BINOPS, CMPOPS, STACK_IO
-from .opcodes import OPERANDS, ArgType
+from .opcodes import (
+    BINOPS,
+    CMPOPS,
+    LOAD_OPS,
+    OPERANDS,
+    STACK_IO,
+    STORE_OPS,
+    ArgType,
+)
 from .util import sanitize_name
 
 
