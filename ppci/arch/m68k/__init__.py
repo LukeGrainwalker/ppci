@@ -2,5 +2,4 @@
 
 from .arch import M68kArch
 
-
 __all__ = ["M68kArch"]

@@ -1,13 +1,30 @@
-from ..isa import Isa
-from ..encoding import Instruction, Operand, Syntax, Relocation, Transform
-from ..generic_instructions import RegisterUseDef, ArtificialInstruction
-from ..generic_instructions import Global
-from ..token import Token, bit_range, bit
 from ...utils.bitfun import wrap_negative
-from .registers import AvrRegister, Y, Z, AvrYRegister, AvrZRegister
-from .registers import HighAvrRegister, AvrWordRegister
-from .registers import HighAvrWordRegister, SuperHighAvrWordRegister
-from .registers import r0, r1, r1r0, r23r22, W, r22, r24
+from ..encoding import Instruction, Operand, Relocation, Syntax, Transform
+from ..generic_instructions import (
+    ArtificialInstruction,
+    Global,
+    RegisterUseDef,
+)
+from ..isa import Isa
+from ..token import Token, bit, bit_range
+from .registers import (
+    AvrRegister,
+    AvrWordRegister,
+    AvrYRegister,
+    AvrZRegister,
+    HighAvrRegister,
+    HighAvrWordRegister,
+    SuperHighAvrWordRegister,
+    W,
+    Y,
+    Z,
+    r0,
+    r1,
+    r1r0,
+    r22,
+    r23r22,
+    r24,
+)
 
 
 class AvrToken(Token):

@@ -1,4 +1,5 @@
 import struct
+
 from .arch_info import Endianness
 
 

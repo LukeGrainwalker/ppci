@@ -8,8 +8,8 @@ dd 2 -> 02000000
 
 """
 
+from .encoding import Instruction, Operand, Relocation, Syntax
 from .isa import Isa
-from .encoding import Instruction, Operand, Syntax, Relocation
 from .token import Token, bit_range, u32
 
 data_isa = Isa()

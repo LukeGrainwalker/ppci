@@ -1,14 +1,13 @@
 """The microblaze architecture"""
 
 from ... import ir
-from ..arch import Architecture
-from ..arch_info import ArchInfo, TypeInfo, Endianness
-from ..generic_instructions import Label, RegisterUseDef, Alignment
-from ..data_instructions import Db
-from ..stack import StackLocation, FramePointerLocation
 from ...binutils.assembler import BaseAssembler
-from . import instructions
-from . import registers
+from ..arch import Architecture
+from ..arch_info import ArchInfo, Endianness, TypeInfo
+from ..data_instructions import Db
+from ..generic_instructions import Alignment, Label, RegisterUseDef
+from ..stack import FramePointerLocation, StackLocation
+from . import instructions, registers
 
 
 class MicroBlazeArch(Architecture):

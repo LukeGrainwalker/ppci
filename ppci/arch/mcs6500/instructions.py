@@ -3,10 +3,9 @@
 See for example: http://www.6502.org/tutorials/6502opcodes.html
 """
 
+from ..encoding import Constructor, Instruction, Operand, Relocation, Syntax
 from ..isa import Isa
-from ..encoding import Instruction, Syntax, Operand, Constructor, Relocation
 from ..token import Token, bit_range
-
 
 isa = Isa()
 

@@ -2,8 +2,8 @@
 
 import enum
 
-from .. import header
 from ...arch.arch_info import Endianness
+from .. import header
 
 
 class OsAbi(enum.IntEnum):

@@ -1,4 +1,4 @@
-from ..token import Token, bit_range, bit_concat, bit
+from ..token import Token, bit, bit_concat, bit_range
 
 
 class RiscvToken(Token):

@@ -9,9 +9,10 @@ The only types available are basic integer types and a pointer type.
 
 # pylint: disable=R0903
 
+import logging
 from binascii import hexlify
 from itertools import chain
-import logging
+
 from .utils.collections import OrderedSet
 
 

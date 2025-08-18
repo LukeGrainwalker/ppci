@@ -1,14 +1,29 @@
 """Stm8 instructions"""
 
-from .registers import Stm8RegisterA, A
-from .registers import Stm8RegisterX, Stm8RegisterXL, Stm8RegisterXH
-from .registers import Stm8RegisterY, Stm8RegisterYL, Stm8RegisterYH
-from .registers import Stm8RegisterSP, Stm8RegisterCC
-from .registers import Stm8Virt8Register, Stm8Virt16Register
+from ..encoding import (
+    Constructor,
+    FixedPattern,
+    Instruction,
+    Operand,
+    Syntax,
+    VariablePattern,
+)
 from ..isa import Isa
-from ..encoding import FixedPattern, Instruction, Operand, Syntax
-from ..encoding import VariablePattern, Constructor
-from ..token import bit_range, Token, Endianness
+from ..token import Endianness, Token, bit_range
+from .registers import (
+    A,
+    Stm8RegisterA,
+    Stm8RegisterCC,
+    Stm8RegisterSP,
+    Stm8RegisterX,
+    Stm8RegisterXH,
+    Stm8RegisterXL,
+    Stm8RegisterY,
+    Stm8RegisterYH,
+    Stm8RegisterYL,
+    Stm8Virt8Register,
+    Stm8Virt16Register,
+)
 
 
 class Stm8PrecodeToken(Token):

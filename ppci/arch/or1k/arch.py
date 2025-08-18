@@ -3,12 +3,16 @@
 from ... import ir
 from ...binutils.assembler import BaseAssembler
 from ..arch import Architecture
-from ..arch_info import ArchInfo, TypeInfo, Endianness
-from ..generic_instructions import Label, Alignment, SectionInstruction
-from ..generic_instructions import RegisterUseDef
-from ..data_instructions import data_isa, Db
-from .isa import orbis32
+from ..arch_info import ArchInfo, Endianness, TypeInfo
+from ..data_instructions import Db, data_isa
+from ..generic_instructions import (
+    Alignment,
+    Label,
+    RegisterUseDef,
+    SectionInstruction,
+)
 from . import instructions, registers
+from .isa import orbis32
 
 
 class Or1kArch(Architecture):

@@ -1,12 +1,15 @@
 """Open risc instruction definitions"""
 
-from .isa import orbis32, Orbis32Token, Orbis32StoreToken
-from .isa import Orbis32ShiftImmediateToken
-from .registers import Or1kRegister
-from ..encoding import Instruction, Syntax, Operand, Constructor
-from ..encoding import Relocation
+from ..encoding import Constructor, Instruction, Operand, Relocation, Syntax
 from ..stack import StackLocation
 from . import registers
+from .isa import (
+    Orbis32ShiftImmediateToken,
+    Orbis32StoreToken,
+    Orbis32Token,
+    orbis32,
+)
+from .registers import Or1kRegister
 
 
 # basic 32 bit integers

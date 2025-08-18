@@ -77,7 +77,7 @@ extend-select = [
     "B",     # bugbear
     "PIE",   # flake8-pie
     "UP",    # pyupgrade
-    # "I",     # isort
+    "I",     # isort
     "C4",    # flake8-comprehensions
     # "LOG",
     # "N",

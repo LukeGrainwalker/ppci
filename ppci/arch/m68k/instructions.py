@@ -1,13 +1,11 @@
 """M68k instruction descriptions."""
 
 # pylint: disable=invalid-name
+from ..encoding import Constructor, Instruction, Operand, Relocation, Syntax
 from ..isa import Isa
-from ..encoding import Instruction, Syntax, Operand, Constructor
-from ..encoding import Relocation
-from ..token import Token, bit_range, Endianness
-from .registers import DataRegister, AddressRegister
+from ..token import Endianness, Token, bit_range
 from . import registers
-
+from .registers import AddressRegister, DataRegister
 
 m68k_isa = Isa()
 

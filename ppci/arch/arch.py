@@ -3,9 +3,10 @@
 import abc
 import logging
 from functools import lru_cache
-from .stack import Frame, FramePointerLocation
-from .asm_printer import AsmPrinter
+
 from .. import ir
+from .asm_printer import AsmPrinter
+from .stack import Frame, FramePointerLocation
 
 
 # Idea: create several types of architectures.
@@ -145,6 +146,7 @@ class Architecture(MachineArchitecture):
     def get_runtime(self):
         """Create an object with an optional runtime."""
         import io
+
         from ..api import asm
 
         asm_src = ""

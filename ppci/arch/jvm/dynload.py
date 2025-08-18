@@ -2,8 +2,8 @@
 
 import logging
 
-from .io import read_class_file
 from .class2ir import class_to_ir
+from .io import read_class_file
 
 
 def load_class(filename):
@@ -14,7 +14,7 @@ def load_class(filename):
 
     ir_module = class_to_ir(class_file)
 
-    from ...api import ir_to_object, get_current_arch
+    from ...api import get_current_arch, ir_to_object
 
     arch = get_current_arch()
     logger.info("Instantiating class as %s code", arch)

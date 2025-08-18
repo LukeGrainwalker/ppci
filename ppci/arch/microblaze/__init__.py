@@ -14,5 +14,4 @@ Low level instruction class usage:
 from .arch import MicroBlazeArch
 from .registers import MicroBlazeRegister
 
-
 __all__ = ("MicroBlazeArch", "MicroBlazeRegister")

@@ -1,9 +1,9 @@
 """Create Amiga hunk files."""
 
 import logging
-from . import enums
-from ..io import BaseIoWriter
 
+from ..io import BaseIoWriter
+from . import enums
 
 logger = logging.getLogger("hunk-writer")
 

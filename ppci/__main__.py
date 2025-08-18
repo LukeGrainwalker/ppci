@@ -2,9 +2,8 @@
 
 # from ppci.cli import main
 
-import sys
 import importlib
-
+import sys
 
 valid_programs = [
     "archive",

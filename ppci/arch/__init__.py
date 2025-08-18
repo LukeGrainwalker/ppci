@@ -23,8 +23,8 @@
 
 """
 
-import sys
 import platform
+import sys
 
 from .arch import Architecture, Frame
 from .isa import Isa

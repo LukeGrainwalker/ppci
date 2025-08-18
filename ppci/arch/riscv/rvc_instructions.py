@@ -1,15 +1,38 @@
 """Definitions of Riscv instructions."""
 
-from ..isa import Isa
-from ..encoding import Instruction, Syntax, Operand
-from .registers import RiscvRegister
-from .tokens import RiscvToken, RiscvcToken
-from .rvc_relocations import BcImm11Relocation, BcImm8Relocation
-from .rvc_relocations import CBImm11Relocation, CBlImm11Relocation
+from ..encoding import Instruction, Operand, Syntax
 from ..generic_instructions import ArtificialInstruction
-from .instructions import Andr, Orr, Xorr, Subr, Addi, Slli, Srli
-from .instructions import Lw, Sw, Blt, Bgt, Bge, Beq, Bne, Ble, Blr
-from .instructions import Bgtu, Bltu, Bgeu, Bleu
+from ..isa import Isa
+from .instructions import (
+    Addi,
+    Andr,
+    Beq,
+    Bge,
+    Bgeu,
+    Bgt,
+    Bgtu,
+    Ble,
+    Bleu,
+    Blr,
+    Blt,
+    Bltu,
+    Bne,
+    Lw,
+    Orr,
+    Slli,
+    Srli,
+    Subr,
+    Sw,
+    Xorr,
+)
+from .registers import RiscvRegister
+from .rvc_relocations import (
+    BcImm8Relocation,
+    BcImm11Relocation,
+    CBImm11Relocation,
+    CBlImm11Relocation,
+)
+from .tokens import RiscvcToken, RiscvToken
 
 
 class RegisterSet(set):

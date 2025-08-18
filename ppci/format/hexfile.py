@@ -4,10 +4,10 @@ This module can be used to work with intel hexfiles.
 
 """
 
-import struct
 import binascii
-from ..utils.hexdump import hexdump, chunks
+import struct
 
+from ..utils.hexdump import chunks, hexdump
 
 DATA = 0
 EOF = 1

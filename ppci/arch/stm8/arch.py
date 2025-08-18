@@ -2,9 +2,9 @@ from ... import ir
 from ...binutils.assembler import BaseAssembler
 from ..arch import Architecture
 from ..arch_info import ArchInfo, TypeInfo
-from .registers import A, X, Y
 from . import registers
 from .instructions import stm8_isa
+from .registers import A, X, Y
 
 
 class Stm8Arch(Architecture):

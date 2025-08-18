@@ -8,44 +8,49 @@ import logging
 import os
 import stat
 import xml
-from .lang.c import preprocess, c_to_ir, COptions
-from .lang.c3 import c3_to_ir
+
+from .arch import get_arch, get_current_arch
+from .binutils.archive import archive
+from .binutils.debuginfo import DebugInfo
+from .binutils.disasm import Disassembler
+from .binutils.linker import link
+from .binutils.objectfile import ObjectFile, get_object
+from .binutils.outstream import (
+    BinaryOutputStream,
+    FunctionOutputStream,
+    MasterOutputStream,
+    TextOutputStream,
+)
+from .build.recipe import RecipeLoader
+from .build.tasks import TaskError, TaskRunner
+from .codegen import CodeGenerator
+from .common import CompilerError, DiagnosticsManager, get_file
+from .format import uboot_image
+from .format.elf import write_elf
+from .format.exefile import ExeWriter
+from .format.hexfile import HexFile
+from .format.ldb import write_ldb
+from .irutils import verify_module
 from .lang.bf import bf_to_ir
+from .lang.c import COptions, c_to_ir, preprocess
+from .lang.c3 import c3_to_ir
 from .lang.fortran import fortran_to_ir
 from .lang.llvmir import llvm_to_ir
 from .lang.pascal import pascal_to_ir
+from .lang.python import ir_to_python, python_to_ir
 from .lang.ws import ws_to_ir
-from .lang.python import python_to_ir, ir_to_python
-from .wasm import wasm_to_ir, read_wasm
-from .irutils import verify_module
-from .utils.reporting import DummyReportGenerator, HtmlReportGenerator
-from .opt.transform import DeleteUnusedInstructionsPass
-from .opt.transform import RemoveAddZeroPass
-from .opt import CommonSubexpressionEliminationPass
-from .opt import ConstantFolder
-from .opt import LoadAfterStorePass
-from .opt import CleanPass
-from .opt.mem2reg import Mem2RegPromotor
+from .opt import (
+    CleanPass,
+    CommonSubexpressionEliminationPass,
+    ConstantFolder,
+    LoadAfterStorePass,
+)
 from .opt.cjmp import CJumpPass
+from .opt.mem2reg import Mem2RegPromotor
 from .opt.tailcall import TailCallOptimization
-from .codegen import CodeGenerator
-from .binutils.linker import link
-from .binutils.archive import archive
-from .binutils.outstream import BinaryOutputStream, TextOutputStream
-from .binutils.outstream import MasterOutputStream, FunctionOutputStream
-from .binutils.objectfile import ObjectFile, get_object
-from .binutils.debuginfo import DebugInfo
-from .binutils.disasm import Disassembler
-from .format.hexfile import HexFile
-from .format.elf import write_elf
-from .format.exefile import ExeWriter
-from .format import uboot_image
-from .format.ldb import write_ldb
-from .build.tasks import TaskError, TaskRunner
-from .build.recipe import RecipeLoader
-from .common import CompilerError, DiagnosticsManager, get_file
-from .arch import get_arch, get_current_arch
-
+from .opt.transform import DeleteUnusedInstructionsPass, RemoveAddZeroPass
+from .utils.reporting import DummyReportGenerator, HtmlReportGenerator
+from .wasm import read_wasm, wasm_to_ir
 
 __all__ = [
     "asm",

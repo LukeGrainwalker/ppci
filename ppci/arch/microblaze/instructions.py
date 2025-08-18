@@ -1,14 +1,15 @@
 """Microblaze instructions"""
 
-from ..encoding import Instruction, Syntax, Operand, Relocation
-
+from ..encoding import Instruction, Operand, Relocation, Syntax
+from ..generic_instructions import (
+    ArtificialInstruction,
+    Global,
+    RegisterUseDef,
+)
 from ..isa import Isa
-from ..token import Token, bit_range, Endianness
-from ..generic_instructions import ArtificialInstruction
-from ..generic_instructions import RegisterUseDef, Global
-from .registers import MicroBlazeRegister, R0
+from ..token import Endianness, Token, bit_range
 from . import registers
-
+from .registers import R0, MicroBlazeRegister
 
 isa = Isa()
 

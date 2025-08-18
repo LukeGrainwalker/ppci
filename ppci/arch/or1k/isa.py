@@ -1,6 +1,5 @@
 from ..isa import Isa
-from ..token import Token, bit_range, Endianness
-
+from ..token import Endianness, Token, bit_range
 
 orbis32 = Isa()
 

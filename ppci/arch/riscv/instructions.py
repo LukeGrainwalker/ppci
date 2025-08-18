@@ -1,30 +1,39 @@
 """Definitions of Riscv instructions."""
 
 # pylint: disable=no-member,invalid-name
-from ..isa import Isa
-from ..encoding import Instruction, Syntax, Operand
-from ..data_instructions import Dd
+import struct
+
 from ...utils.bitfun import inrange
-from ..generic_instructions import ArtificialInstruction, Alignment
-from ..generic_instructions import SectionInstruction
-from ..generic_instructions import RegisterUseDef, Global
+from ..data_instructions import Dd
+from ..encoding import Instruction, Operand, Syntax
+from ..generic_instructions import (
+    Alignment,
+    ArtificialInstruction,
+    Global,
+    RegisterUseDef,
+    SectionInstruction,
+)
+from ..isa import Isa
 from .registers import (
-    RiscvRegister,
-    RiscvCsrRegister,
     FP,
     LR,
     R0,
     R10,
     R12,
     R13,
+    RiscvCsrRegister,
+    RiscvRegister,
 )
-from .relocations import AbsAddr32Relocation
-from .relocations import BImm12Relocation, BImm20Relocation
-from .relocations import Abs32Imm20Relocation
-from .relocations import Abs32Imm12Relocation, RelImm20Relocation
-from .relocations import RelImm12Relocation
-from .tokens import RiscvToken, RiscvIToken
-import struct
+from .relocations import (
+    Abs32Imm12Relocation,
+    Abs32Imm20Relocation,
+    AbsAddr32Relocation,
+    BImm12Relocation,
+    BImm20Relocation,
+    RelImm12Relocation,
+    RelImm20Relocation,
+)
+from .tokens import RiscvIToken, RiscvToken
 
 isa = Isa()
 

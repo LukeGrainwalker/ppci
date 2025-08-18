@@ -5,10 +5,10 @@ See also: https://en.wikipedia.org/wiki/MIPS_architecture
 
 from ..encoding import Instruction, Operand, Syntax
 from ..generic_instructions import ArtificialInstruction, Global
-from ..isa import Relocation, Isa
+from ..isa import Isa, Relocation
 from ..token import Token, bit_range
-from .registers import MipsRegister
 from . import registers
+from .registers import MipsRegister
 
 isa = Isa()
 

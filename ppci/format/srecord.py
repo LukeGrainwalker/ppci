@@ -4,6 +4,7 @@ https://en.wikipedia.org/wiki/SREC_(file_format)
 """
 
 import binascii
+
 from ..utils.bitfun import value_to_bytes_big_endian
 from ..utils.hexdump import chunks
 

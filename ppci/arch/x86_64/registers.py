@@ -1,7 +1,7 @@
 """Contains register definitions for x86 target."""
 
-from ..registers import Register, RegisterClass
 from ... import ir
+from ..registers import Register, RegisterClass
 
 
 class Register64(Register):

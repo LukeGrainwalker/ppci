@@ -1,14 +1,14 @@
 """Functionality to translate a java class file into ir-code."""
 
 import logging
-from .io import load_code, parse_method_descriptor
-from .nodes import BaseType
-from .enums import AccessFlag, ConstantTag
+
+from ... import ir
 from ...binutils import debuginfo
 from ...common import SourceLocation
 from ...irutils import Builder
-from ... import ir
-
+from .enums import AccessFlag, ConstantTag
+from .io import load_code, parse_method_descriptor
+from .nodes import BaseType
 
 logger = logging.getLogger("jvm2ir")
 

@@ -1,6 +1,6 @@
-from ...utils.bitfun import wrap_negative, BitView
+from ...utils.bitfun import BitView, wrap_negative
 from ..encoding import Relocation
-from .tokens import RiscvToken, RiscvIToken, RiscvSBToken
+from .tokens import RiscvIToken, RiscvSBToken, RiscvToken
 
 
 class BImm12Relocation(Relocation):

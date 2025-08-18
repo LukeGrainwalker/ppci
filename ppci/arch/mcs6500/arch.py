@@ -1,11 +1,11 @@
 from ... import ir
+from ...binutils.assembler import BaseAssembler
 from ..arch import Architecture
 from ..arch_info import ArchInfo, TypeInfo
-from ..generic_instructions import Label
 from ..data_instructions import data_isa
-from ...binutils.assembler import BaseAssembler
+from ..generic_instructions import Label
+from . import instructions, registers
 from .instructions import isa
-from . import registers, instructions
 
 
 class Mcs6500Arch(Architecture):

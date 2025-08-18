@@ -1,7 +1,7 @@
 """Description of msp430 registers"""
 
-from ..registers import Register, RegisterClass
 from ... import ir
+from ..registers import Register, RegisterClass
 
 
 class Msp430Register(Register):

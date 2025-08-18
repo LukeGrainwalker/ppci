@@ -19,16 +19,17 @@ from ppci.common import CompilerError
 from ppci.lang.c import COptions, create_ast
 from ppci.lang.c.nodes import declarations
 
-THIS_DIR = Path(__file__).resolve().parent
-root_path = THIS_DIR.parent
-LIBC_INCLUDES = root_path / "librt" / "libc" / "include"
+this_path = Path(__file__).resolve().parent
+root_path = this_path.parent
+build_path = root_path / "build"
+libc_includes = root_path / "librt" / "libc" / "include"
 logger = logging.getLogger("c-analyzer")
 
 
 def main():
     logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser()
-    parser.add_argument("source_dir")
+    parser.add_argument("source_dir", type=Path)
     args = parser.parse_args()
     defines = {}
     analyze_sources(args.source_dir, defines)
@@ -45,9 +46,9 @@ def analyze_sources(source_dir: Path, defines):
     arch_info = get_arch("x86_64").info
     coptions = COptions()
     # TODO: infer defines from code:
-    coptions.add_define("FPM_DEFAULT")
+    coptions.add_define("FPM_DEFAULT", "1")
     coptions.add_include_path(source_dir)
-    coptions.add_include_path(LIBC_INCLUDES)
+    coptions.add_include_path(libc_includes)
     coptions.add_include_path("/usr/include")
     asts = []
     for source_filename in sorted(source_dir.glob("*.c")):
@@ -80,7 +81,13 @@ def analyze_sources(source_dir: Path, defines):
 
     # Phase 3: generate html report?
     html_filename = "analyze_report.html"
-    with open(html_filename, "w") as f:
+    html_path = (
+        build_path / html_filename
+        if build_path.exists()
+        else Path(html_filename)
+    )
+    logger.info(f"Creating {html_path}")
+    with open(html_path, "w") as f:
         c_lexer = CLexer()
         formatter = HtmlFormatter(lineanchors="fubar", linenos="inline")
         print(

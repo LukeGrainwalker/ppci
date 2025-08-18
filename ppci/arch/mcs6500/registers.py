@@ -1,5 +1,5 @@
-from ..registers import Register, RegisterClass
 from ... import ir
+from ..registers import Register, RegisterClass
 
 
 class Accumulator(Register):

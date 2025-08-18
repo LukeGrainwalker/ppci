@@ -4,9 +4,9 @@ These can be used to define an instruction set.
 """
 
 from collections import namedtuple
+
 from ..utils.tree import Tree, from_string
 from .encoding import Relocation
-
 
 Pattern = namedtuple(
     "Pattern",

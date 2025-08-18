@@ -1,6 +1,6 @@
+from ... import ir
 from ..encoding import Register
 from ..registers import RegisterClass
-from ... import ir
 
 
 class Stm8Register(Register):

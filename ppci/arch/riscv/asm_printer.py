@@ -1,5 +1,5 @@
-from ..generic_instructions import SectionInstruction
 from ..asm_printer import AsmPrinter
+from ..generic_instructions import SectionInstruction
 
 
 class RiscvAsmPrinter(AsmPrinter):

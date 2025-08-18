@@ -1,6 +1,6 @@
-from .isa import thumb_isa, ThumbToken
+from ...utils.bitfun import BitView, align, wrap_negative
 from ..encoding import Relocation
-from ...utils.bitfun import align, wrap_negative, BitView
+from .isa import ThumbToken, thumb_isa
 
 
 @thumb_isa.register_relocation

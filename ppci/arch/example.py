@@ -3,12 +3,12 @@ This is an example target with some instructions. It is used in test-cases
 and serves as a minimal example.
 """
 
+from .. import ir
 from .arch import Architecture
 from .arch_info import ArchInfo, TypeInfo
-from .encoding import Instruction, Syntax, Operand
-from .registers import Register, RegisterClass
-from .. import ir
+from .encoding import Instruction, Operand, Syntax
 from .isa import Isa
+from .registers import Register, RegisterClass
 
 
 class ExampleArch(Architecture):

@@ -19,20 +19,48 @@ See also: http://www.ti.com/lit/an/slaa534/slaa534.pdf
 """
 
 import io
+
 from ... import ir
 from ...binutils.assembler import BaseAssembler
 from ...utils.reporting import DummyReportGenerator
 from ..arch import Architecture
 from ..arch_info import ArchInfo, TypeInfo
-from ..stack import StackLocation, FramePointerLocation
-from ..generic_instructions import Label, Alignment, RegisterUseDef
 from ..data_instructions import Db, Dw2, data_isa
+from ..generic_instructions import Alignment, Label, RegisterUseDef
 from ..runtime import get_runtime_files
-from .registers import r10, r11, r12, r13, r14, r15
-from .registers import r4, r5, r6, r7, r8, r9, SP
-from .registers import r1, register_classes, Msp430Register
-from .instructions import isa, mov, Ret, Pop, call, MemSrcOffset, Mov
-from .instructions import push, Addw, Subw, ConstSrc, RegDst
+from ..stack import FramePointerLocation, StackLocation
+from .instructions import (
+    Addw,
+    ConstSrc,
+    MemSrcOffset,
+    Mov,
+    Pop,
+    RegDst,
+    Ret,
+    Subw,
+    call,
+    isa,
+    mov,
+    push,
+)
+from .registers import (
+    SP,
+    Msp430Register,
+    r1,
+    r4,
+    r5,
+    r6,
+    r7,
+    r8,
+    r9,
+    r10,
+    r11,
+    r12,
+    r13,
+    r14,
+    r15,
+    register_classes,
+)
 
 
 class Msp430Arch(Architecture):

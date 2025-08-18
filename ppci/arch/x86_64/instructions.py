@@ -3,15 +3,31 @@
 See for a reference: http://ref.x86asm.net/coder64.html
 """
 
+from ...utils.bitfun import wrap_negative
+from .. import effects
+from ..encoding import Constructor, Instruction, Operand, Relocation, Syntax
 from ..generic_instructions import Label, RegisterUseDef
 from ..isa import Isa
-from ..encoding import Instruction, Operand, Syntax, Constructor, Relocation
-from .. import effects
-from ...utils.bitfun import wrap_negative
-from ..token import Token, u8, u16, u32, u64, bit_range, bit
-from .registers import rcx, al, cl, rax, rdx, rbp, eax, edx, ecx, cx, dx
-from .registers import rsp, ax, Register32
-from .registers import Register64, Register16, Register8
+from ..token import Token, bit, bit_range, u8, u16, u32, u64
+from .registers import (
+    Register8,
+    Register16,
+    Register32,
+    Register64,
+    al,
+    ax,
+    cl,
+    cx,
+    dx,
+    eax,
+    ecx,
+    edx,
+    rax,
+    rbp,
+    rcx,
+    rdx,
+    rsp,
+)
 
 isa = Isa()
 

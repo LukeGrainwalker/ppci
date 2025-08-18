@@ -1,7 +1,7 @@
 """Description of mips registers"""
 
-from ..registers import Register, RegisterClass
 from ... import ir
+from ..registers import Register, RegisterClass
 
 
 class MipsRegister(Register):

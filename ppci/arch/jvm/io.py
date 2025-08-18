@@ -9,14 +9,23 @@ http://jawa.tkte.ch/
 import io
 import logging
 import zipfile
-from ...format.io import BaseIoReader
-from .nodes import ClassFile, Constant, ConstantPool
-from .nodes import Method, Attribute
-from .nodes import BaseType, MethodType, ObjectType, ArrayType
-from .nodes import CodeAttribute, Instruction
-from .enums import ConstantTag, AccessFlag
-from .opcodes import op_to_arg_types
 
+from ...format.io import BaseIoReader
+from .enums import AccessFlag, ConstantTag
+from .nodes import (
+    ArrayType,
+    Attribute,
+    BaseType,
+    ClassFile,
+    CodeAttribute,
+    Constant,
+    ConstantPool,
+    Instruction,
+    Method,
+    MethodType,
+    ObjectType,
+)
+from .opcodes import op_to_arg_types
 
 logger = logging.getLogger("jvm.io")
 

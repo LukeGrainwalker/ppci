@@ -1,5 +1,5 @@
-from .encoding import Instruction
 from . import effects
+from .encoding import Instruction
 
 
 class VirtualInstruction(Instruction):

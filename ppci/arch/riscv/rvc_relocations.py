@@ -1,6 +1,6 @@
-from ...utils.bitfun import wrap_negative, BitView
+from ...utils.bitfun import BitView, wrap_negative
 from ..encoding import Relocation
-from .tokens import RiscvToken, RiscvcToken
+from .tokens import RiscvcToken, RiscvToken
 
 
 class CRel(Relocation):

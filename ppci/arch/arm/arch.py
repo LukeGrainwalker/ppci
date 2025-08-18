@@ -1,22 +1,40 @@
 """ARM architecture definition."""
 
 import io
+
 from ... import ir
 from ...binutils.assembler import BaseAssembler
 from ..arch import Architecture
 from ..arch_info import ArchInfo, TypeInfo
-from ..generic_instructions import Label, Alignment, RegisterUseDef
-from ..data_instructions import Db, Dd, Dcd2, data_isa
+from ..data_instructions import Db, Dcd2, Dd, data_isa
+from ..generic_instructions import Alignment, Label, RegisterUseDef
 from ..registers import RegisterClass
 from ..stack import StackLocation
-from .registers import ArmRegister, register_range, LowArmRegister, RegisterSet
-from .registers import R0, R1, R2, R3, R4, all_registers
-from .registers import R5, R6, R7, R8
-from .registers import R9, R10, R11, LR, PC, SP
+from . import arm_instructions, thumb_instructions
 from .arm_instructions import LdrPseudo, arm_isa
+from .registers import (
+    LR,
+    PC,
+    R0,
+    R1,
+    R2,
+    R3,
+    R4,
+    R5,
+    R6,
+    R7,
+    R8,
+    R9,
+    R10,
+    R11,
+    SP,
+    ArmRegister,
+    LowArmRegister,
+    RegisterSet,
+    all_registers,
+    register_range,
+)
 from .thumb_instructions import thumb_isa
-from . import thumb_instructions
-from . import arm_instructions
 
 
 class ArmCallingConvention:

@@ -8,8 +8,9 @@ http://amiga-dev.wikidot.com/file-format:hunk#toc42
 
 """
 
-import struct
 import logging
+import struct
+
 from . import enums
 
 logger = logging.getLogger("hunk")

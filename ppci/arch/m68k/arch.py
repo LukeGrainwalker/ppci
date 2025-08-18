@@ -9,12 +9,11 @@ Calling convention:
 from ... import ir
 from ...binutils.assembler import BaseAssembler
 from ..arch import Architecture
-from ..arch_info import ArchInfo, TypeInfo, Endianness
+from ..arch_info import ArchInfo, Endianness, TypeInfo
 from ..data_instructions import data_isa
-from ..generic_instructions import Label
-from ..generic_instructions import RegisterUseDef
+from ..generic_instructions import Label, RegisterUseDef
 from ..stack import StackLocation
-from . import registers, instructions
+from . import instructions, registers
 
 
 class M68kArch(Architecture):

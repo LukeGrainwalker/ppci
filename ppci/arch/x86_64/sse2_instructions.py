@@ -1,20 +1,47 @@
 """SSE2 instructions"""
 
 import struct
-from ..isa import Isa
-from ..encoding import Operand, Syntax, Instruction, Constructor
-from .instructions import rm64_modes, rm32_modes, bits64  # , bits32
-from .instructions import OpcodeToken
-from .instructions import PrefixToken
-from .instructions import RexToken, ModRmToken, SibToken
-from .instructions import Imm32Token, Imm8Token
-from .instructions import RmMem, RmMemDisp, RmReg32, RmReg64, RmAbs, MovAdr
-from .instructions import Jb, Jbe, Ja, Jae, Je, Jne, Js, NearJump
-from .instructions import SubImm, AddImm
-from .registers import XmmRegisterSingle, XmmRegisterDouble
-from .registers import Register64, Register32, rsp, eax, rax
-from ..generic_instructions import ArtificialInstruction, RegisterUseDef
 
+from ..encoding import Constructor, Instruction, Operand, Syntax
+from ..generic_instructions import ArtificialInstruction, RegisterUseDef
+from ..isa import Isa
+from .instructions import (  # , bits32
+    AddImm,
+    Imm8Token,
+    Imm32Token,
+    Ja,
+    Jae,
+    Jb,
+    Jbe,
+    Je,
+    Jne,
+    Js,
+    ModRmToken,
+    MovAdr,
+    NearJump,
+    OpcodeToken,
+    PrefixToken,
+    RexToken,
+    RmAbs,
+    RmMem,
+    RmMemDisp,
+    RmReg32,
+    RmReg64,
+    SibToken,
+    SubImm,
+    bits64,
+    rm32_modes,
+    rm64_modes,
+)
+from .registers import (
+    Register32,
+    Register64,
+    XmmRegisterDouble,
+    XmmRegisterSingle,
+    eax,
+    rax,
+    rsp,
+)
 
 sse1_isa = Isa()
 sse2_isa = Isa()

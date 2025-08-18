@@ -1,8 +1,8 @@
 """Encode line number programs"""
 
 import abc
-import operator
 import functools
+import operator
 
 from ...utils import leb128
 

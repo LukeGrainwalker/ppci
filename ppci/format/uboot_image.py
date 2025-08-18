@@ -1,10 +1,10 @@
 """Uboot image file format"""
 
+import enum
 import time
 import zlib
-import enum
-from .header import Header
 
+from .header import Header
 
 IH_MAGIC = 0x27051956
 

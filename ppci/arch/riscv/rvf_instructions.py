@@ -1,11 +1,12 @@
 """Definitions of Riscv instructions."""
 
 import struct
+
+from ..encoding import Instruction, Operand, Syntax
 from ..isa import Isa
-from ..encoding import Instruction, Syntax, Operand
-from .registers import RiscvFRegister, RiscvRegister, R0
-from .tokens import RiscvToken, RiscvIToken, RiscvSToken
-from .instructions import Li, B, Bne
+from .instructions import B, Bne, Li
+from .registers import R0, RiscvFRegister, RiscvRegister
+from .tokens import RiscvIToken, RiscvSToken, RiscvToken
 
 
 class RegisterSet(set):

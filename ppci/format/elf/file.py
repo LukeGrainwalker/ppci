@@ -10,7 +10,6 @@ import logging
 from ...arch.arch_info import Endianness
 from .headers import ElfMachine, HeaderTypes
 
-
 logger = logging.getLogger("elf")
 
 

@@ -1,33 +1,82 @@
 """RISC-V architecture."""
 
 import io
+
+from ... import ir
+from ...binutils.assembler import BaseAssembler
 from ..arch import Architecture
 from ..arch_info import ArchInfo, TypeInfo
+from ..data_instructions import DByte, DZero, data_isa
 from ..generic_instructions import Label, RegisterUseDef
-from ..data_instructions import DByte, DZero
-from .asm_printer import RiscvAsmPrinter
-from .instructions import isa, Align, Section
-from .rvc_instructions import rvcisa
-from .rvf_instructions import rvfisa, movf
-from .rvfx_instructions import rvfxisa
-from .registers import RiscvRegister, RiscvFRegister, gdb_registers, Register
-from .registers import R0, LR, SP, FP
-from .registers import R10, R11, R12
-from .registers import R13, R14, R15, R16, R17
-from .registers import PC
-from .registers import R9, R18, R19
-from .registers import R20, R21, R22, R23, R24, R25, R26, R27
-from .registers import F10, F12, F13, F14, F15, F16, F17
-from ... import ir
-from .registers import register_classes_hwfp, register_classes_swfp
-from ..stack import StackLocation
-from ..stack import FramePointerLocation
-from ..data_instructions import data_isa
-from ...binutils.assembler import BaseAssembler
-from .instructions import dcd, Addi, Movr, Bl, Sw, Lw, Blr, Lb, Sb
-from .rvc_instructions import CSwsp, CLwsp, CBl, CJr, CBlr, CMovr
-from .rvc_instructions import CAddi16sp, CAddi4spn
+from ..stack import FramePointerLocation, StackLocation
 from . import instructions
+from .asm_printer import RiscvAsmPrinter
+from .instructions import (
+    Addi,
+    Align,
+    Bl,
+    Blr,
+    Lb,
+    Lw,
+    Movr,
+    Sb,
+    Section,
+    Sw,
+    dcd,
+    isa,
+)
+from .registers import (
+    F10,
+    F12,
+    F13,
+    F14,
+    F15,
+    F16,
+    F17,
+    FP,
+    LR,
+    PC,
+    R0,
+    R9,
+    R10,
+    R11,
+    R12,
+    R13,
+    R14,
+    R15,
+    R16,
+    R17,
+    R18,
+    R19,
+    R20,
+    R21,
+    R22,
+    R23,
+    R24,
+    R25,
+    R26,
+    R27,
+    SP,
+    Register,
+    RiscvFRegister,
+    RiscvRegister,
+    gdb_registers,
+    register_classes_hwfp,
+    register_classes_swfp,
+)
+from .rvc_instructions import (
+    CAddi4spn,
+    CAddi16sp,
+    CBl,
+    CBlr,
+    CJr,
+    CLwsp,
+    CMovr,
+    CSwsp,
+    rvcisa,
+)
+from .rvf_instructions import movf, rvfisa
+from .rvfx_instructions import rvfxisa
 
 
 def isinsrange(bits, val) -> bool:

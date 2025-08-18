@@ -1,15 +1,16 @@
 """The xtensa instructions"""
 
 # pylint: disable=invalid-name
-from ..token import Token, bit_range
-from ..isa import Isa
-from ..encoding import Instruction, Operand, Syntax, Transform
-from ..encoding import Relocation
-from ..generic_instructions import ArtificialInstruction, RegisterUseDef
-from ..generic_instructions import Global
-from .registers import AddressRegister, FloatRegister, a1, a2, a3, a15
 from ...utils.bitfun import wrap_negative
-
+from ..encoding import Instruction, Operand, Relocation, Syntax, Transform
+from ..generic_instructions import (
+    ArtificialInstruction,
+    Global,
+    RegisterUseDef,
+)
+from ..isa import Isa
+from ..token import Token, bit_range
+from .registers import AddressRegister, FloatRegister, a1, a2, a3, a15
 
 core_isa = Isa()
 narrow_isa = core_isa

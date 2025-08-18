@@ -11,14 +11,19 @@ Another excellent effort: https://github.com/erocarrera/pefile
 import io
 import struct
 import time
+
 from .. import __version_info__
-from ..binutils import layout
-from ..binutils import linker
+from ..binutils import layout, linker
 from ..binutils.objectfile import ObjectFile
+from .pefile.headers import (
+    CoffHeader,
+    DataDirectoryHeader,
+    DosHeader,
+    ImageSectionHeader,
+    ImportDirectoryTable,
+    PeOptionalHeader64,
+)
 from .pefile.pefile import ExeFile
-from .pefile.headers import DosHeader, CoffHeader, PeOptionalHeader64
-from .pefile.headers import ImageSectionHeader, DataDirectoryHeader
-from .pefile.headers import ImportDirectoryTable
 
 
 def write_dos_stub(f):

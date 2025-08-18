@@ -1,4 +1,4 @@
-from ...utils.bitfun import encode_imm32, align, wrap_negative
+from ...utils.bitfun import align, encode_imm32, wrap_negative
 from ..encoding import Relocation
 from .isa import ArmToken, arm_isa
 

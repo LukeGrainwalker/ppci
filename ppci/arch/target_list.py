@@ -1,20 +1,20 @@
 """Contains a list of instantiated targets."""
 
 from functools import lru_cache
+
 from .arm import ArmArch
 from .avr import AvrArch
 from .example import ExampleArch
-from .msp430 import Msp430Arch
-from .x86_64 import X86_64Arch
 from .m68k import M68kArch
 from .mcs6500 import Mcs6500Arch
-from .mips import MipsArch
 from .microblaze import MicroBlazeArch
+from .mips import MipsArch
+from .msp430 import Msp430Arch
 from .or1k import Or1kArch
 from .riscv import RiscvArch
 from .stm8 import Stm8Arch
+from .x86_64 import X86_64Arch
 from .xtensa import XtensaArch
-
 
 target_classes = [
     ArmArch,

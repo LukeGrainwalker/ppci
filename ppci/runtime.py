@@ -1,8 +1,9 @@
 """Module with all kind of nice runtimes for various platforms!"""
 
 import io
-from .binutils.objectfile import ObjectFile
+
 from . import ir
+from .binutils.objectfile import ObjectFile
 
 
 def make_trampoline(func_name):
@@ -20,7 +21,7 @@ def make_trampoline(func_name):
 
 def create_linux_exe(function_name: str, name, obj: ObjectFile):
     """Create an executable for the given system"""
-    from .api import c3c, asm, link, objcopy, ir_to_object
+    from .api import asm, c3c, ir_to_object, link, objcopy
 
     march = obj.arch
 

@@ -6,8 +6,8 @@ Source location structures
 
 import logging
 from pathlib import Path
-from .lang.common import SourceLocation
 
+from .lang.common import SourceLocation
 
 logformat = "%(asctime)s | %(levelname)8s | %(name)10.10s | %(message)s"
 

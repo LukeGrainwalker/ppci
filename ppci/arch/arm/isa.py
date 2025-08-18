@@ -1,6 +1,5 @@
 from ..isa import Isa
-from ..token import Token, bit_range, bit
-
+from ..token import Token, bit, bit_range
 
 arm_isa = Isa()
 thumb_isa = Isa()

@@ -2,16 +2,17 @@
 
 # pylint: disable=no-member,invalid-name
 
-from .isa import arm_isa, ArmToken, ArmImmToken, Isa
-from ..encoding import Instruction, Constructor, Syntax, Operand, Transform
-from ..generic_instructions import RegisterUseDef, Global
 from ...utils.bitfun import encode_imm32
 from ...utils.tree import Tree
-from .registers import ArmRegister, Coreg, Coproc, RegisterSet, R11
-from .registers import R0, R1, R2
-from .arm_relocations import Imm24Relocation
-from .arm_relocations import LdrImm12Relocation, AdrImm12Relocation
-
+from ..encoding import Constructor, Instruction, Operand, Syntax, Transform
+from ..generic_instructions import Global, RegisterUseDef
+from .arm_relocations import (
+    AdrImm12Relocation,
+    Imm24Relocation,
+    LdrImm12Relocation,
+)
+from .isa import ArmImmToken, ArmToken, Isa, arm_isa
+from .registers import R0, R1, R2, R11, ArmRegister, Coproc, Coreg, RegisterSet
 
 # Patterns:
 

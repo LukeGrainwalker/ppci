@@ -1,5 +1,5 @@
-from ..header import Header
 from .. import header
+from ..header import Header
 
 
 class DosHeader(Header):

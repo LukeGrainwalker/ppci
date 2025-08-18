@@ -2,11 +2,15 @@
 
 from ..encoding import Instruction, Operand, Syntax
 from ..token import u16
-from .registers import ArmRegister, LowArmRegister, R7
-from .thumb_relocations import Lit8Relocation, WrapNew11Relocation
-from .thumb_relocations import BImm11Imm6Relocation
-from .thumb_relocations import Rel8Relocation, BlImm11Relocation
-from .isa import thumb_isa, ThumbToken
+from .isa import ThumbToken, thumb_isa
+from .registers import R7, ArmRegister, LowArmRegister
+from .thumb_relocations import (
+    BImm11Imm6Relocation,
+    BlImm11Relocation,
+    Lit8Relocation,
+    Rel8Relocation,
+    WrapNew11Relocation,
+)
 
 # pylint: disable=no-member,invalid-name
 

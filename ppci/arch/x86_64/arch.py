@@ -21,29 +21,59 @@ Calling conventions
 """
 
 from ... import ir
+from ...binutils.assembler import BaseAssembler
 from ..arch import Architecture
 from ..arch_info import ArchInfo, TypeInfo
-from ..generic_instructions import Label, RegisterUseDef
-from ..stack import StackLocation
 from ..cc import CallingConvention
+from ..data_instructions import Db, data_isa
+from ..generic_instructions import Label, RegisterUseDef
 from ..registers import Register
-from ...binutils.assembler import BaseAssembler
-from ..data_instructions import data_isa
-from ..data_instructions import Db
-from .instructions import bits64, RmReg64, MovRegRm8, RmReg8, RmMemDisp, isa
-from .instructions import Push, Pop, SubImm, AddImm, MovsxReg64Rm8
-from .instructions import Call, Ret, bits16, RmReg16, bits32, RmReg32
-from .x87_instructions import x87_isa
-from .sse2_instructions import sse1_isa, sse2_isa, Movss, Movsd
-from .sse2_instructions import RmXmmRegSingle, RmXmmRegDouble
-from .sse2_instructions import PushXmmRegisterDouble, PopXmmRegisterDouble
-from .sse2_instructions import PushXmmRegisterSingle, PopXmmRegisterSingle
-from .registers import rax, rcx, rdi, rsi
-from .registers import register_classes
-from .registers import Register64
-from .registers import rbp, rsp, al
+from ..stack import StackLocation
 from . import elf as elf_support
 from . import instructions, registers
+from .instructions import (
+    AddImm,
+    Call,
+    MovRegRm8,
+    MovsxReg64Rm8,
+    Pop,
+    Push,
+    Ret,
+    RmMemDisp,
+    RmReg8,
+    RmReg16,
+    RmReg32,
+    RmReg64,
+    SubImm,
+    bits16,
+    bits32,
+    bits64,
+    isa,
+)
+from .registers import (
+    Register64,
+    al,
+    rax,
+    rbp,
+    rcx,
+    rdi,
+    register_classes,
+    rsi,
+    rsp,
+)
+from .sse2_instructions import (
+    Movsd,
+    Movss,
+    PopXmmRegisterDouble,
+    PopXmmRegisterSingle,
+    PushXmmRegisterDouble,
+    PushXmmRegisterSingle,
+    RmXmmRegDouble,
+    RmXmmRegSingle,
+    sse1_isa,
+    sse2_isa,
+)
+from .x87_instructions import x87_isa
 
 
 # TODO: Use something like the below?

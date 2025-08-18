@@ -4,8 +4,8 @@ from ... import ir
 from ...binutils.assembler import BaseAssembler
 from ..arch import Architecture
 from ..arch_info import ArchInfo, TypeInfo
-from ..generic_instructions import Label, Alignment, RegisterUseDef
 from ..data_instructions import data_isa
+from ..generic_instructions import Alignment, Label, RegisterUseDef
 from ..runtime import get_runtime_files
 from . import instructions, registers
 

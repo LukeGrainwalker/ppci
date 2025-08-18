@@ -1,6 +1,7 @@
 """This module deals with encoding and decoding of instructions"""
 
 import abc
+
 from .registers import Register
 from .token import TokenSequence
 

@@ -3,15 +3,19 @@
 import io
 import logging
 from collections import defaultdict
-from ...arch.arch_info import Endianness
-from ... import ir
-from .headers import ElfMachine
-from .headers import SectionHeaderType, SectionHeaderFlag
-from .headers import SymbolTableBinding, SymbolTableType
-from .headers import ProgramHeaderType
-from .file import ElfFile
-from .string import StringTable, elf_hash
 
+from ... import ir
+from ...arch.arch_info import Endianness
+from .file import ElfFile
+from .headers import (
+    ElfMachine,
+    ProgramHeaderType,
+    SectionHeaderFlag,
+    SectionHeaderType,
+    SymbolTableBinding,
+    SymbolTableType,
+)
+from .string import StringTable, elf_hash
 
 logger = logging.getLogger("elf")
 

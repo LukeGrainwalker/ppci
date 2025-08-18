@@ -1,12 +1,15 @@
 """Definitions of msp430 instruction set."""
 
-from ..encoding import Instruction, Operand, Syntax, Constructor, Transform
-from ..generic_instructions import ArtificialInstruction
-from ..generic_instructions import RegisterUseDef, Global
-from ..isa import Relocation, Isa
-from ..token import Token, bit_range, bit
-from .registers import Msp430Register, r2, r3, r12, r13, SP, PC
 from ...utils.bitfun import align
+from ..encoding import Constructor, Instruction, Operand, Syntax, Transform
+from ..generic_instructions import (
+    ArtificialInstruction,
+    Global,
+    RegisterUseDef,
+)
+from ..isa import Isa, Relocation
+from ..token import Token, bit, bit_range
+from .registers import PC, SP, Msp430Register, r2, r3, r12, r13
 
 # pylint: disable=no-member,invalid-name
 

@@ -1,10 +1,14 @@
 """x87 floating point unit instructions"""
 
+from ..encoding import Instruction, Operand, Syntax
 from ..isa import Isa
-from ..encoding import Operand, Syntax, Instruction
-from .instructions import mem_modes
-from .instructions import OpcodeToken, SecondaryOpcodeToken
-from .instructions import RexToken, ModRmToken
+from .instructions import (
+    ModRmToken,
+    OpcodeToken,
+    RexToken,
+    SecondaryOpcodeToken,
+    mem_modes,
+)
 
 x87_isa = Isa()
 

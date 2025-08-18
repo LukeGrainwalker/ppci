@@ -1,9 +1,10 @@
 """This module contains all kind of classes to describe the stack"""
 
 import enum
+
 from .encoding import Instruction
-from .registers import Register
 from .generic_instructions import Label
+from .registers import Register
 
 
 class FramePointerLocation(enum.Enum):

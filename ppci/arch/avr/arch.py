@@ -50,27 +50,54 @@ Stack grows
 """
 
 import io
+
 from ... import ir
 from ...binutils.assembler import BaseAssembler
 from ..arch import Architecture
 from ..arch_info import ArchInfo, TypeInfo
-from ..generic_instructions import Label, Alignment, SectionInstruction
-from ..generic_instructions import RegisterUseDef
-from ..data_instructions import data_isa
-from ..data_instructions import Db
+from ..data_instructions import Db, data_isa
+from ..generic_instructions import (
+    Alignment,
+    Label,
+    RegisterUseDef,
+    SectionInstruction,
+)
 from ..runtime import get_runtime_files
 from ..stack import FramePointerLocation
-from . import registers, instructions
-from .instructions import avr_isa
-from .instructions import Push, Pop, Mov, Call, In, Movw, Ret, Adiw
-from .registers import AvrRegister, Register
-from .registers import AvrWordRegister
-from .registers import r0, PC
-from .registers import r8, r9, r10, r11, r12, r13, r14, r15
-from .registers import r16, r17, r18, r19, r20, r21, r22, r23
-from .registers import r24, r25, W, Y, Z
-from .registers import caller_save, callee_save
-from .registers import register_classes, gdb_registers
+from . import instructions, registers
+from .instructions import Adiw, Call, In, Mov, Movw, Pop, Push, Ret, avr_isa
+from .registers import (
+    PC,
+    AvrRegister,
+    AvrWordRegister,
+    Register,
+    W,
+    Y,
+    Z,
+    callee_save,
+    caller_save,
+    gdb_registers,
+    r0,
+    r8,
+    r9,
+    r10,
+    r11,
+    r12,
+    r13,
+    r14,
+    r15,
+    r16,
+    r17,
+    r18,
+    r19,
+    r20,
+    r21,
+    r22,
+    r23,
+    r24,
+    r25,
+    register_classes,
+)
 
 
 class AvrArch(Architecture):

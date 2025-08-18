@@ -1,13 +1,14 @@
-import os
-from ppci import api
+from pathlib import Path
 
-from ppci.graph import cyclo, callgraph
+from ppci import api
+from ppci.graph import callgraph, cyclo
 from ppci.graph.cfg import ir_function_to_graph
 
+this_path = Path(__file__).resolve().parent
 sources = [
-    os.path.join("src", "hello", "hello.c3"),
-    os.path.join("..", "librt", "io.c3"),
-    os.path.join("linux64", "bsp.c3"),
+    this_path / "src" / "hello" / "hello.c3",
+    this_path.parent / "librt" / "io.c3",
+    this_path / "linux64" / "bsp.c3",
 ]
 m = api.c3_to_ir(sources, [], "arm")
 print(m)
@@ -20,4 +21,4 @@ print(cg)
 for func in m.functions:
     cfg, _ = ir_function_to_graph(func)
     complexity = cyclo.cyclomatic_complexity(cfg)
-    print("Function: {}, Complexity: {}".format(func.name, complexity))
+    print(f"Function: {func.name}, Complexity: {complexity}")
