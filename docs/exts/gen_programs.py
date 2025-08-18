@@ -3,7 +3,6 @@ Generate docs for program clases.
 """
 
 import os
-import json
 
 from ppci import programs
 
@@ -61,9 +60,7 @@ def write_programs_rst():
         programs.IntermediateProgram,
         programs.MachineProgram,
     ):
-        parts.append(
-            ".. autoclass:: ppci.programs.{}".format(program.__name__)
-        )
+        parts.append(f".. autoclass:: ppci.programs.{program.__name__}")
         parts.append("   :members:\n\n")
 
     # Add concrete classes
@@ -71,27 +68,21 @@ def write_programs_rst():
     parts.append("-" * len(parts[-1]))
     parts.append("")
     for program in programs1:
-        parts.append(
-            ".. autoclass:: ppci.programs.{}".format(program.__name__)
-        )
+        parts.append(f".. autoclass:: ppci.programs.{program.__name__}")
         parts.append("   :members:\n\n")
 
     parts.append("Intermediate programs")
     parts.append("-" * len(parts[-1]))
     parts.append("")
     for program in programs2:
-        parts.append(
-            ".. autoclass:: ppci.programs.{}".format(program.__name__)
-        )
+        parts.append(f".. autoclass:: ppci.programs.{program.__name__}")
         parts.append("   :members:\n\n")
 
     parts.append("Machine code programs")
     parts.append("-" * len(parts[-1]))
     parts.append("")
     for program in programs3:
-        parts.append(
-            ".. autoclass:: ppci.programs.{}".format(program.__name__)
-        )
+        parts.append(f".. autoclass:: ppci.programs.{program.__name__}")
         parts.append("   :members:\n\n")
 
     files_to_remove.append(os.path.join("reference", "programs.rst"))

@@ -7,10 +7,9 @@ https://github.com/aochagavia/rocket_wasm
 
 import logging
 
+from ppci.api import get_arch
 from ppci.common import logformat
 from ppci.wasm import read_wasm, wasm_to_ir
-from ppci.api import get_arch
-
 
 logging.basicConfig(level=logging.DEBUG, format=logformat)
 with open("program.wasm", "rb") as f:

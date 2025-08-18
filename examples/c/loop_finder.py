@@ -1,11 +1,12 @@
 """Find loops in a Ir program by usage of the dominator tree"""
 
 import io
-import os
 import logging
+import os
+
+from ppci.api import c_to_ir
 from ppci.lang.c import COptions
-from ppci.api import c_to_ir, get_arch, optimize
-from ppci.wasm import ir_to_wasm, export_wasm_example, WasmArchitecture
+from ppci.wasm import WasmArchitecture, export_wasm_example, ir_to_wasm
 
 logging.basicConfig(level=logging.DEBUG)
 this_dir = os.path.dirname(os.path.abspath(__file__))

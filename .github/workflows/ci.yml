@@ -25,7 +25,7 @@ jobs:
     - name: Check code style
       run: black --check .
     - name: Static code analysis
-      run: flake8 ppci test
+      run: flake8 ppci test tools
     - name: Test with pytest
       run: pytest
 

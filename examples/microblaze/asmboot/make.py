@@ -4,9 +4,10 @@ to the UART.
 """
 
 import io
-from ppci.api import asm, get_arch, objcopy, link
-from ppci.binutils.layout import get_layout
+
+from ppci.api import asm, get_arch, link, objcopy
 from ppci.arch.microblaze import instructions, registers
+from ppci.binutils.layout import get_layout
 
 arch = get_arch("microblaze")
 

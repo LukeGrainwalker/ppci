@@ -10,11 +10,13 @@ https://swtch.com/~rsc/regexp/regexp1.html
 
 """
 
-import time
-import re
 import contextlib
-from ppci.lang.tools import regex
+import re
+import time
+
 import matplotlib.pyplot as plt
+
+from ppci.lang.tools import regex
 
 data = {
     "n": [],

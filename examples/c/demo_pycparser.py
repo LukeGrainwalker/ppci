@@ -4,9 +4,10 @@
 
 import argparse
 import io
-from ppci.api import preprocess
+
 from pycparser.c_parser import CParser
 
+from ppci.api import preprocess
 
 if __name__ == "__main__":
     # Argument handling:
@@ -17,7 +18,7 @@ if __name__ == "__main__":
 
     # Preprocessing:
     f2 = io.StringIO()
-    with open(filename, "r") as f:
+    with open(filename) as f:
         preprocess(f, f2)
     source = f2.getvalue()
 

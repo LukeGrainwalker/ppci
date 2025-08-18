@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 #
 # ppci documentation build configuration file, created by
 # sphinx-quickstart on Fri Aug 15 09:45:38 2014.
@@ -13,8 +12,8 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys
 import os
+import sys
 from importlib.metadata import distribution
 
 # If extensions (or modules to document with autodoc) are in another directory,

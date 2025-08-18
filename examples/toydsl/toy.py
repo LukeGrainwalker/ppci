@@ -1,9 +1,10 @@
 import logging
 import struct
+
 from textx.metamodel import metamodel_from_file
-from ppci import ir
+
+from ppci import api, ir
 from ppci.irutils import verify_module
-from ppci import api
 
 
 def pack_string(txt):
@@ -62,7 +63,7 @@ class TcfCompiler:
         self.logger.debug("print statement %s", print_statement.var)
         name = print_statement.var
         value = self.load_var(name)
-        label_data = pack_string("{} :".format(name))
+        label_data = pack_string(f"{name} :")
         label = self.emit(ir.LiteralData(label_data, "label"))
         label_ptr = self.emit(ir.AddressOf(label, "label_ptr"))
         self.emit(ir.ProcedureCall(self.io_print2, [label_ptr, value]))

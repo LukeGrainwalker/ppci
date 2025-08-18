@@ -1,4 +1,5 @@
 import logging
+
 from ppci import api
 
 logging.basicConfig(level=logging.INFO)
@@ -9,7 +10,7 @@ obj1 = api.c3c(
     [],
     arch,
 )
-with open("kernel32.s", "r") as f:
+with open("kernel32.s") as f:
     obj2 = api.asm(f, arch)
 
 obj = api.link([obj1, obj2], partial_link=True)

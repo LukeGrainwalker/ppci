@@ -1,7 +1,8 @@
-import os
 import argparse
 import logging
-from ppci.api import asm, c3c, link, objcopy, get_arch
+import os
+
+from ppci.api import asm, c3c, get_arch, link, objcopy
 from ppci.binutils.objectfile import merge_memories
 from ppci.utils.reporting import html_reporter
 
@@ -62,6 +63,6 @@ with open("firmware.hex", "w") as f:
     for i in range(size):
         if i < len(imgdata) // 4:
             w = imgdata[4 * i : 4 * i + 4]
-            print("%02x%02x%02x%02x" % (w[3], w[2], w[1], w[0]), file=f)
+            print(f"{w[3]:02x}{w[2]:02x}{w[1]:02x}{w[0]:02x}", file=f)
         else:
             print("00000000", file=f)

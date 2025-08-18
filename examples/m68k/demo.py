@@ -1,8 +1,8 @@
 import io
-from ppci.api import cc, link, asm
-from ppci.format.srecord import write_srecord
-from ppci.format.hunk import write_hunk
 
+from ppci.api import asm, cc, link
+from ppci.format.hunk import write_hunk
+from ppci.format.srecord import write_srecord
 
 source = """
 int add(int x, int y) {

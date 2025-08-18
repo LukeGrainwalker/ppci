@@ -4,8 +4,9 @@ three ways to compose a module, using plain text, tuples, and the internal
 classes.
 """
 
-from ppci import wasm
+import webbrowser
 
+from ppci import wasm
 
 ## Define WASM module using pure WAT
 
@@ -129,7 +130,7 @@ assert wa3.to_bytes() == wa1.to_bytes()
 assert wasm.Module(wa1.to_string()).to_bytes() == wa1.to_bytes()
 
 # Using the elements (definitions) of a module to create a new module too
-assert wasm.Module(*[d for d in wa1]).to_bytes() == wa1.to_bytes()
+assert wasm.Module(*list(wa1)).to_bytes() == wa1.to_bytes()
 
 # We can reconstruct the module from its binary form
 assert wasm.Module(wa1.to_bytes()).to_bytes() == wa1.to_bytes()
@@ -138,8 +139,6 @@ assert wasm.Module(wa1.to_bytes()).to_bytes() == wa1.to_bytes()
 ## Let's run it
 
 wasm.run_wasm_in_node(wa1)
-
-import webbrowser
 
 wasm.export_wasm_example(__file__[:-3] + ".html", wa1.to_string(), wa1)
 webbrowser.open(__file__[:-3] + ".html")

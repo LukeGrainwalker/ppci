@@ -1,12 +1,10 @@
 import io
+
 from ppci import wasm
-from ppci.api import ir_to_object, get_current_arch
-from ppci.utils.codepage import load_obj
+from ppci.api import get_current_arch, ir_to_object
 from ppci.binutils.outstream import TextOutputStream
-
-from ppci.wasm import wasm_to_ir, export_wasm_example
-from ppci.wasm import instantiate
-
+from ppci.utils.codepage import load_obj
+from ppci.wasm import instantiate, wasm_to_ir
 
 wasm_module = wasm.Module(
     (

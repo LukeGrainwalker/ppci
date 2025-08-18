@@ -1,6 +1,6 @@
 import io
-from ppci.api import ir_to_python, c_to_ir, get_arch, COptions, optimize
 
+from ppci.api import COptions, c_to_ir, get_arch, ir_to_python, optimize
 
 arch = get_arch("example")
 bsp = io.StringIO(
@@ -18,7 +18,7 @@ coptions.add_include_path("../../librt/libc/include")
 sources = ["../src/structs/structs.c", "../../librt/libc/lib.c"]
 ir_modules = []
 for source in sources:
-    with open(source, "r") as f:
+    with open(source) as f:
         ir_module = c_to_ir(f, arch, coptions=coptions)
         optimize(ir_module, level=2)
         ir_modules.append(ir_module)

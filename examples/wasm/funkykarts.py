@@ -1,13 +1,12 @@
-import os
-import math
 import logging
+import math
+import os
 
 import requests
 import tqdm
 
-from ppci.wasm import Module
-from ppci.wasm import wasm_to_ir
 from ppci.api import get_arch, ir_to_object
+from ppci.wasm import Module, wasm_to_ir
 
 # logging.basicConfig(level=logging.DEBUG)
 logging.basicConfig(level=logging.INFO)

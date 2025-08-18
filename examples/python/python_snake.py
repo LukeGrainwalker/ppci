@@ -1,5 +1,6 @@
 import io
-from ppci.api import ir_to_python, c3_to_ir, get_arch
+
+from ppci.api import c3_to_ir, get_arch, ir_to_python
 
 
 def run_it():

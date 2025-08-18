@@ -1,4 +1,5 @@
 import argparse
+
 from ppci.api import get_object
 from ppci.binutils.objectfile import merge_memories
 
@@ -19,4 +20,4 @@ assert len(rom_data) % 2 == 0
 with open("pmem.mem", "w") as f:
     for i in range(len(rom_data) // 2):
         w = rom_data[2 * i : 2 * i + 2]
-        print("%02x%02x" % (w[1], w[0]), file=f)
+        print(f"{w[1]:02x}{w[0]:02x}", file=f)

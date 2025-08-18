@@ -27,11 +27,11 @@ def mandelbrot():
                 i = i + 1
 
             if Tr + Ti <= 4.0:
-                puts("*")
+                puts("*")  # noqa: F821
             else:
-                puts("·")
+                puts("·")  # noqa: F821
 
             x = x + 1.0
 
-        puts("\n")
+        puts("\n")  # noqa: F821
         y = y + 1.0

@@ -8,7 +8,6 @@ import webbrowser
 
 from ppci.programs import get_program_classes_html
 
-
 total_html = f"""
 <!DOCTYPE html>
 <html>

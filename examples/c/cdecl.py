@@ -8,9 +8,10 @@ $ cdelc.py 'char **a;'
 
 import argparse
 import io
+
 from ppci.api import get_current_arch
-from ppci.lang.c import CLexer, CParser, COptions, CContext, CSemantics
-from ppci.lang.c.nodes import types, declarations
+from ppci.lang.c import CContext, CLexer, COptions, CParser, CSemantics
+from ppci.lang.c.nodes import declarations, types
 from ppci.lang.c.preprocessor import prepare_for_parsing
 
 parser = argparse.ArgumentParser(
@@ -38,13 +39,13 @@ decl = cparser.parse_declarations()[0]
 # Explain:
 def explain(x):
     if isinstance(x, declarations.VariableDeclaration):
-        return "{} is {}".format(x.name, explain(x.typ))
+        return f"{x.name} is {explain(x.typ)}"
     elif isinstance(x, types.PointerType):
-        return "a pointer to {}".format(explain(x.element_type))
+        return f"a pointer to {explain(x.element_type)}"
     elif isinstance(x, types.ArrayType):
-        return "an array of {}".format(explain(x.element_type))
+        return f"an array of {explain(x.element_type)}"
     elif isinstance(x, types.BasicType):
-        return "{}".format(x.type_id)
+        return f"{x.type_id}"
     else:
         print("???", x)
 

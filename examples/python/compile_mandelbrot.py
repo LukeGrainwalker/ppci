@@ -4,11 +4,10 @@ into a linux executable file.
 """
 
 import io
-import logging
 
+from ppci.api import cc, ir_to_object, link, objcopy
+from ppci.irutils import verify_module
 from ppci.lang.python import python_to_ir
-from ppci.irutils import verify_module, print_module
-from ppci.api import ir_to_object, link, cc, objcopy
 from ppci.utils.reporting import html_reporter
 
 # logging.basicConfig(level=logging.INFO)
@@ -19,10 +18,10 @@ def puts(txt: str):
 
 
 with html_reporter("mandelbrot_compilation_report.html") as reporter:
-    with open("mandelbrot.py", "r") as f:
+    with open("mandelbrot.py") as f:
         mod = python_to_ir(f, imports={"puts": puts})
 
-    with open("mandelbrot.py", "r") as f:
+    with open("mandelbrot.py") as f:
         src = list(f)
 
     reporter.annotate_source(src, mod)
@@ -77,8 +76,10 @@ void syscall(long nr, long a, long b, long c)
         "mov rdx, %3 \n"
         "syscall \n"
         :
-        : "r" (nr), "r" (a), "r" (b), "r" (c) // input registers, patched into %0 .. %3
-        : "rax", "rdi", "rsi", "rdx"  // clobber registers, handled by the register allocator
+         // input registers, patched into %0 .. %3
+        : "r" (nr), "r" (a), "r" (b), "r" (c)
+         // clobber registers, handled by the register allocator
+        : "rax", "rdi", "rsi", "rdx"
     );
 }
 

@@ -1,21 +1,12 @@
-import sys, os, string
-import binascii
-import struct
-from sys import argv
-from vcd import parse_vcd
 from types import SimpleNamespace as New
+
+from vcd import parse_vcd
+
 from ppci.api import get_arch, get_object
 from ppci.binutils.dbg import Debugger
-from ppci.binutils.dbg.debug_driver import DebugState
-from ppci.binutils.dbg.cli import DebugCli
 from ppci.binutils.dbg.gdb.client import GdbDebugDriver
 from ppci.binutils.dbg.gdb.transport import TCP
-from ppci.binutils.debuginfo import (
-    DebugPointerType,
-    DebugAddress,
-    FpOffsetAddress,
-    DebugBaseType,
-)
+from ppci.binutils.debuginfo import DebugAddress, DebugBaseType
 
 
 def calc_address(obj, address):
@@ -92,7 +83,7 @@ if __name__ == "__main__":
     global signals
     signals = {}
     pctimevals = []
-    for code in table.keys():
+    for code in table:
         name = table[code]["nets"][0]["name"]
         tv = table[code]["tv"]
         if name == "CLK":
@@ -130,7 +121,7 @@ if __name__ == "__main__":
     for time, clkvalstr in clktimevals:
         clkval = int(clkvalstr, 2)
         if clkval:
-            for name, signal in signals.items():
+            for _, signal in signals.items():
                 signal.change = False
                 while (
                     len(signal.timevals) - 1 > signal.timeslot
@@ -153,25 +144,20 @@ if __name__ == "__main__":
                             returnreg, oldfunc.return_type
                         )
                         print(
-                            "@time=%d us, funktion %s returned:"
-                            % (time, oldfunc.name)
+                            f"@time={time} us, func {oldfunc.name} returned:"
                         )
                         print(
-                            "Returnvalue(%s):%s"
-                            % (oldfunc.return_type, curvalstr)
+                            f"Returnvalue({oldfunc.return_type}):{curvalstr}"
                         )
                         callstack.pop()
                     elif newfunc:
                         print(
-                            "@time=%d us, PC=%08x funktion %s(%08x) called:"
-                            % (time, lastpcval, newfunc.name, pcval)
+                            f"@time={time} us, PC={lastpcval:08} "
+                            f"funktion {newfunc.name}({pcval:08x}) called:"
                         )
                         for argnr, arg in enumerate(newfunc.arguments):
                             curvalstr = getsigvalstr(argregs[argnr], arg.typ)
-                            print(
-                                "Args:%s(%s) = %s"
-                                % (arg.name, arg.typ, curvalstr)
-                            )
+                            print(f"Args:{arg.name}({arg.typ}) = {curvalstr}")
                         if oldfunc:
                             callstack.append(oldfunc.name)
 
@@ -180,7 +166,7 @@ if __name__ == "__main__":
                 memadr = int(curvalstr, 16)
             else:
                 memadr = 0
-            if memadr in watchadr.keys():
+            if memadr in watchadr:
                 curvalstr = getsigvalstr(mem_valid)
                 valid = int(curvalstr, 16)
                 curvalstr = getsigvalstr(mem_ready)
@@ -190,15 +176,9 @@ if __name__ == "__main__":
                 if valid and not wstrobe and ready:
                     var = watchadr[memadr]
                     curvalstr = getsigvalstr(mem_rdata)
-                    print(
-                        "@time=%d us, read var %s data:%s"
-                        % (time, var, curvalstr)
-                    )
+                    print(f"@time={time} us, read var {var} data:{curvalstr}")
 
                 if valid and wstrobe and ready:
                     var = watchadr[memadr]
                     curvalstr = getsigvalstr(mem_wdata)
-                    print(
-                        "@time=%d us, write var %s with data:%s"
-                        % (time, var, curvalstr)
-                    )
+                    print(f"@time={time} us, write var {var} data:{curvalstr}")

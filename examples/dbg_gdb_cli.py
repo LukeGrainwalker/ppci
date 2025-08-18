@@ -2,12 +2,12 @@
 
 import argparse
 import logging
+
 from ppci.api import get_arch, get_object
 from ppci.binutils.dbg import Debugger
-from ppci.binutils.dbg.ptcli import PtDebugCli
 from ppci.binutils.dbg.gdb.client import GdbDebugDriver
 from ppci.binutils.dbg.gdb.transport import TCP
-
+from ppci.binutils.dbg.ptcli import PtDebugCli
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

@@ -1,9 +1,7 @@
-import re
-import io
-from ppci.lang.tools.lr import LrParserBuilder
 from ppci.common import make_num
+from ppci.lang.tools.baselex import EOF, EPS, BaseLexer
 from ppci.lang.tools.grammar import Grammar
-from ppci.lang.tools.baselex import BaseLexer, EPS, EOF
+from ppci.lang.tools.lr import LrParserBuilder
 
 datasection = False
 code2sig = {}
@@ -102,8 +100,7 @@ class VcdLexer(BaseLexer):
                 elif line.startswith("#"):
                     self.time = timemul * make_num(line[1:])
             else:
-                for tk in super().tokenize(line):
-                    yield tk
+                yield from super().tokenize(line)
 
 
 class VcdParser:
@@ -118,9 +115,9 @@ class VcdParser:
             ["$SCOPE", "scopetype", "ID", "$END"],
             self.handle_start_module,
         )
-        g.add_production("scopetype", ["MODULE"], lambda l: l)
-        g.add_production("scopetype", ["TASK"], lambda l: l)
-        g.add_production("scopetype", ["BEGIN"], lambda l: l)
+        g.add_production("scopetype", ["MODULE"], lambda x: x)
+        g.add_production("scopetype", ["TASK"], lambda x: x)
+        g.add_production("scopetype", ["BEGIN"], lambda x: x)
         g.add_production("exp", ["$UPSCOPE", "$END"], self.handle_end_module)
         g.add_production(
             "exp", ["$TIMESCALE", "TIMEUNIT", "$END"], self.handle_timescale
@@ -130,14 +127,14 @@ class VcdParser:
             ["$VAR", "type", "NUMBER", "code", "name", "$END"],
             self.handle_vardecl,
         )
-        g.add_production("code", ["ID"], lambda l: l)
+        g.add_production("code", ["ID"], lambda x: x)
         g.add_production("code", ["NUMBER"], self.handle_number)
-        g.add_production("name", ["ID"], lambda l: l)
+        g.add_production("name", ["ID"], lambda x: x)
         g.add_production("name", ["ID", "ID"], self.handle_index)
-        g.add_production("type", ["WIRE"], lambda l: l)
-        g.add_production("type", ["REG"], lambda l: l)
-        g.add_production("type", ["INTEGER"], lambda l: l)
-        g.add_production("type", ["TRIREG"], lambda l: l)
+        g.add_production("type", ["WIRE"], lambda x: x)
+        g.add_production("type", ["REG"], lambda x: x)
+        g.add_production("type", ["INTEGER"], lambda x: x)
+        g.add_production("type", ["TRIREG"], lambda x: x)
         g.start_symbol = "input"
         self.p = LrParserBuilder(g).generate_parser()
         self.sigprefix = []
@@ -159,7 +156,7 @@ class VcdParser:
         self.sigprefix.append(name.val)
 
     def handle_end_module(self, scope_tag, end_tag):
-        name = self.sigprefix.pop()
+        self.sigprefix.pop()
 
     def handle_timescale(self, time_tag, timeunit, end_tag):
         global timemul
@@ -184,9 +181,9 @@ class VcdParser:
             code2sig[name] = key.val
 
 
-def parse_vcd(file, siglist=[], opt_timescale="ns"):
+def parse_vcd(file, siglist=(), opt_timescale="ns"):
     global data
-    with open(file, "r") as f:
+    with open(file) as f:
         lexer = VcdLexer()
         parser = VcdParser(
             lexer.kws, sigfilter=siglist, opt_timescale=opt_timescale

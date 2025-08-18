@@ -5,6 +5,7 @@ DLL in windows world, SO in unix world.
 """
 
 import io
+
 from ppci import api
 from ppci.format.elf import write_elf
 

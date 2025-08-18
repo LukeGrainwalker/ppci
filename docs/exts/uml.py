@@ -1,10 +1,10 @@
-import tempfile
-import subprocess
 import os
+import subprocess
+import tempfile
+
+import pylint  # ensure that pyreverse is available  # noqa: F401
 from docutils.parsers.rst import Directive
 from sphinx.ext.graphviz import graphviz
-
-import pylint  # ensure that pyreverse is available
 
 __version__ = "0.1"
 
@@ -36,7 +36,7 @@ class UmlDirective(Directive):
             cmd.extend(["-c", c])
         cmd.append(module)
         subprocess.check_call(cmd)
-        with open("classes_{}.dot".format(basename)) as f:
+        with open(f"classes_{basename}.dot") as f:
             dotcode = f.read()
         os.chdir(save_dir)
 

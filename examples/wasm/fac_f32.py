@@ -1,6 +1,5 @@
-import io
-from ppci.wasm import Module, instantiate
 from ppci import api
+from ppci.wasm import Module, instantiate
 
 src = """
 (module

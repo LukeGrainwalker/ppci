@@ -2,9 +2,8 @@
 
 from ppci import api
 from ppci.binutils.dbg import Debugger
-from ppci.binutils.dbg.ptcli import PtDebugCli
 from ppci.binutils.dbg.linux64debugdriver import Linux64DebugDriver
-
+from ppci.binutils.dbg.ptcli import PtDebugCli
 
 if __name__ == "__main__":
     dut = "hello"

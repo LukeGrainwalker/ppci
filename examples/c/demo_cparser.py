@@ -3,10 +3,10 @@
 """A demo showing the usage of the preprocessor and the parser"""
 
 import argparse
-from ppci.common import CompilerError
-from ppci.lang.c import create_ast, CAstPrinter, CPrinter
-from ppci.api import get_current_arch
 
+from ppci.api import get_current_arch
+from ppci.common import CompilerError
+from ppci.lang.c import CAstPrinter, CPrinter, create_ast
 
 if __name__ == "__main__":
     # Argument handling:
@@ -15,8 +15,8 @@ if __name__ == "__main__":
     args = arg_parser.parse_args()
     filename = args.source
 
-    print("============= [ {} ] ===============".format(args.source))
-    with open(args.source, "r") as f:
+    print(f"============= [ {args.source} ] ===============")
+    with open(args.source) as f:
         for row, line in enumerate(f, 1):
             print(row, ":", line.rstrip())
     print("====================================")
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     arch_info = get_current_arch().info
 
     try:
-        with open(filename, "r") as f:
+        with open(filename) as f:
             ast = create_ast(f, arch_info, filename=filename)
     except CompilerError as ex:
         ex.print()

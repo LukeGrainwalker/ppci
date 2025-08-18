@@ -1,15 +1,16 @@
-import sys
 import os
+import sys
+
 from ppci import api
-from ppci.utils.reporting import html_reporter
 from ppci.lang.basic.c64 import BasicLine, write_basic_program
+from ppci.utils.reporting import html_reporter
 
 arch = api.get_arch("mcs6500")
 print("Using arch", arch)
 
 
 if len(sys.argv) > 1:
-    with open(sys.argv[1], "r") as f:
+    with open(sys.argv[1]) as f:
         text_message = f.read()
 else:
     text_message = "you can provide a text file to customize this message"

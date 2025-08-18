@@ -12,7 +12,8 @@ https://github.com/MichaelPaddon/epsilon
 """
 
 import io
-from ppci.lang.tools.regex import compile, scan, make_scanner, generate_code
+
+from ppci.lang.tools.regex import compile, generate_code, make_scanner, scan
 
 r = compile("[0-9]+hi")
 

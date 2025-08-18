@@ -2,9 +2,8 @@
 
 from time import perf_counter
 
-from ppci.programs import PythonProgram  # or ppci.lang.python.PythonCode
 from ppci.binutils import debuginfo
-
+from ppci.programs import PythonProgram  # or ppci.lang.python.PythonCode
 
 py3 = """
 max = 4000
@@ -91,4 +90,4 @@ t0 = perf_counter()
 result = native.run_in_process()
 
 etime = perf_counter() - t0
-print("native says {} in {} s".format(result, etime))
+print(f"native says {result} in {etime} s")

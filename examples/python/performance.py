@@ -1,12 +1,14 @@
 """This demo is demonstrating the performance boost when code is compiled"""
 
-import timeit
 import io
-from ppci.utils import codepage
+import timeit
+
 from ppci.lang.python import jit
+from ppci.utils import codepage
 
 
-# Enable this jit decorator to compile/load the python function as executable code.
+# Enable this jit decorator to compile/load
+# the python function as executable code.
 # @jit
 def heavy_math(a: int, b: int) -> int:
     x = a * b + 200

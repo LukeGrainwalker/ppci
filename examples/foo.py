@@ -1,12 +1,12 @@
 import logging
+
+import demo1
+
 from ppci.lang.python import load_py
 
 logging.basicConfig(level=logging.DEBUG)
 
-# Choose between those two:
-import demo1
-
-with open("demo1.py", "r") as f:
+with open("demo1.py") as f:
     m2 = load_py(f)
 
 for x in range(20):

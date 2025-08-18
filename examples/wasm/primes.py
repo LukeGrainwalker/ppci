@@ -115,6 +115,6 @@ if True:
     )
     exec(py_code)
     t0 = perf_counter()
-    result = main()
+    result = main()  # noqa: F821
     etime = perf_counter() - t0
     print(f"python says {result} in {etime}")

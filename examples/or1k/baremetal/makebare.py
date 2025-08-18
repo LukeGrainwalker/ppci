@@ -6,8 +6,9 @@ $ qemu-system-or1k -kernel baremetal.bin -M or1k-sim -serial stdio
 
 """
 
-import logging
 import io
+import logging
+
 from ppci import api
 from ppci.utils.reporting import html_reporter
 from ppci.utils.uboot_image import write_uboot_image

@@ -1,8 +1,8 @@
 import io
 from time import time as perf_counter
 
-from ppci.programs import C3Program
 from ppci.binutils import debuginfo
+from ppci.programs import C3Program
 
 # todo: this does not work yet. I'm sure Windel has this working in a minute
 
@@ -28,7 +28,7 @@ function void main()
 }
 """
 
-io_module = open("../../librt/io.c3", "rt").read()
+io_module = open("../../librt/io.c3").read()
 includes = [io.StringIO(bsp)]
 
 ## Compiling
@@ -69,4 +69,4 @@ t0 = perf_counter()
 result = native.run_in_process()
 
 etime = perf_counter() - t0
-print("native says {} in {} s".format(result, etime))
+print(f"native says {result} in {etime} s")

@@ -1,15 +1,14 @@
 """Create a nice christmas card."""
 
-import sys
-import os
 import io
-from ppci import api
-from ppci.lang.basic.c64 import write_basic_program, BasicLine
-from ppci.binutils.layout import Layout, Memory, Section
-from ppci.utils.reporting import HtmlReportGenerator
+import sys
+
 import qrcode
 from PIL import Image
 
+from ppci import api
+from ppci.binutils.layout import Layout, Memory, Section
+from ppci.lang.basic.c64 import BasicLine, write_basic_program
 
 # Mapping of 2x2 pixels to charcode:
 # Value order:

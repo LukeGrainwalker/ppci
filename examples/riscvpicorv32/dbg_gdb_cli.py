@@ -5,11 +5,9 @@ import time
 
 from ppci.api import get_arch, get_object
 from ppci.binutils.dbg import Debugger
-from ppci.binutils.dbg.debug_driver import DebugState
 from ppci.binutils.dbg.cli import DebugCli
 from ppci.binutils.dbg.gdb.client import GdbDebugDriver
 from ppci.binutils.dbg.gdb.transport import TCP
-
 
 if __name__ == "__main__":
     logging.basicConfig(
