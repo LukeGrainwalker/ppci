@@ -79,9 +79,9 @@ extend-select = [
     "UP",    # pyupgrade
     "I",     # isort
     "C4",    # flake8-comprehensions
-    # "LOG",
-    # "N",
-    # "PTH",
+    "LOG",   # flake8-logging
+    # "N",   # Naming conventions
+    # "PTH", # Pathlib usage
 ]
 extend-ignore = [
     "E203",  # Conflicts with black formatting

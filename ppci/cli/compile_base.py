@@ -9,6 +9,7 @@ from ..irutils.instrument import add_tracer
 from ..wasm import ir_to_wasm
 from .base import out_parser
 
+logger = logging.getLogger("base")
 compile_parser = argparse.ArgumentParser(add_help=False, parents=[out_parser])
 compile_parser.add_argument(
     "-g", help="create debug information", action="store_true", default=False
@@ -86,4 +87,4 @@ def do_compile(ir_modules, march, reporter, args):
             obj.save(output)
 
         # TODO: link objects together?
-        logging.warning("TODO: Linking with stdlibs")
+        logger.warning("TODO: Linking with stdlibs")

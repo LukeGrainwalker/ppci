@@ -9,6 +9,8 @@ from ppci.binutils.debuginfo import (
     DebugStructType,
 )
 
+logger = logging.getLogger("varview")
+
 
 class PartialVariable:
     def __init__(self, name, typ, address, row, parent):
@@ -189,7 +191,7 @@ class LocalsView(QtWidgets.QTreeView):
         # if cur_func != self._cur_func:
         self._cur_func = cur_func
         if cur_func:
-            logging.debug("Now in %s", cur_func)
+            logger.debug("Now in %s", cur_func)
             self.set_new_model(cur_func)
 
     def set_new_model(self, cur_func):

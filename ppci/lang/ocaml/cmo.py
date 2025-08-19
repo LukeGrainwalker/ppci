@@ -13,7 +13,7 @@ logger = logging.getLogger("ocaml")
 def read_file(filename):
     """Read a cmo or bytecode file."""
     if isinstance(filename, str):
-        logging.info("Processing %s", filename)
+        logger.info("Processing %s", filename)
         with open(filename, "rb") as f:
             return read_file(f)
     else:

@@ -10,16 +10,11 @@ Usage:
 
 """
 
-import glob
 import logging
 import os
 import sys
 import time
-
-try:
-    from powertb import print_exc
-except ImportError:
-    from traceback import print_exc
+from pathlib import Path
 
 from ppci.api import cc, link
 from ppci.common import CompilerError, logformat
@@ -37,50 +32,49 @@ def do_compile(filename, include_paths, arch, reporter):
 
 
 def main():
+    logger = logging.getLogger("compile-lcc")
     environment_variable = "LCC_FOLDER"
     if environment_variable in os.environ:
         lcc_folder = os.environ[environment_variable]
     else:
-        logging.error(
+        logger.error(
             "Please define %s to point to the lcc source folder",
             environment_variable,
         )
         return
 
-    this_dir = os.path.abspath(os.path.dirname(__file__))
-    report_filename = os.path.join(this_dir, "report_lcc.html")
-    libc_includes = os.path.join(this_dir, "..", "librt", "libc")
+    this_path = Path(__file__).resolve().parent
+    root_path = this_path.parent
+    report_filename = this_path / "report_lcc.html"
+    libc_includes = root_path / "librt" / "libc"
     include_paths = [libc_includes]
     arch = "x86_64"
 
-    t1 = time.time()
+    t1 = time.monotonic()
     failed = 0
     passed = 0
-    sources = glob.glob(os.path.join(lcc_folder, "src", "*.c"))
+    src_folder = lcc_folder / "src"
     objs = []
     with html_reporter(report_filename) as reporter:
-        for filename in sources:
-            print("      ======================")
-            print("    ========================")
-            print("  ==> Compiling", filename)
+        for filename in src_folder.glob("*.c"):
+            logger.info("      ======================")
+            logger.info("    ========================")
+            logger.info(f"  ==> Compiling {filename}")
             try:
                 obj = do_compile(filename, include_paths, arch, reporter)
                 objs.append(obj)
             except CompilerError as ex:
-                print("Error:", ex.msg, ex.loc)
+                logger.exception(f"Error: {ex.msg}, {ex.loc}")
                 ex.print()
-                # print_exc()
                 failed += 1
             except Exception as ex:
-                print("General exception:", ex)
-                # ex.print()
-                print_exc()
+                logger.exception(f"General exception: {ex}")
                 failed += 1
             else:
-                print("Great success!")
+                logger.info("Great success!")
                 passed += 1
 
-    t2 = time.time()
+    t2 = time.monotonic()
     elapsed = t2 - t1
     print("Passed:", passed, "failed:", failed, "in", elapsed, "seconds")
     obj = link(objs)

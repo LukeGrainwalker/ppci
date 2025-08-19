@@ -39,7 +39,7 @@ def main():
     if environment_variable in os.environ:
         libmad_folder = Path(os.environ[environment_variable])
     else:
-        logging.error(
+        logger.error(
             "Please define %s to point to the libmad source folder",
             environment_variable,
         )

@@ -270,6 +270,14 @@ class CFrontendTestCase(unittest.TestCase):
         """
         self.do(src)
 
+    def test_incomplete_struct(self):
+        """Test usage of incomplete struct"""
+        src = """
+        struct st;
+        struct st a;
+        """
+        self.expect_error(src, 3, "Type of variable 'a' is incomplete")
+
     def test_tag_scoping(self):
         src = """
         void f(int n) {
@@ -738,6 +746,16 @@ class CFrontendTestCase(unittest.TestCase):
 
         """
         self.do(src)
+
+    @unittest.skip("TODO")
+    def test_extern_after_static(self):
+        """Test redeclaration"""
+        src = """
+        static int i4; // internal linkage
+        extern int i4; // keep internal linkage
+        int i4; // illegal: try to change linkage to external
+        """
+        self.expect_error(src, 4, "Invalid re-declaration")
 
     def test_variable_double_definition(self):
         """Test double definition raises an error."""

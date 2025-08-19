@@ -8,6 +8,7 @@ from ppci.common import CompilerError
 from ppci.lang.c.options import COptions, coptions_parser
 from ppci.utils.reporting import html_reporter
 
+logger = logging.getLogger("compile-fatfs")
 this_path = Path(__file__).resolve().parent
 root_path = this_path.parent.parent
 libc_includes = root_path / "librt" / "libc" / "include"
@@ -26,12 +27,12 @@ arch = api.get_arch("riscv")
 
 
 def cc(filename: str, reporter):
-    logging.info("Compiling %s", filename)
+    logger.info("Compiling %s", filename)
     filename = this_path / filename
     with filename.open() as f:
         try:
             obj = api.cc(f, arch, reporter=reporter, coptions=coptions)
-            logging.info("Compiled %s into %s bytes", filename, obj.byte_size)
+            logger.info("Compiled %s into %s bytes", filename, obj.byte_size)
         except CompilerError as e:
             print(e)
             e.print()

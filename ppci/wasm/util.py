@@ -23,6 +23,7 @@ __all__ = [
     "has_node",
 ]
 
+logger = logging.getLogger("wasm")
 this_dir = Path(__file__).resolve().parent
 PAGE_SIZE = 64 * 1024  # 64 KiB
 hex_prog = re.compile(r"-?0x[0-9a-fA-F]+")
@@ -218,7 +219,7 @@ def export_wasm_example(filename, code, wasm, main_js=""):
 
     # Export HTML file
     filename.write_text(html)
-    logging.info("Wrote example HTML to %s", filename)
+    logger.info("Wrote example HTML to %s", filename)
 
 
 _nb_output = 0

@@ -18,6 +18,7 @@ from ppci.api import get_arch
 from ppci.common import CompilerError
 from ppci.lang.c import COptions, create_ast
 from ppci.lang.c.nodes import declarations
+from ppci.utils.htmlgen import Document
 
 this_path = Path(__file__).resolve().parent
 root_path = this_path.parent
@@ -35,14 +36,30 @@ def main():
     analyze_sources(args.source_dir, defines)
 
 
-def get_tag(filename: Path) -> str:
-    return filename.stem
-
-
 def analyze_sources(source_dir: Path, defines):
     """Analyze a directory with sourcecode"""
 
     # Phase 1: acquire ast's:
+    asts = read_sources(source_dir, defines)
+
+    # Phase 2: do some bad-ass analysis:
+    global_variables = []
+    functions = []
+    for _source_filename, _source_code, ast in asts:
+        for decl in ast.declarations:
+            if isinstance(decl, declarations.VariableDeclaration):
+                global_variables.append(decl)
+            elif isinstance(decl, declarations.FunctionDeclaration):
+                if decl.body is not None and decl.storage_class != "static":
+                    functions.append(decl)
+
+    functions.sort(key=lambda d: d.name)
+
+    # Phase 3: generate html report?
+    gen_report(functions, asts)
+
+
+def read_sources(source_dir: Path, defines):
     arch_info = get_arch("x86_64").info
     coptions = COptions()
     # TODO: infer defines from code:
@@ -65,21 +82,14 @@ def analyze_sources(source_dir: Path, defines):
         else:
             asts.append((source_filename, source_code, ast))
     logger.info("Got %s ast's", len(asts))
+    return asts
 
-    # Phase 2: do some bad-ass analysis:
-    global_variables = []
-    functions = []
-    for _source_filename, _source_code, ast in asts:
-        for decl in ast.declarations:
-            if isinstance(decl, declarations.VariableDeclaration):
-                global_variables.append(decl)
-            elif isinstance(decl, declarations.FunctionDeclaration):
-                if decl.body is not None and decl.storage_class != "static":
-                    functions.append(decl)
 
-    functions.sort(key=lambda d: d.name)
+def get_tag(filename: Path) -> str:
+    return filename.stem
 
-    # Phase 3: generate html report?
+
+def gen_report(functions, asts):
     html_filename = "analyze_report.html"
     html_path = (
         build_path / html_filename
@@ -87,78 +97,58 @@ def analyze_sources(source_dir: Path, defines):
         else Path(html_filename)
     )
     logger.info(f"Creating {html_path}")
-    with open(html_path, "w") as f:
-        c_lexer = CLexer()
+    with open(html_path, "w") as f, Document(f) as doc:
         formatter = HtmlFormatter(lineanchors="fubar", linenos="inline")
-        print(
-            f"""<html>
-        <head>
-        <style>
-        {formatter.get_style_defs()}
-        </style>
-        </head>
-        <body>
-        """,
-            file=f,
-        )
+        with doc.head() as head:
+            head.title("Analyzed C code")
+            head.style(formatter.get_style_defs())
 
-        print("<h1>Overview</h1>", file=f)
-        print("<table>", file=f)
-        print("<tr><th>Name</th><th>Location</th><th>typ</th></tr>", file=f)
-        for func in functions:
-            tagname = get_tag(func.location.filename)
-            name = f'<a href="#{tagname}-{func.location.row}">{func.name}</a>'
-            print(
-                "<tr><td>{}</td><td>{}</td><td>{}</td></tr>".format(
-                    name, "", ""
-                ),
-                file=f,
+        with doc.body() as body:
+            body.h1("Overview")
+            with body.table() as table:
+                table.header("Name", "Location")
+                for func in functions:
+                    tagname = get_tag(func.location.filename)
+                    tagname = f"{tagname}-{func.location.row}"
+                    name = f'<a href="#{tagname}">{func.name}</a>'
+                    location = str(func.location)
+                    table.row(name, location, escape=False)
+
+            body.h1("Files")
+            for source_filename, source_code, ast in asts:
+                report_single_file(body, source_filename, source_code, ast)
+
+
+def report_single_file(body, source_filename, source_code, ast):
+    tagname = get_tag(source_filename)
+    body.h2(str(source_filename))
+    with body.table() as table:
+        table.header("Name", "Location", "typ", "storage_class")
+        for decl in ast.declarations:
+            if isinstance(decl, declarations.VariableDeclaration):
+                tp = "var"
+            elif isinstance(decl, declarations.FunctionDeclaration):
+                tp = "func"
+            else:
+                tp = "other"
+
+            if source_filename == decl.location.filename:
+                anchor = f"{tagname}-{decl.location.row}"
+                name = f'<a href="#{anchor}">{decl.name}</a>'
+            else:
+                name = decl.name
+            table.row(
+                name,
+                str(decl.location),
+                tp,
+                str(decl.storage_class),
+                escape=False,
             )
 
-        print("</table>", file=f)
-        print("<h1>Files</h1>", file=f)
-
-        for source_filename, source_code, ast in asts:
-            tagname = get_tag(source_filename)
-            formatter = HtmlFormatter(lineanchors=tagname, linenos="inline")
-            print(f"<h2>{source_filename}</h2>", file=f)
-            print("<table>", file=f)
-            print(
-                "<tr><th>Name</th><th>Location</th><th>typ</th></tr>", file=f
-            )
-            for decl in ast.declarations:
-                if isinstance(decl, declarations.VariableDeclaration):
-                    tp = "var"
-                elif isinstance(decl, declarations.FunctionDeclaration):
-                    tp = "func"
-                else:
-                    tp = "other"
-
-                tp += str(decl.storage_class)
-
-                if source_filename == decl.location.filename:
-                    anchor = f"{tagname}-{decl.location.row}"
-                    name = f'<a href="#{anchor}">{decl.name}</a>'
-                else:
-                    name = decl.name
-
-                print(
-                    f"<tr><td>{name}</td>"
-                    f"<td>{decl.location}</td>"
-                    f"<td>{tp}</td></tr>",
-                    file=f,
-                )
-            print("</table>", file=f)
-            print("""  <div>""", file=f)
-            print(highlight(source_code, c_lexer, formatter), file=f)
-            print("""  </div>""", file=f)
-
-        print(
-            """</body>
-        </html>
-        """,
-            file=f,
-        )
+    c_lexer = CLexer()
+    formatter = HtmlFormatter(lineanchors=tagname, linenos="inline")
+    with body.tag("div"):
+        print(highlight(source_code, c_lexer, formatter), file=body._f)
 
 
 if __name__ == "__main__":

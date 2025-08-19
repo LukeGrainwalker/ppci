@@ -1,4 +1,6 @@
 """
+Compile test samples to WebAssembly, and embed in an HTML document.
+
 Handy online wasm to text conversion:
 
 https://cdn.rawgit.com/WebAssembly/wabt/7e56ca56/demo/wasm2wast/
@@ -10,7 +12,6 @@ https://github.com/WebAssembly/wabt
 """
 
 import argparse
-import html
 import io
 import logging
 import time
@@ -21,6 +22,7 @@ from ppci.api import c3_to_ir, c_to_ir, get_arch, optimize
 from ppci.common import logformat
 from ppci.irutils import ir_link
 from ppci.lang.c import COptions
+from ppci.utils.htmlgen import Document
 from ppci.wasm import ir_to_wasm
 
 parser = argparse.ArgumentParser()
@@ -96,109 +98,96 @@ samples.extend(sorted(simple_sample_path.glob("*.c3")))
 
 html_filename = build_path / "samples_in_wasm.html"
 logger.info(f"Creating {html_filename}")
-with open(html_filename, "w") as f:
-    print(
-        """<!DOCTYPE html>
-    <html>
-    <head><title>Samples</title><meta charset="utf-8"></head>
-    <body>
-    """,
-        file=f,
-    )
-    print(f"<p>Sample generated on {time.ctime()}</p>", file=f)
-    print(f"<p>Generator script: <pre>{__file__}</pre></p>", file=f)
+with open(html_filename, "w") as f, Document(f) as doc:
+    with doc.head() as head:
+        head.title("Samples")
+        head.print("""<meta charset="utf-8">""")
+    with doc.body() as body:
+        body.paragraph(f"Sample generated on {time.ctime()}")
+        body.paragraph(f"Generator script: <pre>{__file__}</pre>")
 
-    fns = []
-    for nr, sample in enumerate(samples, 1):
-        logger.info(f"Processing sample {sample}")
-        print(f"<h1>Example #{nr}: {sample}</h1>", file=f)
+        fns = []
+        for nr, sample in enumerate(samples, 1):
+            logger.info(f"Processing sample {sample}")
+            body.h1(f"Example #{nr}: {sample}")
 
-        # Sourcecode:
-        print("<h2>Code</h2>", file=f)
-        txt = sample.read_text()
-        print("<pre>", file=f)
-        print(html.escape(txt), file=f)
-        print("</pre>", file=f)
+            # Sourcecode:
+            body.h2("Code")
+            body.pre(sample.read_text())
 
-        # Expected output:
-        print("<h2>Expected output</h2>", file=f)
-        expected_output = sample.with_suffix(".out")
-        txt = expected_output.read_text()
-        print("<pre>", file=f)
-        print(html.escape(txt), file=f)
-        print("</pre>", file=f)
+            # Expected output:
+            body.h2("Expected output")
+            expected_output = sample.with_suffix(".out")
+            body.pre(expected_output.read_text())
 
-        # Actual wasm code:
-        try:
-            if sample.suffix == ".c3":
-                wasm_module = c3_to_wasm(sample, verbose=args.verbose)
-            elif sample.suffix == ".c":
-                wasm_module = c_to_wasm(sample, verbose=args.verbose)
+            # Actual wasm code:
+            try:
+                if sample.suffix == ".c3":
+                    wasm_module = c3_to_wasm(sample, verbose=args.verbose)
+                elif sample.suffix == ".c":
+                    wasm_module = c_to_wasm(sample, verbose=args.verbose)
+                else:
+                    raise NotImplementedError(str(sample.suffix))
+            except Exception:
+                logger.exception("Error during compilation")
+                print("Massive error!", file=f)
+                with body.tag("pre"):
+                    traceback.print_exc(file=f)
+                continue
             else:
-                raise NotImplementedError(str(sample.suffix))
-        except Exception:
-            logger.exception("Error during compilation")
-            print("Massive error!", file=f)
-            print("<pre>", file=f)
-            traceback.print_exc(file=f)
+                logger.info(f"Completed generating wasm module {wasm_module}")
+
+            if args.verbose:
+                wasm_module.show()
+                print(wasm_module.to_bytes())
+
+            body.h2("Actual output")
+            print(f'<pre id="wasm_output{nr}">', file=f)
             print("</pre>", file=f)
-            continue
-        else:
-            logger.info(f"Completed generating wasm module {wasm_module}")
 
-        if args.verbose:
-            wasm_module.show()
-            print(wasm_module.to_bytes())
+            wasm_filename = build_path / f"example_{nr}.wasm"
+            logger.info(f"Saving {wasm_filename}")
+            with wasm_filename.open("wb") as f3:
+                wasm_module.to_file(f3)
 
-        print("<h2>Actual output</h2>", file=f)
-        print(f'<pre id="wasm_output{nr}">', file=f)
-        print("</pre>", file=f)
+            wasm_text = str(list(wasm_module.to_bytes()))
+            print(
+                f"""<script>
+            function print_charcode{nr}(i) {{
+            var c = String.fromCharCode(i);
+            var el = document.getElementById('wasm_output{nr}');
+            el.innerHTML += c;
+            }}
 
-        wasm_filename = build_path / f"example_{nr}.wasm"
-        logger.info(f"Saving {wasm_filename}")
-        with wasm_filename.open("wb") as f3:
-            wasm_module.to_file(f3)
+            var providedfuncs{nr} = {{
+            bsp_putc: print_charcode{nr},
+            }};
 
-        wasm_text = str(list(wasm_module.to_bytes()))
+            function compile_wasm{nr}() {{
+            var wasm_data = new Uint8Array({wasm_text});
+            var module = new WebAssembly.Module(wasm_data);
+            var inst = new WebAssembly.Instance(
+                module, {{js: providedfuncs{nr}}});
+            inst.exports.main_main();
+            console.log('calling' + {nr});
+            }}
+            </script>""",
+                file=f,
+            )
+            fns.append(f"compile_wasm{nr}")
+
         print(
-            f"""<script>
-        function print_charcode{nr}(i) {{
-          var c = String.fromCharCode(i);
-          var el = document.getElementById('wasm_output{nr}');
-          el.innerHTML += c;
-        }}
-
-        var providedfuncs{nr} = {{
-          bsp_putc: print_charcode{nr},
-        }};
-
-        function compile_wasm{nr}() {{
-          var wasm_data = new Uint8Array({wasm_text});
-          var module = new WebAssembly.Module(wasm_data);
-          var inst = new WebAssembly.Instance(
-             module, {{js: providedfuncs{nr}}});
-          inst.exports.main_main();
-          console.log('calling' + {nr});
-        }}
-        </script>""",
+            """
+        <script>
+        function run_samples() {""",
             file=f,
         )
-        fns.append(f"compile_wasm{nr}")
-
-    print(
-        """
-    <script>
-    function run_samples() {""",
-        file=f,
-    )
-    for fn in fns:
-        print(f"{fn}();", file=f)
-    print(
-        """}
-    window.onload = run_samples;
-    </script>
-    </body>
-    </html>
-    """,
-        file=f,
-    )
+        for fn in fns:
+            print(f"{fn}();", file=f)
+        print(
+            """}
+        window.onload = run_samples;
+        </script>
+        """,
+            file=f,
+        )

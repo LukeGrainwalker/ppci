@@ -1,10 +1,10 @@
 """Helper script to dump all information for an architecture"""
 
-import html
 from pathlib import Path
 
 from ppci import api
 from ppci.arch import encoding
+from ppci.utils.htmlgen import Document
 
 this_path = Path(__file__).resolve().parent
 build_path = this_path.parent / "build"
@@ -23,38 +23,20 @@ def mkstr(s):
         raise NotImplementedError()
 
 
+instructions = []
+for i in arch.isa.instructions:
+    if not i.syntax:
+        continue
+    syntax = "".join(mkstr(s) for s in i.syntax.syntax)
+    instructions.append((syntax, i))
+
 filename = build_path / "arch_info.html"
-with filename.open("w") as f:
-    print(
-        """<html>
-    <body>
-    """,
-        file=f,
-    )
+with filename.open("w") as f, Document(f) as doc, doc.body() as body:
+    body.header("Instructions")
+    body.paragraph(f"{len(instructions)} instructions available")
+    with body.table() as table:
+        table.header("synax", "Class")
+        for syntax, ins_class in sorted(instructions, key=lambda x: x[0]):
+            table.row(syntax, str(ins_class))
 
-    # Create a list:
-    instructions = []
-    for i in arch.isa.instructions:
-        if not i.syntax:
-            continue
-        syntax = "".join(mkstr(s) for s in i.syntax.syntax)
-        instructions.append((syntax, i))
-
-    print("<h1>Instructions</h1>", file=f)
-    print(f"<p>{len(instructions)} instructions available</p>", file=f)
-    print('<table border="1">', file=f)
-    print("<tr><th>syntax</th><th>Class</th></tr>", file=f)
-    for syntax, ins_class in sorted(instructions, key=lambda x: x[0]):
-        print("<tr>".format(), file=f)
-        print(f"<td>{html.escape(syntax)}</td>", file=f)
-        print(f"<td>{html.escape(str(ins_class))}</td>", file=f)
-        print("</tr>".format(), file=f)
-    print("</table>", file=f)
-
-    print(
-        """</body>
-    </html>
-    """,
-        file=f,
-    )
 print(f"Created {filename}")
