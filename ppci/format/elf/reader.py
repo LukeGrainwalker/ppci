@@ -14,8 +14,9 @@ def read_elf(f):
 
 def elf_to_object(f):
     from ppci.binutils.objectfile import ObjectFile, Section, RelocationEntry
+    from ppci.arch import get_arch
 
-    obj = ObjectFile(f.e_machine.aname.lower())
+    obj = ObjectFile(get_arch(f.e_machine.name.lower()))
     if f.elf_header.e_entry != 0:
         obj.entry_symbol_id = f.elf_header.e_entry
 
