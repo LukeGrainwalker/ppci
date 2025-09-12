@@ -16,7 +16,29 @@ from .headers import (
     SymbolTableType,
 )
 
+<<<<<<< HEAD
+||||||| parent of d612a21a (implemented the StringTable class)
+
+=======
+from functools import cache
+
+
+>>>>>>> d612a21a (implemented the StringTable class)
 logger = logging.getLogger("elf")
+
+
+class StringTable:
+    def __init__(self, data):
+        self.data = data
+
+    @staticmethod
+    @cache
+    def read_strtab(f, section):
+        return StringTable(section.read_data(f))
+
+    def get_str(self, offset):
+        end = self.data.find(0, offset)
+        return self.data[offset:end].decode("utf8")
 
 
 class ElfRelocation:
@@ -198,12 +220,13 @@ class ElfFile:
             sh = elf_file.header_types.SectionHeader.read(f)
             elf_file.sections.append(ElfSection(sh))
 
-        elf_file.read_strtab(f)
+        # elf_file.read_strtab(f)
+        elf_file.strtab = StringTable.read_strtab(
+            f, elf_file.sections[elf_file.elf_header.e_shstrndx]
+        )
         for section in elf_file.sections:
             section.read_data(f)
-            section.name = elf_file.get_str(
-                section.header["sh_name"], elf_file.strtab
-            )
+            section.name = elf_file.strtab.get_str(section.header["sh_name"])
             typ = SectionHeaderType(section.header["sh_type"])
             if typ == SectionHeaderType.REL:
                 f.seek(section.header["sh_offset"])
@@ -219,7 +242,7 @@ class ElfFile:
                 ".strtab",
                 ".dynstr",
             ]:
-                elf_file.symstrtab = section.read_data(f)
+                elf_file.symstrtab = StringTable.read_strtab(f, section)
 
         if "symbole_table" in vars(elf_file):
             for relocation in elf_file.relocations:
@@ -227,8 +250,8 @@ class ElfFile:
                     elf_file.symbole_table, elf_file.sections
                 )
             for symbol in elf_file.symbole_table:
-                symbol.name = elf_file.get_str(
-                    symbol.header["st_name"], elf_file.symstrtab
+                symbol.name = elf_file.symstrtab.get_str(
+                    symbol.header["st_name"]
                 )
                 if symbol.header.st_shndx < len(elf_file.sections):
                     symbol.section = elf_file.sections[symbol.header.st_shndx]
