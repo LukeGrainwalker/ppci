@@ -16,18 +16,20 @@ def elf_to_object(f):
     from ppci.binutils.objectfile import ObjectFile, Section, RelocationEntry
     from ppci.arch import get_arch
 
-    obj = ObjectFile(get_arch(f.e_machine.name.lower()))
-    if f.elf_header.e_entry != 0:
-        obj.entry_symbol_id = f.elf_header.e_entry
+    elf = read_elf(f)
+    obj = ObjectFile(get_arch(elf.e_machine.name.lower()))
 
-    for s in f.sections:
+    if elf.elf_header.e_entry != 0:
+        obj.entry_symbol_id = elf.elf_header.e_entry
+
+    for s in elf.sections:
         so = Section(s.name)
         obj.add_section(so)
         so.address = s.header.sh_addr
         so.data = asc2bin(s.data)
         so.alignment = s.header.sh_addralign if s.header.sh_addralign else 1
 
-    for r in f.relocations:
+    for r in elf.relocations:
         if r.header.r_addend:
             addend = r.header.r_addend
         else:
@@ -42,7 +44,7 @@ def elf_to_object(f):
             )
         )
 
-    if hasattr(f, "symbole_table"):
+    if hasattr(elf, "symbole_table"):
         for sym in f.symbole_table:
             obj.add_symbol(
                 sym.i,
