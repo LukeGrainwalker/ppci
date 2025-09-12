@@ -16,14 +16,8 @@ from .headers import (
     SymbolTableType,
 )
 
-<<<<<<< HEAD
-||||||| parent of d612a21a (implemented the StringTable class)
-
-=======
 from functools import cache
 
-
->>>>>>> d612a21a (implemented the StringTable class)
 logger = logging.getLogger("elf")
 
 

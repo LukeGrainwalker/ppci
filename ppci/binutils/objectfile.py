@@ -17,18 +17,9 @@ The hierarchy is as follows:
 """
 
 import json
-<<<<<<< HEAD
-
-from ..common import CompilerError, get_file, make_num
-from ..utils.binary_txt import asc2bin, bin2asc
-||||||| parent of a0407205 (implemented some conversion functionality)
-from ..common import CompilerError, make_num, get_file
-from ..utils.binary_txt import bin2asc, asc2bin
-=======
 import io
 from ..common import CompilerError, make_num, get_file
 from ..utils.binary_txt import asc2bin, bin2asc
->>>>>>> a0407205 (implemented some conversion functionality)
 from . import debuginfo
 from ..format.elf.file import ElfFile
 
