@@ -17,11 +17,9 @@ The hierarchy is as follows:
 """
 
 import json
-import io
 from ..common import CompilerError, make_num, get_file
 from ..utils.binary_txt import asc2bin, bin2asc
 from . import debuginfo
-from ..format.elf.file import ElfFile
 
 
 def get_object(obj):
