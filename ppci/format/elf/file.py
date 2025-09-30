@@ -41,23 +41,6 @@ class ElfRelocation:
         self.bits = bits
         self.parse_info()
 
-    def __getitem__(self, key):
-        if key == "type":
-            return self.type
-        elif key == "symbol_id":
-            return self.symbol_id
-        elif key == "section":
-            return self.section
-        elif key == "offset":
-            return hex(self.header.r_offset)
-        elif key == "addend":
-            if self.header.r_addend:
-                return hex(self.header.r_addend)
-            else:
-                return hex(0)
-        else:
-            raise IndexError
-
     def parse_info(self):
         if self.bits == 64:
             self.symbol_id = self.header.r_info >> 32
@@ -77,24 +60,6 @@ class ElfSymbol:
         self.i = i
         self.parse_info()
 
-    def __getitem__(self, key):
-        if key == "binding":
-            return SymbolTableBinding(self.binding).name.lower()
-        elif key == "id":
-            return self.i
-        elif key == "name":
-            return self.name
-        elif key == "section":
-            return self.section.name
-        elif key == "size":
-            return self.header.st_size
-        elif key == "typ":
-            return SymbolTableType(self.type).name.lower()
-        elif key == "value":
-            return str(hex(self.header.st_value))
-        else:
-            raise IndexError
-
     def parse_info(self):
         self.binding = self.header.st_info >> 4
         self.type = self.header.st_info & 0xF
@@ -103,23 +68,6 @@ class ElfSymbol:
 class ElfSection:
     def __init__(self, header):
         self.header = header
-
-    def __getitem__(self, key):
-        if key == "name":
-            return self.name
-        elif key == "address":
-            return hex(self.header.sh_addr)
-        elif key == "data":
-            return self.data
-        elif key == "alignment":
-            if self.header.sh_addralign == 0:
-                return (
-                    "0x1"  # set the alignment to 1 if there is none specified
-                )
-            else:
-                return hex(self.header.sh_addralign)
-        else:
-            raise IndexError
 
     def read_data(self, f):
         """Read this elf section's data from file"""
@@ -147,39 +95,6 @@ class ElfFile:
         self.header_types = HeaderTypes(bits=bits, endianness=endianness)
         self.sections = []
         self.relocations = []
-
-    def __getitem__(self, key):
-        # enable conversion to ObjectFile
-        if key == "arch":
-            return self.e_machine.name.lower()
-        elif key == "entry_symbol_id":
-            return (
-                self.elf_header.e_entry
-            )  # TODO: do not return when e_entry is 0
-        elif key == "sections":
-            return self.sections
-        elif key == "relocations":
-            return self.relocations
-        elif key == "symbols":
-            if hasattr(self, "symbole_table"):
-                return self.symbole_table
-            else:
-                return []
-        elif key == "images":
-            return []
-        else:
-            raise IndexError
-
-    def __contains__(self, key):
-        if key == "entry_symbol_id" and self.elf_header.e_entry == 0:
-            return False
-        return key in [
-            "arch",
-            "entry_symbol_id",
-            "sections",
-            "relocations",
-            "symbols",
-        ]
 
     @staticmethod
     def load(f):
@@ -249,6 +164,8 @@ class ElfFile:
                 )
                 if symbol.header.st_shndx < len(elf_file.sections):
                     symbol.section = elf_file.sections[symbol.header.st_shndx]
+                else:
+                    symbol.section = elf_file.sections[0]
         return elf_file
 
     def read_strtab(self, f):

@@ -45,7 +45,7 @@ def elf_to_object(f):
         )
 
     if hasattr(elf, "symbole_table"):
-        for sym in f.symbole_table:
+        for sym in elf.symbole_table:
             obj.add_symbol(
                 sym.i,
                 sym.name,
