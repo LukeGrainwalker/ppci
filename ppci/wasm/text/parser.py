@@ -45,18 +45,7 @@ def load_tuple(module, t):
 def tuple_to_tokens(t: tuple):
     # Parse nested strings at top level:
     loc = SourceLocation("?", 1, 1, 1)
-    yield s_token("(", loc)
-    for e in t:
-        if isinstance(e, str) and e.startswith("("):
-            e = parse_sexpr(e)
-            for x in _s_expr_generator_inner(e):
-                yield x
-        elif isinstance(e, tuple):
-            for x in _tuple_generator_inner(e, loc):
-                yield x
-        else:
-            raise NotImplementedError(str(e))
-    yield s_token(")", loc)
+    yield from _tuple_generator_inner(t, loc)
     yield s_token("EOF", loc)
 
 
@@ -65,8 +54,16 @@ def _tuple_generator_inner(s: tuple, loc):
     for e in s:
         if isinstance(e, tuple):
             yield from _tuple_generator_inner(e, loc)
-        elif isinstance(e, (str, int)) or e is None:
+        elif isinstance(e, str):
+            if e.startswith("("):
+                e = parse_sexpr(e)
+                yield from _s_expr_generator_inner(e)
+            else:
+                yield Token("word", e, loc)
+        elif isinstance(e, int):
             yield Token("word", e, loc)
+        elif isinstance(e, bytes):
+            yield Token("string", e, loc)
         else:
             raise NotImplementedError(str(e))
     yield s_token(")", loc)
@@ -938,7 +935,7 @@ class WatParser(RecursiveDescentParser):
         for arg in args:
             tok = self.next_token()
             if not self.is_ok_tok(tok, arg):
-                self.error(f"Got {tok.val}, expected: {arg}", tok.loc)
+                self.error(f"Got '{tok.val}', expected: {arg}", tok.loc)
 
     @staticmethod
     def is_ok_tok(tok, arg):

@@ -489,7 +489,7 @@ class DictSerializer:
     def write_source_location(self, loc):
         """Serialize a location object"""
         return {
-            "filename": loc.filename,
+            "filename": str(loc.filename),
             "row": loc.row,
             "column": loc.col,
             "length": loc.length,

@@ -17,7 +17,9 @@ from hypothesis import given, settings
 from hypothesis import strategies as st
 from hypothesis.strategies import composite
 
+from ppci.common import CompilerError
 from ppci.wasm import Module, instantiate
+from ppci.wasm.binary.reader import BinaryDecodingError
 
 # Create wasm module strategy?
 # Function strategy?
@@ -378,6 +380,28 @@ def assert_equal_memory(m):
     native_mem = native_inst.exports["mem"]
 
     assert py_mem.read(0, 100) == native_mem.read(0, 100)
+
+
+@given(st.binary())
+def test_binary_parsing(data):
+    print(data.hex())
+    try:
+        m = Module(data)
+    except BinaryDecodingError as ex:
+        print(ex)
+    else:
+        print(m)
+
+
+@given(st.text())
+def test_text_parsing(text):
+    print(text)
+    try:
+        m = Module(text)
+    except CompilerError as ex:
+        print(ex)
+    else:
+        print(m)
 
 
 if __name__ == "__main__":

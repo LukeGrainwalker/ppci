@@ -79,5 +79,18 @@ def test_c(prog):
         print_ast(ast)
 
 
+@given(st.text())
+def test_c_random_text(text: str):
+    """Test randomly strings. Parsing should return an ast or an error"""
+    print(text)
+    try:
+        ast = parse_text(text)
+    except CompilerError as ex:
+        print("Compilation error", ex)
+    else:
+        print(ast)
+        print_ast(ast)
+
+
 if __name__ == "__main__":
     test_c()

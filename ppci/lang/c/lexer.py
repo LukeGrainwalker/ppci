@@ -211,7 +211,7 @@ class CLexer(HandLexerBase):
                 self.emit("<=")
             elif self.accept("<"):
                 if self.accept("="):
-                    self.emit("<<")
+                    self.emit("<<=")
                 else:
                     self.emit("<<")
             else:
@@ -323,7 +323,7 @@ class CLexer(HandLexerBase):
             self.emit(char)
             return self.lex_c
         else:  # pragma: no cover
-            raise NotImplementedError(char)
+            self.error(f"Invalid character: {char}")
 
     def lex_identifier(self):
         id_chars = self.lower_letters + self.upper_letters + self.numbers + "_"

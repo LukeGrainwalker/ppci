@@ -14,6 +14,10 @@ from .io import LANG_TYPES_REVERSE
 logger = logging.getLogger("wasm")
 
 
+class BinaryDecodingError(Exception):
+    pass
+
+
 class BinaryFileReader:
     """Reader which can read binary wasm."""
 
@@ -99,9 +103,10 @@ class BinaryFileReader:
         """Check header and version"""
         data = self.read_exactly(4)
         if data != b"\x00asm":
-            raise ValueError("Magic wasm marker is invalid")
+            raise BinaryDecodingError("Magic wasm marker is invalid")
         version = self.read_u32()
-        assert version == 1, version
+        if version != 1:
+            raise BinaryDecodingError(f"Invalid wasm version: {version}")
 
     def read_function_prototypes(self):
         # Read mapping of func id to type id (both indexes)
