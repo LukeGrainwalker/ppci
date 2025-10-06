@@ -1,4 +1,4 @@
-from ppci.binutils import ObjectFile, deserialise
+from ppci.binutils import deserialise
 from elf.reader import elf_to_object
 from io import FormatError
 import json

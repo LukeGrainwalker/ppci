@@ -8,13 +8,7 @@ import io
 import logging
 
 from ...arch.arch_info import Endianness
-from .headers import (
-    ElfMachine,
-    HeaderTypes,
-    SectionHeaderType,
-    SymbolTableBinding,
-    SymbolTableType,
-)
+from .headers import ElfMachine, HeaderTypes, SectionHeaderType
 
 from functools import cache
 
